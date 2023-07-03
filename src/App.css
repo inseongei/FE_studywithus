@@ -43,3 +43,11 @@ a {
   cursor: pointer;
   color: #1a1a1a;
 }
+
+input{
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: Pretendard;
+  color: #1a1a1a;
+}
