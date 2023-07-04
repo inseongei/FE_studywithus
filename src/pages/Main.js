@@ -5,7 +5,8 @@ import Logo from '../assets/Logo.png'
 import { useState } from 'react';
 import Card from '../compontents/Card'
 import Header from '../compontents/Header'
-
+import Team from '../compontents/Team'
+import { FaPlusCircle } from "react-icons/fa";
 
 
 const Main = () => {
@@ -13,8 +14,8 @@ const Main = () => {
 
     // 메뉴바 이름,내용
     const menuArr = [
-        { name: '프로젝트 모집', content: <><Card/><Card/><Card/><Card/><Card/><Card/><Card/><Card/></> },
-        { name: '팀원 찾기', contentTwo: 'Tab menu TWO' },
+        { name: <><div>프로젝트 모집</div> <FaPlusCircle className='plus'></FaPlusCircle></>,content: <><Card/><Card/><Card/><Card/><Card/><Card/><Card/><Card/></> },
+        { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><Team/><Team/><Team/><Team/></> },
       ];
 
       const selectMenuHandler = (index) => {
@@ -47,12 +48,17 @@ const Main = () => {
     <TabMenu>
     {menuArr.map((el,index) => (
         <li key={index} className={index === currentTab ? "submenu focused" : "submenu" }
-        onClick={() => selectMenuHandler(index)}>{el.name}</li>
+        onClick={() => selectMenuHandler(index)}><div className='MenuBar'>{el.name}</div></li>
     ))}
     </TabMenu>
+
     <Desc>
-          {menuArr[currentTab].content}
+        <div className='grid-box'>
+        {menuArr[currentTab].content}
+        </div>
     </Desc>
+
+
     <div>
         {menuArr[currentTab].contentTwo}
     </div>
@@ -63,6 +69,7 @@ const Main = () => {
 const Container = styled.div`
 margin-top:80px;
 height : 480px;
+width:100%;
 background-color:#F8EBFF;
 
 .MainBox{
@@ -115,7 +122,6 @@ background-color:#F8EBFF;
     width: 100%;
     height: 480px;
 }
-
 `
 
 const TabMenu = styled.div`
@@ -126,8 +132,19 @@ const TabMenu = styled.div`
   flex-direction: row;
   align-items: center;
   list-style: none;
-  margin-bottom: 7rem;
+  margin-bottom: 30px;
   margin-top: 10px;
+
+  .MenuBar{
+    width:100%;
+    display: flex;
+    justify-content : space-between; 
+    align-items: center;
+  }
+
+  .plus{
+    font-size: 20px;
+  }
 
   .submenu {
   // 기본 Tabmenu 에 대한 CSS를 구현
@@ -142,6 +159,8 @@ const TabMenu = styled.div`
     background-color: #F8EBFF;
     color: #fff;
     cursor : pointer;
+    display: flex;
+    justify-content: space-between;
   }
 
   .focused {
@@ -156,10 +175,29 @@ const TabMenu = styled.div`
 ` 
 
 const Desc = styled.div`
+
+.grid-box{
     display: grid;
     grid-template-columns: repeat(4,1fr);
     column-gap: 20px;
-    margin-left:100px;
+    width:80%;
+    margin: auto;
+}
+
+.more{
+    display: flex;
+    align-items : center;
+    background: #fff;
+    color: gray;
+    font-size:20px;
+    cursor: pointer;
+    margin-left:80px;
+    font-weight:500;
+}
+
+.more:hover{
+    color: black;
+}
 `
 
 export default Main
