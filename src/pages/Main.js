@@ -7,20 +7,18 @@ import Card from '../compontents/Card'
 import Header from '../compontents/Header'
 import Team from '../compontents/Team'
 import { FaPlusCircle } from "react-icons/fa";
+import { Link } from 'react-router-dom'
 
 
 const Main = () => {
     const [currentTab, clickTab] = useState(0);
 
-    // 메뉴바 이름,내용
     const menuArr = [
-        { name: <><div>프로젝트 모집</div> <FaPlusCircle className='plus'></FaPlusCircle></>,content: <><Card/><Card/><Card/><Card/><Card/><Card/><Card/><Card/></> },
+        { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/><Card/><Card/><Card/><Card/></> },
         { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><Team/><Team/><Team/><Team/></> },
       ];
 
       const selectMenuHandler = (index) => {
-        // parameter로 현재 선택한 인덱스 값을 전달해야 하며, 이벤트 객체(event)는 쓰지 않는다
-        // 해당 함수가 실행되면 현재 선택된 Tab Menu 가 갱신.
         clickTab(index);
       };
 
@@ -144,6 +142,9 @@ const TabMenu = styled.div`
 
   .plus{
     font-size: 20px;
+    color: #fff;
+    display: flex;
+    align-items: center;
   }
 
   .submenu {
