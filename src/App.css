@@ -18,6 +18,13 @@ html {
   -webkit-text-size-adjust   : 100%;
 }
 
+button{
+  font-family: Pretendard;
+  color: #1a1a1a;
+  font-weight: 400;
+  cursor: pointer;
+}
+
 body {
   margin: 0;
   font-size: 15px;
