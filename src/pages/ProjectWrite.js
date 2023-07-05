@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
 import Header from '../compontents/Header'
-import { MdDateRange } from "react-icons/md";
 
 
 const ProjectWrite = () => {
