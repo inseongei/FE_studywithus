@@ -7,6 +7,7 @@ import ProjectWrite from './pages/ProjectWrite';
 import { Routes, Route } from 'react-router-dom'
 import ProjectMain from './pages/ProjectMain';
 import Schedule from './pages/Schedule';
+import Portfolio from './pages/Portfolio'
 
 
 function App() {
