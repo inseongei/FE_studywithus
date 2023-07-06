@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import Header from '../compontents/Header'
-import { AiFillCalendar } from "react-icons/ai";
 
 const PortfolioWrite = () => {
   return (
@@ -10,7 +9,12 @@ const PortfolioWrite = () => {
     <Container>
     <div className='firstBox'>
         <div className='img-box'>
-            <div className='big-img'>사진</div>
+            <div className='big-img'>
+            <div className="filebox">
+              <label for="ex_file">사진 업로드-최대4장</label> 
+              <input type="file" id="ex_file"/> 
+            </div>
+            </div>
             <div className='small-img'>
                 <div>1</div>
                 <div>2</div>
@@ -18,12 +22,12 @@ const PortfolioWrite = () => {
             </div>
         </div>
         <div className='info-box'>
-            <div className='info-title'>프로젝트 명</div>
-            <div className='info-date'><AiFillCalendar></AiFillCalendar>프로젝트 기간</div>
+            <input type="text"className='info-title' placeholder='제목을 입력하세요'/>
+            <input type="date" className='info-date'/>
             <div className='info-content'>
                 <div>
                     <div className='title'>프로젝트 소개</div>
-                    <div className='content'>내용</div>
+                    <textarea className='content' placeholder='내용을 적어주세요'></textarea>
                 </div>
             </div>
         </div>
@@ -32,24 +36,14 @@ const PortfolioWrite = () => {
 
     <div className='SecondBox'>
         <div className='stack'>
-            <div>✍사용 기술</div>
-            <div className='stack-box'>
-                <div>기술1</div>
-                <div>기술2</div>
-                <div>기술3</div>
-                <div>기술4</div>
-                <div>기술4</div>
+        ✍사용 기술 :  <input type="text" placeholder='ex) React '/>
+        <div className='stack-box'>
             </div>
-
         </div>
 
         <div className='skill'>
-            <div>🤸경험 스킬</div>
+            <div>🤸경험 스킬 : <input type="text" placeholder='ex) AWS S3를 이용한 사이트 배포 '/></div>
             <div className='skill-box'>
-                <div>⭐스킬1</div>
-                <div>⭐스킬2</div>
-                <div>⭐스킬3</div>
-                <div>⭐스킬4</div>
             </div>
         </div>
 
@@ -77,7 +71,11 @@ flex-direction: column;
 .SecondBox{
     height: 500px;
     display: flex;
-    
+}
+
+.SecondBox input {
+    width:50%;
+    padding: 7px;
 }
 
 .img-box{
@@ -92,6 +90,9 @@ flex-direction: column;
     border: 1px solid black;
     width: 100%;
     height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .small-img{
@@ -111,8 +112,9 @@ flex-direction: column;
     font-size: 27px;
     display: flex;
     align-items: center;
-    padding-left: 15px;
+    margin-left: 15px;
     font-weight: 500;
+    border: none;
 }
 
 .info-date{
@@ -121,6 +123,7 @@ flex-direction: column;
     align-items: center;
     padding-left: 15px;
     color: gray;
+    border: none;
 }
 
 .info-content{
@@ -140,20 +143,20 @@ flex-direction: column;
     height: 300px;
     padding: 10px;
     background-color: aliceblue;
+    border: none;
 }
 
 .stack{
-    width:50%;
-    height: 100%;
     border-right: 1px solid black;
-    padding:20px;
+    width: 50%;
+    padding: 20px;
     font-size: 22px;
     font-weight: 500;
 }
 
+
 .skill{
     width:50%;
-    height: 100%;
     padding:20px;
     font-size: 22px;
     font-weight: 500;
@@ -181,7 +184,45 @@ flex-direction: column;
     margin-bottom: 20px;
 }
 
+.filebox {display:inline-block; margin-right: 10px;}
 
+
+.filebox label {
+  display: inline-block;
+  padding: .5em .75em;
+  color: #999;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #fdfdfd;
+  cursor: pointer;
+  border: 1px solid #ebebeb;
+  border-bottom-color: #e2e2e2;
+  border-radius: .25em;
+}
+
+.filebox input[type="file"] {  /* 파일 필드 숨기기 */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip:rect(0,0,0,0);
+  border: 0;
+}
+
+.filebox.bs3-primary label {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+
+.filebox.bs3-success label {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
 
 
 
