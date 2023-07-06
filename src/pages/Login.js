@@ -6,6 +6,18 @@ import naver from '../assets/naver.jpg'
 import google from '../assets/google.png'
 
 const Login = () => {
+
+   const SocialKakao = ()=>
+   {
+       const Rest_api_key='c1bdfceae4fa27db44e9e244a7f2e1fa' //REST API KEY
+       const redirect_uri = 'http://localhost:3000/' //Redirect URI
+       // oauth 요청 URL
+       const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
+       window.location.href = kakaoURL
+   }
+
+   
+
   return (
     <>
     <Header/>
@@ -13,7 +25,7 @@ const Login = () => {
     <div className='LoginBox'>
         <div className='Logintitle'>SNS 간편 로그인</div>
         <ul>
-            <li><img src={kakao} alt="카카오로그인"/></li>
+            <li><img src={kakao} alt="카카오로그인" onClick={SocialKakao}/></li>
             <li><img src={naver} alt="네이버로그인"/></li>
             <li><img src={google} alt="구글로그인"/></li>
         </ul>
