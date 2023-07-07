@@ -4,8 +4,11 @@ import styled from "styled-components"
 import kakao from '../assets/kakao.png'
 import naver from '../assets/naver.jpg'
 import google from '../assets/google.png'
+import { useRecoilState } from 'recoil';
+// import { TokenAtom } from './../Recoil/TokenAtom';
 
 const Login = () => {
+   // const setAccessToken = useRecoilState(TokenAtom)
 
    const SocialKakao = ()=>
    {
@@ -52,10 +55,11 @@ align-items: center;
 
  .LoginBox{
     width:45%;
-    height: 550px;
+    height: 60vh;
     background: #fff;
     box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
     border: none;
+    border-radius: 10px;
  }
 
  .LoginBox ul {

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FiSearch } from "react-icons/fi";
-import Logo from '../assets/Logo.png'
+import Logo from '../assets/Logo.mp4'
 import { useState } from 'react';
 import Card from '../compontents/Card'
 import Header from '../compontents/Header'
@@ -36,7 +36,9 @@ const Main = () => {
             </div>
         </div>
         <div className='imageBox'>
-            <img src={Logo} alt="로고 사진"/>
+        <video muted autoPlay loop height={'480px'}>
+            <source src={Logo} type="video/mp4"/>
+        </video>
         </div>
     </div>
     </Container>
@@ -57,9 +59,9 @@ const Main = () => {
     </Desc>
 
 
-    <div>
+    <ListCard>
         {menuArr[currentTab].contentTwo}
-    </div>
+    </ListCard>
     </>
   )
 }
@@ -68,10 +70,10 @@ const Container = styled.div`
 margin-top:80px;
 height : 480px;
 width:100%;
-background-color:#F8EBFF;
+background-color:#D9F0E6;
 
 .MainBox{
-    width: 60%;
+    width: 70%;
     height: 100%;
     margin:auto;
     display: flex;
@@ -79,14 +81,15 @@ background-color:#F8EBFF;
 
 .SubBox{
  display: flex;
+ justify-content: center;
  width:50%;
+ height: 100%;
  flex-direction : column;
- padding: 50px;
 }
 
 .SubBox span{
     font-size:32px;
-    weight:500;
+    width:500;
     padding: 20px;
 }
 
@@ -123,6 +126,7 @@ background-color:#F8EBFF;
 `
 
 const TabMenu = styled.div`
+  width: 70%;
   background-color: rgb(255,255,255);
   color: gray;
   font-weight: bold;
@@ -130,8 +134,7 @@ const TabMenu = styled.div`
   flex-direction: row;
   align-items: center;
   list-style: none;
-  margin-bottom: 30px;
-  margin-top: 10px;
+  margin: auto;
 
   .MenuBar{
     width:100%;
@@ -157,7 +160,7 @@ const TabMenu = styled.div`
     transition: 0.5s;
     border-radius: 10px 10px 0px 0px;
     font-size: 16px;
-    background-color: #F8EBFF;
+    background-color: #d9f0e6;
     color: #fff;
     cursor : pointer;
     display: flex;
@@ -166,7 +169,7 @@ const TabMenu = styled.div`
 
   .focused {
    //선택된 Tabmenu 에만 적용되는 CSS를 구현
-    background-color: #9A88BC;
+    background-color: #005b56;
     color: #fff;
   }
 
@@ -176,13 +179,13 @@ const TabMenu = styled.div`
 ` 
 
 const Desc = styled.div`
-
+width:70%;
+margin: auto;
 .grid-box{
     display: grid;
     grid-template-columns: repeat(4,1fr);
-    column-gap: 20px;
-    width:80%;
-    margin: auto;
+
+    width:100%;
 }
 
 .more{
@@ -200,5 +203,7 @@ const Desc = styled.div`
     color: black;
 }
 `
-
+const ListCard = styled.div`
+padding: 20px;
+`
 export default Main
