@@ -96,20 +96,6 @@ background-color: #fff;
   display: flex;
   align-items : center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .LoginBtn{
   position: absolute;
   top: 22px;
@@ -127,7 +113,7 @@ background-color: #fff;
   color: #fff;
   line-height: 0;
   font-weight: 700;
-  background-color: #21005E;
+  background-color: #458B70;
   font-family: Pretendard;
   cursor: pointer;
   margin-right: 10px;
@@ -136,7 +122,7 @@ background-color: #fff;
 }
 
 .LoginBtn button:hover{
-  background-color:#6750A4;
+  background-color:#005B56;
 }
 
 .ToggleMenu{
