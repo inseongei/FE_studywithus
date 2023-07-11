@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import styled from 'styled-components'
 import { FiSearch } from "react-icons/fi";
 import Logo from '../assets/Logo.mp4'
@@ -7,10 +7,29 @@ import Card from '../compontents/Card'
 import Header from '../compontents/Header'
 import Team from '../compontents/Team'
 import { FaPlusCircle } from "react-icons/fa";
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
+import axios from 'axios';
+
 
 
 const Main = () => {
+    const navigate = useNavigate();
+    const code = new URL(window.location.href).searchParams.get("code");
+    console.log(code)
+    const data = {
+        authorizationCode  : code
+    }
+
+    useEffect(()=>{
+        axios.post('http://43.201.106.193:8080/api/auth/kakao',data)
+        .then((res)=>{
+          console.log(res)
+          navigate("/UserMain");
+        })
+        .catch((err)=>console.log(err))
+    })
+
+    
     const [currentTab, clickTab] = useState(0);
 
     const menuArr = [
