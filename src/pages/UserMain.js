@@ -1,11 +1,30 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import styled from 'styled-components'
 import Header from '../compontents/Header'
 import { AiOutlineDoubleRight } from "react-icons/ai";
 import PortfolioCard from '../compontents/PortfolioCard'
 import Modal from '../compontents/Modal'
+import axios from 'axios'
+
 const UserMain = () => {
+    const code = new URL(window.location.href).searchParams.get("code");
+    const state = new URL(window.location.href).searchParams.get("state");
+
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+    console.log(code)
+
+    const data = {
+        state : '123',
+        authorizationCode : code
+    }
+    useEffect(()=>{
+        axios.post('http://43.201.106.193:8080/api/auth/naver',data)
+        .then((res)=>{
+          console.log(res)
+        })
+        .catch((err)=>console.log(err))
+    })
+
 
   return (
     <>
