@@ -5,10 +5,8 @@ import kakao from '../assets/kakao.png'
 import naver from '../assets/naver.jpg'
 import google from '../assets/google.png'
 import { useRecoilState } from 'recoil';
-// import { TokenAtom } from './../Recoil/TokenAtom';
 
 const Login = () => {
-   // const setAccessToken = useRecoilState(TokenAtom)
 
    const SocialKakao = ()=>
    {
@@ -19,7 +17,14 @@ const Login = () => {
        window.location.href = kakaoURL
    }
 
-   
+   const SocialNaver = () =>{
+      const client_id = 'JOiWuaZqH5Qj5O4A1m6e';
+      const Redirect_url = "http://localhost:3000/UserMain";
+      const state = 123;
+      const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=${state}&redirect_uri=${Redirect_url}`;
+      window.location.href = NAVER_AUTH_URL;
+   }
+
 
   return (
     <>
@@ -29,7 +34,7 @@ const Login = () => {
         <div className='Logintitle'>SNS 간편 로그인</div>
         <ul>
             <li><img src={kakao} alt="카카오로그인" onClick={SocialKakao}/></li>
-            <li><img src={naver} alt="네이버로그인"/></li>
+            <li><img src={naver} alt="네이버로그인" onClick={SocialNaver}/></li>
             <li><img src={google} alt="구글로그인"/></li>
         </ul>
         <div className='LoginName'>
