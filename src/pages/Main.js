@@ -8,10 +8,14 @@ import Header from '../compontents/Header'
 import Team from '../compontents/Team'
 import { FaPlusCircle } from "react-icons/fa";
 import { Link,useNavigate } from 'react-router-dom'
+import userMain from '../pages/UserMain'
+import UserMain from '../pages/UserMain';
 
 const Main = () => {
     const [currentTab, clickTab] = useState(0);
     const selectMenuHandler = (index) => {clickTab(index)}
+    const token = localStorage.getItem('accessToken')
+
     const menuArr = [
         { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/><Card/><Card/><Card/><Card/></> },
         { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><Team/><Team/><Team/><Team/></> },
@@ -22,43 +26,48 @@ const Main = () => {
 
   return (
     <>
-    <Header/>
-    <Container>
-    <div className='MainBox'>
-        <div className='SubBox'>
-            <span>원하는 프로젝트와 원하는 팀원을<br/> 스터디위더스에서 찾아보세요 !</span>
-            <div className='ThirdBox'>
-            <input type={'text'} placeholder="검색어를 입력하세요." className='MainSearch'/>
-            <FiSearch className='icon'></FiSearch>
+    {!token ?
+    <>
+        <Header/>
+        <Container>
+        <div className='MainBox'>
+            <div className='SubBox'>
+                <span>원하는 프로젝트와 원하는 팀원을<br/> 스터디위더스에서 찾아보세요 !</span>
+                <div className='ThirdBox'>
+                <input type={'text'} placeholder="검색어를 입력하세요." className='MainSearch'/>
+                <FiSearch className='icon'></FiSearch>
+                </div>
+            </div>
+            <div className='imageBox'>
+            <video muted autoPlay loop height={'480px'}>
+                <source src={Logo} type="video/mp4"/>
+            </video>
             </div>
         </div>
-        <div className='imageBox'>
-        <video muted autoPlay loop height={'480px'}>
-            <source src={Logo} type="video/mp4"/>
-        </video>
-        </div>
-    </div>
-    </Container>
-
-
-
-    <TabMenu>
-    {menuArr.map((el,index) => (
-        <li key={index} className={index === currentTab ? "submenu focused" : "submenu" }
-        onClick={() => selectMenuHandler(index)}><div className='MenuBar'>{el.name}</div></li>
-    ))}
-    </TabMenu>
-
-    <Desc>
-        <div className='grid-box'>
-        {menuArr[currentTab].content}
-        </div>
-    </Desc>
-
-    <ListCard>
-        {menuArr[currentTab].contentTwo}
-    </ListCard>
+        </Container>
+    
+    
+    
+        <TabMenu>
+        {menuArr.map((el,index) => (
+            <li key={index} className={index === currentTab ? "submenu focused" : "submenu" }
+            onClick={() => selectMenuHandler(index)}><div className='MenuBar'>{el.name}</div></li>
+        ))}
+        </TabMenu>
+    
+        <Desc>
+            <div className='grid-box'>
+            {menuArr[currentTab].content}
+            </div>
+        </Desc>
+    
+        <ListCard>
+            {menuArr[currentTab].contentTwo}
+        </ListCard>
     </>
+         : <UserMain/> }
+
+        </>
   )
 }
 
