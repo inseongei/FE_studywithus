@@ -4,8 +4,13 @@ import styled from 'styled-components'
 import { GoChevronDown,GoPersonFill,GoMoveToStart } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
 import { Link } from 'react-router-dom'
+import { FiChevronRight,FiClipboard,FiBookOpen,FiPower } from "react-icons/fi";
+import user from '../images/user.png'
+
 
 const Header = () => {
+  const [token,setToken] = React.useState(localStorage.getItem('accessToken'))
+
   // 드롭다운 메뉴 여는 state : 0일때 보이고 1일때 보임
   const [openMenu , setopenMenu] = useState(false)
   return (
@@ -18,15 +23,39 @@ const Header = () => {
       </div>
 
       <div className='LoginBtn'>
-      <Link to="/Login"><button>로그인</button></Link>
-      {/* <button onClick={()=>setopenMenu(!openMenu)}>정인성님 <GoChevronDown></GoChevronDown></button>  */}
+        {token  ?
+        <button onClick={()=>setopenMenu(!openMenu)}>정인성님 <GoChevronDown></GoChevronDown></button> 
+        :
+        <Link to="/Login"><button>로그인</button></Link>
+        }
       </div>
 
       {openMenu ?       
-      <ul className='ToggleMenu'>
-        <li ><GoPersonFill className='icon'></GoPersonFill> 마이페이지</li>
-        <li><GoMoveToStart className='icon'></GoMoveToStart> 로그아웃</li>
-      </ul>
+        <div className='sub-menu-wrap'>
+          <div className='sub-menu'>
+            <div className='user-info'>
+              <img src={user} alt="사진"/>
+              <h3>정인성</h3>
+            </div>
+            <hr/>
+
+            <Link to="#" className='sub-menu-link'>
+            <div className='icon'><FiBookOpen></FiBookOpen></div>
+              <p>포트 폴리오</p>
+              <div className='icon-box'><FiChevronRight></FiChevronRight></div>
+            </Link>
+            <Link to="#" className='sub-menu-link'>
+            <div className='icon'><FiClipboard></FiClipboard></div>
+              <p>일정 관리</p>
+              <div className='icon-box'><FiChevronRight></FiChevronRight></div>
+            </Link>
+            <Link to="#" className='sub-menu-link'>
+            <div className='icon'><FiPower></FiPower></div>
+              <p>로그아웃</p>
+              <div className='icon-box'><FiChevronRight></FiChevronRight></div>
+            </Link>
+          </div>
+        </div>
       : null}
       </nav>
     </Container>
@@ -46,6 +75,98 @@ right: 0;
 left: 0;
 z-index: 2;
 background-color: #fff;
+
+
+.sub-menu-wrap{
+  position: absolute;
+  top:100%;
+  right: 0;
+  width:320px;
+  max-height : 350px;
+}
+
+.icon-box{
+  display: flex;
+  align-items: center;
+}
+.sub-menu{
+  background-color: #fff;
+  padding:20px;
+  margin:10px;
+  border-radius: 8px;
+}
+
+.user-info{
+  display: flex;
+  align-items: center;
+}
+.user-info h3{
+  font-weight: 500;
+  
+}
+
+.user-info img {
+  width:60px;
+  height: 55px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.sub-menu hr{
+  border: 0;
+  height: 1px;
+  width: 100%;
+  background: #ccc;
+  margin:10px 0 10px;
+}
+
+.sub-menu-link{
+  display: flex;
+  align-items: center;
+  color:#525252;
+  margin:12px 0;
+}
+
+.sub-menu-link p{
+  width:100%;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  width:40px;
+  background-color: #e5e5e5;
+  border-radius: 50%;
+  padding:8px;
+  margin-right: 15px;
+}
+
+.sub-menu-link div{
+  font-size: 22px;
+  transition: transform 0.5s;
+}
+
+.sub-menu-link:hover div{
+  transform: translateX(5px);
+}
+
+.sub-menu-link:hover p{
+  font-weight: 600;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 .NavBar{
