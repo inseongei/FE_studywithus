@@ -24,6 +24,8 @@ function App() {
       <Route path="/Login" element={<Login/>} />
       <Route path="/ProjectMain" element={<ProjectMain/>} />
       <Route path="/ProjectWrite" element={<ProjectWrite/>} />
+      <Route path="/Portfolio" element={<Portfolio/>} />
+      <Route path="/Schedule" element={<Schedule/>} />
       </Routes>
     </div>
   );
