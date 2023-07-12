@@ -8,38 +8,16 @@ import Header from '../compontents/Header'
 import Team from '../compontents/Team'
 import { FaPlusCircle } from "react-icons/fa";
 import { Link,useNavigate } from 'react-router-dom'
-import axios from 'axios';
-
-
 
 const Main = () => {
-    const navigate = useNavigate();
-    const code = new URL(window.location.href).searchParams.get("code");
-    console.log(code)
-    const data = {
-        authorizationCode  : code
-    }
-
-    useEffect(()=>{
-        axios.post('http://43.201.106.193:8080/api/auth/kakao',data)
-        .then((res)=>{
-          console.log(res)
-          navigate("/UserMain");
-        })
-        .catch((err)=>console.log(err))
-    })
-
-    
     const [currentTab, clickTab] = useState(0);
-
+    const selectMenuHandler = (index) => {clickTab(index)}
     const menuArr = [
         { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/><Card/><Card/><Card/><Card/></> },
         { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><Team/><Team/><Team/><Team/></> },
-      ];
+    ]
 
-      const selectMenuHandler = (index) => {
-        clickTab(index);
-      };
+
 
 
   return (
@@ -76,7 +54,6 @@ const Main = () => {
         {menuArr[currentTab].content}
         </div>
     </Desc>
-
 
     <ListCard>
         {menuArr[currentTab].contentTwo}
