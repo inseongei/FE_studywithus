@@ -4,25 +4,32 @@ import styled from "styled-components"
 import kakao from '../assets/kakao.png'
 import naver from '../assets/naver.jpg'
 import google from '../assets/google.png'
-import { useRecoilState } from 'recoil';
+import axios from 'axios';
+import {useNavigate } from 'react-router-dom'
+
 
 const Login = () => {
+   const code = new URL(window.location.href).searchParams.get("code");   // SNS 로그인 파라미터 Code 추출
+   const navigate = useNavigate(); // 라우터 이동Hook
 
-   const SocialKakao = ()=>
-   {
-       const Rest_api_key='c1bdfceae4fa27db44e9e244a7f2e1fa' //REST API KEY
-       const redirect_uri = 'http://localhost:3000/' //Redirect URI
-       // oauth 요청 URL
-       const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
-       window.location.href = kakaoURL
+
+   // 카카오 SNS Login 함수
+   const SocialKakao = ()=>{
+      const Rest_api_key='c1bdfceae4fa27db44e9e244a7f2e1fa'
+      const redirect_uri = 'http://localhost:3000/Loading'
+      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
+      window.location.href = kakaoURL
+      localStorage.setItem('kakao', true);
    }
 
+   // 네이버 SNS Login 함수
    const SocialNaver = () =>{
       const client_id = 'JOiWuaZqH5Qj5O4A1m6e';
-      const Redirect_url = "http://localhost:3000/UserMain";
+      const Redirect_url = "http://localhost:3000/Loading"; // 수정
       const state = 123;
       const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=${state}&redirect_uri=${Redirect_url}`;
       window.location.href = NAVER_AUTH_URL;
+      localStorage.setItem('naver', true);
    }
 
 
