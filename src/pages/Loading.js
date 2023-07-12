@@ -13,10 +13,10 @@ const Loading = () => {
   const naver = localStorage.getItem('naver')
 
   useEffect(()=>{
-    if(kakao == 'true'){
+    if(kakao === 'true'){
     axios.post(`${process.env.REACT_APP_API_KEY}/api/auth/kakao`,{authorizationCode:code})
     .then((res)=>{
-       console.log('성공')
+       console.log(res)
        localStorage.setItem('accessToken',res.data.accessToken);
        navigate("/UserMain");
     })
@@ -27,8 +27,8 @@ const Loading = () => {
     const data = {state : '123', authorizationCode:code}
     axios.post(`${process.env.REACT_APP_API_KEY}/api/auth/naver`,data)
     .then((res)=>{
-        console.log('성공')
-        localStorage.setItem('accessToke  n',res.data.accessToken);
+        console.log('res')
+        localStorage.setItem('accessToken',res.data.accessToken);
         navigate("/UserMain");
     })
     .catch((err)=>console.log(err))
