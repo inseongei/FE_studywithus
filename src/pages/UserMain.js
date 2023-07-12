@@ -1,14 +1,28 @@
-import React,{useEffect} from 'react'
+import React,{useState} from 'react'
 import styled from 'styled-components'
 import Header from '../compontents/Header'
+import { Link,useNavigate } from 'react-router-dom'
 import { AiOutlineDoubleRight } from "react-icons/ai";
 import PortfolioCard from '../compontents/PortfolioCard'
 import Modal from '../compontents/Modal'
 import axios from 'axios'
+import Card from '../compontents/Card'
+import { FaPlusCircle } from "react-icons/fa";
+
 
 
 const UserMain = () => {
+    const [currentTab, clickTab] = useState(0);
+    const selectMenuHandler = (index) => {clickTab(index)}
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const token = localStorage.getItem('accessToken')
+    const menuArr = [
+        { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/></> },
+        { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <></> },
+    ]
+
+
+
   return (
     <>
     <Header/>
@@ -37,49 +51,53 @@ const UserMain = () => {
                 </div>
         </div>
 
-
-        <div className='menu'>
-            <div>프로젝트 찾아보러 가기</div>
-            <div>원하는 팀원 구하러 가기</div>
-        </div>
-
     </div>
 
 
+    <div className='main-box'>
+        <div className='main-one'>
+        <TabMenu>
+        {menuArr.map((el,index) => (
+            <li key={index} className={index === currentTab ? "submenu focused" : "submenu" }
+            onClick={() => selectMenuHandler(index)}><div className='MenuBar'>{el.name}</div></li>
+        ))}
+        </TabMenu>
+    
+        <Desc>
+            <div className='grid-box'>
+            {menuArr[currentTab].content}
+            </div>
+        </Desc>
+    
+        <ListCard>
+            {menuArr[currentTab].contentTwo}
+        </ListCard>
+         </div>
 
 
 
 
 
 
-
-
-
-    <div className='MainBox'>
-        <div className='first-box'>
-            <div className='sizebox'>
-                <div className='title'>
-                     신청한 프로젝트
-                </div>
-                <div className='card-box' >
-                <PortfolioCard />
-                <PortfolioCard/>
-                </div>
-                </div>
-
-                <div className='sizebox'>
-                <div className='title'>
-                     모집중인 프로젝트
-                </div>
-                <div className='card-box'>
-                    <div onClick={()=>setIsModalOpen(true)}><PortfolioCard/></div>
-                    <div><PortfolioCard/></div>
-                    <div><PortfolioCard/></div>
-                </div>
-                </div>
+        <div className='main-two'>
 
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     {isModalOpen ? <Modal close={()=>setIsModalOpen(false)}/> : null}
     </Container>
     </>
@@ -94,40 +112,7 @@ height: calc(100vh - 80px);
 
 .ChatServer{
     border: 1px solid black;
-    width: 15%;
-}
-
-.MainBox{
-    display: flex;
-    flex-direction: column;
-    border: 1px solid black;
-    width:85%;
-}
-
-.first-box{
-    display: flex;
-    border: 1px solid black;
-    height: 100%;
-}
-
-.second-box{
-    display: flex;
-    border: 1px solid black;
-    height: 50%;
-}
-
-.sizebox{
-    width:50%;
-    border: 1px solid black;
-}
-
-.title {
-    padding: 20px;
-    height: 10%;
-    font-size: 20px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
+    width: 15vw;
 }
 
 .chat-title{
@@ -163,41 +148,95 @@ height: calc(100vh - 80px);
     align-items: center;
 }
 
-.menu{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 500;
-}
-
-.menu div {
-    padding: 20px;
-    width: 100%;
-    text-align: center;
-    background-color: azure;
-    cursor: pointer;
-}
-
-.menu div:hover{
-    font-weight: 700;
-}
-
-.card-box{
+.main-box{
+    width:85vw;
     border: 1px solid black;
-    height: calc(100% - 10%);
 }
 
+.main-one{
+    height:60%;
+    border: 1px solid black;
+}
 
+.main-two{
+    height: 40%;
+    border: 1px solid black;
+}
+`
+const TabMenu = styled.div`
+  width: 70%;
+  background-color: rgb(255,255,255);
+  color: gray;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  .MenuBar{
+    width:100%;
+    display: flex;
+    justify-content : space-between; 
+    align-items: center;
+  }
 
+  .plus{
+    font-size: 20px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+  }
 
+  .submenu {
+  // 기본 Tabmenu 에 대한 CSS를 구현
+    display: flex;
+    width: calc(30% /2);
+    padding: 10px;
+    font-size: 15px;
+    transition: 0.5s;
+    font-size: 16px;
+    background-color: #d9f0e6;
+    color: #fff;
+    cursor : pointer;
+    display: flex;
+    justify-content: space-between;
+  }
 
+  .focused {
+   //선택된 Tabmenu 에만 적용되는 CSS를 구현
+    background-color: #005b56;
+    color: #fff;
+  }
 
+  & div.desc {
+    text-align: center;
+  }
+` 
 
+const Desc = styled.div`
+width:70%;
+.grid-box{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    width:100%;
+    padding: 20px;
+}
 
+.more{
+    display: flex;
+    align-items : center;
+    background: #fff;
+    color: gray;
+    font-size:20px;
+    cursor: pointer;
+    margin-left:80px;
+    font-weight:500;
+}
 
-
-
+.more:hover{
+    color: black;
+}
+`
+const ListCard = styled.div`
+padding: 20px;
 `
 export default UserMain
