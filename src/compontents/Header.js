@@ -7,16 +7,22 @@ import { Link } from 'react-router-dom'
 import { FiChevronRight,FiClipboard,FiBookOpen,FiPower } from "react-icons/fi";
 import user from '../images/user.png'
 
-
 const Header = () => {
   const [token,setToken] = React.useState(localStorage.getItem('accessToken'))
-
-  // 드롭다운 메뉴 여는 state : 0일때 보이고 1일때 보임
   const [openMenu , setopenMenu] = useState(false)
+  const accesstoken = localStorage.getItem('accessToken')
+
+  const LogOut = () =>{
+    localStorage.removeItem('accessToken'),localStorage.setItem('kakao', true)
+    setToken(null),setopenMenu(false)
+  }
+
+
+
   return (
     <Container>
       <nav className='NavBar'>
-      <Link to="/"><span>StudyWithus</span></Link>
+      {accesstoken ? <Link to="/UserMain"><span>StudyWithus</span></Link> : <Link to="/"><span>StudyWithus</span></Link>  }
       <div className='search-box'>
         <input type={'text'} className="searchBar" placeholder='원하는 프로젝트와 팀원을 찾아보세요 !'/>
         <FiSearch className='search-icon'></FiSearch>
@@ -39,21 +45,21 @@ const Header = () => {
             </div>
             <hr/>
 
-            <Link to="#" className='sub-menu-link'>
+            <Link to="/Portfolio" className='sub-menu-link'>
             <div className='icon'><FiBookOpen></FiBookOpen></div>
               <p>포트 폴리오</p>
               <div className='icon-box'><FiChevronRight></FiChevronRight></div>
             </Link>
-            <Link to="#" className='sub-menu-link'>
+            <Link to="/Schedule" className='sub-menu-link'>
             <div className='icon'><FiClipboard></FiClipboard></div>
               <p>일정 관리</p>
               <div className='icon-box'><FiChevronRight></FiChevronRight></div>
             </Link>
-            <Link to="#" className='sub-menu-link'>
+            <div className='sub-menu-link' onClick={LogOut}>
             <div className='icon'><FiPower></FiPower></div>
               <p>로그아웃</p>
               <div className='icon-box'><FiChevronRight></FiChevronRight></div>
-            </Link>
+            </div>
           </div>
         </div>
       : null}
@@ -125,6 +131,7 @@ background-color: #fff;
   align-items: center;
   color:#525252;
   margin:12px 0;
+  cursor: pointer;
 }
 
 .sub-menu-link p{
