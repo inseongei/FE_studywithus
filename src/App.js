@@ -11,6 +11,7 @@ import Portfolio from './pages/Portfolio'
 import PortfolioDetail from './pages/PortfolioDetail';
 import PortfolioWrite from './pages/PortfolioWrite'
 import UserMain from './pages/UserMain'
+import Loading from './pages/Loading'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
     <div className="App">
       <Routes>
       <Route path="/" element={<Main/>} />
+      <Route path="/Loading" element={<Loading/>} />
       <Route path="/UserMain" element={<UserMain/>} />
       <Route path="/Login" element={<Login/>} />
       <Route path="/ProjectMain" element={<ProjectMain/>} />
