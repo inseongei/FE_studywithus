@@ -17,6 +17,8 @@ const Header = () => {
   const token = localStorage.getItem('accessToken')
   const [User , setUser] = useState()
   const [Change , setChange] = useRecoilState(ChangeView)
+  const navigate = useNavigate(); // 라우터 이동Hook
+
 
   // 로그아웃함수 (로컬저장소 토큰값 변경)
   const LogOut = () =>{
@@ -25,7 +27,7 @@ const Header = () => {
     localStorage.setItem('naver',false)
     setopenMenu(false)
     setChange(true)
-    useNavigate('/')
+    navigate("/")
   }
 
   // member 정보 호출

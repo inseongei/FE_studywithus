@@ -7,7 +7,7 @@ import Card from '../compontents/Card'
 import Header from '../compontents/Header'
 import Team from '../compontents/Team'
 import { FaPlusCircle } from "react-icons/fa";
-import { Link,useNavigate } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import UserMain from '../pages/UserMain';
 
 

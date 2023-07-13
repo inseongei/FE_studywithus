@@ -5,12 +5,10 @@ import kakao from '../assets/kakao.png'
 import naver from '../assets/naver.jpg'
 import google from '../assets/google.png'
 import axios from 'axios';
-import {useNavigate } from 'react-router-dom'
 
 
 const Login = () => {
    const code = new URL(window.location.href).searchParams.get("code");   // SNS 로그인 파라미터 Code 추출
-   const navigate = useNavigate(); // 라우터 이동Hook
 
 
    // 카카오 SNS Login 함수
