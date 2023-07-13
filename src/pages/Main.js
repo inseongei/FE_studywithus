@@ -12,21 +12,20 @@ import UserMain from '../pages/UserMain';
 
 
 const Main = () => {
-    const [currentTab, clickTab] = useState(0);
-    const selectMenuHandler = (index) => {clickTab(index)}
-    const token = localStorage.getItem('accessToken')
-    const menuArr = [
-        { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/><Card/><Card/><Card/><Card/></> },
-        { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><Team/><Team/><Team/><Team/></> },
-    ]
+    // 메인 탭(currentTab), 함수(selectMenuHandler),메뉴바 배열 관리(menuArr),로컬 저장소 토큰(token)
+        const [currentTab, clickTab] = useState(0);
+        const selectMenuHandler = (index) => {clickTab(index)} 
+        const token = localStorage.getItem('accessToken')
+        const menuArr = [
+            { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/><Card/><Card/><Card/><Card/></> },
+            { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><Team/><Team/><Team/><Team/></> },
+        ]
 
 
-
-
+/*==========================================================================================================================================*/
   return (
     <>
-    {!token ? 
-        
+    {!token ?   
         <>
         <Header/>
         <Container>
@@ -66,8 +65,7 @@ const Main = () => {
     
     
     :
-    <UserMain/>
-    
+    <UserMain/>  
     }
     </>
   )

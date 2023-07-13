@@ -7,36 +7,31 @@ import { Link,useNavigate } from 'react-router-dom'
 import { FiChevronRight,FiClipboard,FiBookOpen,FiPower } from "react-icons/fi";
 import user from '../images/user.png'
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
-import { ChangeView } from '../Recoil/Atom/Atoms';
 
 
 const Header = () => {
-  // openMenu : 헤더이름메뉴(state) , Login : 로그인여부체크(state) , User : 유저 정보
-  const [openMenu , setopenMenu] = useState(false)
-  const token = localStorage.getItem('accessToken')
-  const [User , setUser] = useState()
-  const [Change , setChange] = useRecoilState(ChangeView)
-  const navigate = useNavigate(); // 라우터 이동Hook
+  // 메뉴 , 유저정보 , 로컬저장소token , 페이지이동훅
+    const [openMenu , setopenMenu] = useState(false)  
+    const [User , setUser] = useState() 
+    const token = localStorage.getItem('accessToken') 
+    const navigate = useNavigate();
 
+  // member 정보 호출(useEffect 훅 사용)
+    useEffect(()=>{
+      axios.get(`${process.env.REACT_APP_API_KEY}/api/members`)
+      .then((res)=>setUser(res.data[0]))
+      .catch((err)=>console.log(err))
+    },[])
 
   // 로그아웃함수 (로컬저장소 토큰값 변경)
-  const LogOut = () =>{
-    localStorage.removeItem('accessToken')
-    localStorage.setItem('kakao',false)
-    localStorage.setItem('naver',false)
-    setopenMenu(false)
-    setChange(true)
-    navigate("/")
-  }
+    const LogOut = () =>{
+      localStorage.removeItem('accessToken'),localStorage.setItem('kakao',false),localStorage.setItem('naver',false)
+      setopenMenu(false)
+      navigate("/")
+    }
 
-  // member 정보 호출
-  useEffect(()=>{
-    axios.get(`${process.env.REACT_APP_API_KEY}/api/members`)
-    .then((res)=>setUser(res.data[0]))
-    .catch((err)=>console.log(err))
-  },[])
 
+/*==========================================================================================================================================*/
 
   return (
     <Container>

@@ -1,37 +1,28 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState} from 'react'
 import styled from 'styled-components'
 import Header from '../compontents/Header'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { AiOutlineDoubleRight } from "react-icons/ai";
 import PortfolioCard from '../compontents/PortfolioCard'
 import Modal from '../compontents/Modal'
-import axios from 'axios'
 import Card from '../compontents/Card'
 import TeamCard from '../compontents/TeamCard';
 import { FaPlusCircle } from "react-icons/fa";
-import Main from '../pages/Main'
-import { useRecoilValue } from 'recoil';
-import { ChangeView } from '../Recoil/Atom/Atoms';
-
-
 
 
 const UserMain = () => {
-    const [currentTab, clickTab] = useState(0);
-    const selectMenuHandler = (index) => {clickTab(index)}
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
-    const token = localStorage.getItem('accessToken')
-    const Change = useRecoilValue(ChangeView)
+    // 메뉴(currentTab), 모달(isModalOpen) , 메뉴함수(selectMenuHandler) , 메뉴배열관리(menuArr)
+        const [currentTab, clickTab] = useState(0);
+        const [isModalOpen, setIsModalOpen] = React.useState(false);
+        const selectMenuHandler = (index) => {clickTab(index)}
+        const menuArr = [
+            { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/></> },
+            { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><TeamCard/><TeamCard/><TeamCard/><TeamCard/></> },
+        ]
 
-    
-    const menuArr = [
-        { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/></> },
-        { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><TeamCard/><TeamCard/><TeamCard/><TeamCard/></> },
-    ]
 
+/*==========================================================================================================================================*/
   return (
-    <>
-    {Change === false && token? 
     <>
         <Header/>
         <Container>
@@ -96,8 +87,6 @@ const UserMain = () => {
             </div>
         </div>
     </Container>
-    </> : <Main/>}
-
     {isModalOpen ? <Modal close={()=>setIsModalOpen(false)}/> : null}
     </>
   )
