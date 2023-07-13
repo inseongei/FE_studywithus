@@ -39,7 +39,7 @@ const Case = styled.div`
   }
 
   .ContentBox{
-    background-color: #f2f6f8;
+    background-color: #EFF3F5;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -65,7 +65,7 @@ const Case = styled.div`
     width:100%;
     height: 60%;
     font-size: 12px;
-    background-color: #FFF4F9;
+    background-color: #E9EDEF;
     color: #5F666B;
     font-weight: 500;
     white-space: normal;
@@ -82,8 +82,7 @@ const Case = styled.div`
     font-weight: 600;
     font-size: 13px;
     line-height: 150%;
-    color: #81898F;
-    margin-top: 4px;
+    margin-top: 10px;
   }
 
   .who{

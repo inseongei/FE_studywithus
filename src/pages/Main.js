@@ -8,14 +8,13 @@ import Header from '../compontents/Header'
 import Team from '../compontents/Team'
 import { FaPlusCircle } from "react-icons/fa";
 import { Link,useNavigate } from 'react-router-dom'
-import userMain from '../pages/UserMain'
 import UserMain from '../pages/UserMain';
+
 
 const Main = () => {
     const [currentTab, clickTab] = useState(0);
     const selectMenuHandler = (index) => {clickTab(index)}
     const token = localStorage.getItem('accessToken')
-
     const menuArr = [
         { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/><Card/><Card/><Card/><Card/></> },
         { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><Team/><Team/><Team/><Team/></> },
@@ -26,8 +25,9 @@ const Main = () => {
 
   return (
     <>
-    {!token ?
-    <>
+    {!token ? 
+        
+        <>
         <Header/>
         <Container>
         <div className='MainBox'>
@@ -46,8 +46,6 @@ const Main = () => {
         </div>
         </Container>
     
-    
-    
         <TabMenu>
         {menuArr.map((el,index) => (
             <li key={index} className={index === currentTab ? "submenu focused" : "submenu" }
@@ -65,9 +63,13 @@ const Main = () => {
             {menuArr[currentTab].contentTwo}
         </ListCard>
     </>
-         : <UserMain/> }
-
-        </>
+    
+    
+    :
+    <UserMain/>
+    
+    }
+    </>
   )
 }
 

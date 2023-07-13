@@ -12,7 +12,7 @@ const PortfolioCard = () => {
 }
 
 const Container = styled.div`
-width:75%;
+width:90%;
 margin: 30px auto;
 height: 50px;
 cursor: pointer;
@@ -20,7 +20,7 @@ cursor: pointer;
 .Cardbox{
 height: 50px;
 display: flex;
-background-color: #d9f0e6;
+background-color: #fff;
 border-radius: 8px;
 padding: 10px;
 }

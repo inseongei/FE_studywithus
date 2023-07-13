@@ -39,7 +39,7 @@ const Case = styled.div`
   }
 
   .ContentBox{
-    background-color: #f2f6f8;
+    background-color: #EFF3F5;
     display: flex;
     justify-content: flex-start;
     align-items: center;

@@ -53,7 +53,6 @@ const Loading = () => {
 }
 
 const Load = styled.div`
-border : 1px solid black;
 height: 100vh;
 display: flex;
 justify-content: center;

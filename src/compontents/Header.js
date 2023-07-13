@@ -1,41 +1,55 @@
 /* eslint-disable */
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import styled from 'styled-components'
-import { GoChevronDown,GoPersonFill,GoMoveToStart } from "react-icons/go";
+import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import { FiChevronRight,FiClipboard,FiBookOpen,FiPower } from "react-icons/fi";
 import user from '../images/user.png'
-import { CheckLogin } from '../Recoil/Atom/CheckAtom';
+import axios from 'axios';
 import { useRecoilState } from 'recoil';
+import { ChangeView } from '../Recoil/Atom/Atoms';
+
 
 const Header = () => {
-  // openMenu : 헤더이름메뉴(state) , Login : 로그인여부체크(state) 
+  // openMenu : 헤더이름메뉴(state) , Login : 로그인여부체크(state) , User : 유저 정보
   const [openMenu , setopenMenu] = useState(false)
-  const [Login,setLogin] = useRecoilState(CheckLogin); 
+  const token = localStorage.getItem('accessToken')
+  const [User , setUser] = useState()
+  const [Change , setChange] = useRecoilState(ChangeView)
 
   // 로그아웃함수 (로컬저장소 토큰값 변경)
   const LogOut = () =>{
-    localStorage.setItem('accessToken',''),localStorage.setItem('kakao',false),localStorage.setItem('naver',false)
-    setopenMenu(false),setLogin('')
+    localStorage.removeItem('accessToken')
+    localStorage.setItem('kakao',false)
+    localStorage.setItem('naver',false)
+    setopenMenu(false)
+    setChange(true)
+    useNavigate('/')
   }
 
+  // member 정보 호출
+  useEffect(()=>{
+    axios.get(`${process.env.REACT_APP_API_KEY}/api/members`)
+    .then((res)=>setUser(res.data[0]))
+    .catch((err)=>console.log(err))
+  },[])
 
 
   return (
     <Container>
       <nav className='NavBar'>
-      {Login !== '' ? <Link to="/UserMain"><span>StudyWithus</span></Link> : <Link to="/"><span>StudyWithus</span></Link>  }
+      {token? <Link to="/UserMain"><span>StudyWithus</span></Link> : <Link to="/"><span>StudyWithus</span></Link>  }
       <div className='search-box'>
         <input type={'text'} className="searchBar" placeholder='원하는 프로젝트와 팀원을 찾아보세요 !'/>
         <FiSearch className='search-icon'></FiSearch>
       </div>
 
       <div className='LoginBtn'>
-        {Login !==''  ?
-        <button onClick={()=>setopenMenu(!openMenu)}>정인성님 <GoChevronDown></GoChevronDown></button> 
-        :
+        {!token?
         <Link to="/Login"><button>로그인</button></Link>
+        :
+        <button onClick={()=>setopenMenu(!openMenu)}>{User?.nickname}님 <GoChevronDown></GoChevronDown></button> 
         }
       </div>
 
@@ -44,7 +58,7 @@ const Header = () => {
           <div className='sub-menu'>
             <div className='user-info'>
               <img src={user} alt="사진"/>
-              <h3>정인성</h3>
+              <h3>{User?.nickname}</h3>
             </div>
             <hr/>
 
