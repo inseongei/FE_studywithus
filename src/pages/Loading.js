@@ -40,10 +40,6 @@ const Loading = () => {
 
 
 
-
-
-
-
   return (
     <Load>
       <img src={Spinner} alt="로딩" width="20%"/>

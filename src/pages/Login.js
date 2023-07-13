@@ -8,9 +8,6 @@ import axios from 'axios';
 
 
 const Login = () => {
-   const code = new URL(window.location.href).searchParams.get("code");   // SNS 로그인 파라미터 Code 추출
-
-
    // 카카오 SNS Login 함수
    const SocialKakao = ()=>{
       const Rest_api_key='c1bdfceae4fa27db44e9e244a7f2e1fa'
