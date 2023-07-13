@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import styled from 'styled-components'
 import Header from '../compontents/Header'
 import { Link,useNavigate } from 'react-router-dom'
@@ -7,7 +7,11 @@ import PortfolioCard from '../compontents/PortfolioCard'
 import Modal from '../compontents/Modal'
 import axios from 'axios'
 import Card from '../compontents/Card'
+import TeamCard from '../compontents/TeamCard';
 import { FaPlusCircle } from "react-icons/fa";
+import Main from '../pages/Main'
+import { useRecoilValue } from 'recoil';
+import { CheckLogin } from '../Recoil/Atom/CheckAtom';
 
 
 
@@ -15,16 +19,19 @@ const UserMain = () => {
     const [currentTab, clickTab] = useState(0);
     const selectMenuHandler = (index) => {clickTab(index)}
     const [isModalOpen, setIsModalOpen] = React.useState(false);
-    const token = localStorage.getItem('accessToken')
+    // const [Login, setLogin] = React.useState(true);
+    const Login = useRecoilValue(CheckLogin)
+    console.log(Login)
     const menuArr = [
         { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/></> },
-        { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <></> },
+        { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><TeamCard/><TeamCard/><TeamCard/><TeamCard/></> },
     ]
 
-
+    
 
   return (
     <>
+    {Login.length !== 0 ? <>
     <Header/>
     <Container>
     <div className='ChatServer'>
@@ -73,33 +80,20 @@ const UserMain = () => {
             {menuArr[currentTab].contentTwo}
         </ListCard>
          </div>
-
-
-
-
-
-
         <div className='main-two'>
-
+            <div className='sub-main'>
+                <div className='sub-title'>😵 신청한 프로젝트</div>
+                <div><PortfolioCard/><PortfolioCard/><PortfolioCard/></div>
+            </div>
+            <div className='sub-main-two'>
+                <div className='sub-title'>🙋 모집중인 프로젝트</div>
+                <div><PortfolioCard/><PortfolioCard/><PortfolioCard/></div>
+            </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
     {isModalOpen ? <Modal close={()=>setIsModalOpen(false)}/> : null}
     </Container>
+    </> : <Main/>}
     </>
   )
 }
@@ -110,9 +104,29 @@ margin-top: 80px;
 display: flex;
 height: calc(100vh - 80px);
 
+.sub-title{
+    padding-left: 20px;
+    height: 10%;
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.main-two{
+    display: flex;
+}
+.sub-main{
+    width:50%;
+}
+.sub-main-two{
+    border-left: 1px solid lightgray;
+    width:50%;
+}
+
 .ChatServer{
-    border: 1px solid black;
     width: 15vw;
+    border-right: 1px solid lightgray;
 }
 
 .chat-title{
@@ -141,6 +155,7 @@ height: calc(100vh - 80px);
     margin-bottom: 10px;
     border-radius: 8px;
     cursor: pointer;
+    background-color: #D9F0E6;
 }
 
 .icon{
@@ -150,17 +165,15 @@ height: calc(100vh - 80px);
 
 .main-box{
     width:85vw;
-    border: 1px solid black;
 }
 
 .main-one{
     height:60%;
-    border: 1px solid black;
+    border-bottom: 1px solid lightgray;
 }
 
 .main-two{
     height: 40%;
-    border: 1px solid black;
 }
 `
 const TabMenu = styled.div`
@@ -213,7 +226,6 @@ const TabMenu = styled.div`
 ` 
 
 const Desc = styled.div`
-width:70%;
 .grid-box{
     display: grid;
     grid-template-columns: repeat(4,1fr);
@@ -237,6 +249,11 @@ width:70%;
 }
 `
 const ListCard = styled.div`
-padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    width:100%;
+    padding: 20px;
+    position: relative;
+    bottom: 40px;
 `
 export default UserMain

@@ -6,15 +6,18 @@ import { FiSearch } from "react-icons/fi";
 import { Link } from 'react-router-dom'
 import { FiChevronRight,FiClipboard,FiBookOpen,FiPower } from "react-icons/fi";
 import user from '../images/user.png'
+import { CheckLogin } from '../Recoil/Atom/CheckAtom';
+import { useSetRecoilState } from 'recoil';
 
 const Header = () => {
   const [token,setToken] = React.useState(localStorage.getItem('accessToken'))
   const [openMenu , setopenMenu] = useState(false)
   const accesstoken = localStorage.getItem('accessToken')
+  const setLogin = useSetRecoilState(CheckLogin);
 
   const LogOut = () =>{
-    localStorage.removeItem('accessToken'),localStorage.setItem('kakao', true)
-    setToken(null),setopenMenu(false)
+    localStorage.setItem('accessToken',''),localStorage.setItem('kakao', true)
+    setToken(null),setopenMenu(false),setLogin('')
   }
 
 

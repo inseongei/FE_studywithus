@@ -20,7 +20,7 @@ cursor: pointer;
 .Cardbox{
 height: 50px;
 display: flex;
-background-color: #CDCFEA;
+background-color: #d9f0e6;
 border-radius: 8px;
 padding: 10px;
 }
