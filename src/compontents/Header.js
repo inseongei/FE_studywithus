@@ -7,17 +7,17 @@ import { Link } from 'react-router-dom'
 import { FiChevronRight,FiClipboard,FiBookOpen,FiPower } from "react-icons/fi";
 import user from '../images/user.png'
 import { CheckLogin } from '../Recoil/Atom/CheckAtom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 const Header = () => {
-  const [token,setToken] = React.useState(localStorage.getItem('accessToken'))
+  // openMenu : 헤더이름메뉴(state) , Login : 로그인여부체크(state) 
   const [openMenu , setopenMenu] = useState(false)
-  const accesstoken = localStorage.getItem('accessToken')
-  const setLogin = useSetRecoilState(CheckLogin);
+  const [Login,setLogin] = useRecoilState(CheckLogin); 
 
+  // 로그아웃함수 (로컬저장소 토큰값 변경)
   const LogOut = () =>{
-    localStorage.setItem('accessToken',''),localStorage.setItem('kakao', true)
-    setToken(null),setopenMenu(false),setLogin('')
+    localStorage.setItem('accessToken',''),localStorage.setItem('kakao',false),localStorage.setItem('naver',false)
+    setopenMenu(false),setLogin('')
   }
 
 
@@ -25,14 +25,14 @@ const Header = () => {
   return (
     <Container>
       <nav className='NavBar'>
-      {accesstoken ? <Link to="/UserMain"><span>StudyWithus</span></Link> : <Link to="/"><span>StudyWithus</span></Link>  }
+      {Login !== '' ? <Link to="/UserMain"><span>StudyWithus</span></Link> : <Link to="/"><span>StudyWithus</span></Link>  }
       <div className='search-box'>
         <input type={'text'} className="searchBar" placeholder='원하는 프로젝트와 팀원을 찾아보세요 !'/>
         <FiSearch className='search-icon'></FiSearch>
       </div>
 
       <div className='LoginBtn'>
-        {token  ?
+        {Login !==''  ?
         <button onClick={()=>setopenMenu(!openMenu)}>정인성님 <GoChevronDown></GoChevronDown></button> 
         :
         <Link to="/Login"><button>로그인</button></Link>

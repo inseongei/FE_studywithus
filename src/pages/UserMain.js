@@ -19,9 +19,7 @@ const UserMain = () => {
     const [currentTab, clickTab] = useState(0);
     const selectMenuHandler = (index) => {clickTab(index)}
     const [isModalOpen, setIsModalOpen] = React.useState(false);
-    // const [Login, setLogin] = React.useState(true);
     const Login = useRecoilValue(CheckLogin)
-    console.log(Login)
     const menuArr = [
         { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/></> },
         { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><TeamCard/><TeamCard/><TeamCard/><TeamCard/></> },
