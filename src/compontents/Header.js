@@ -19,7 +19,7 @@ const Header = () => {
   // member 정보 호출(useEffect 훅 사용)
     useEffect(()=>{
       axios.get(`${process.env.REACT_APP_API_KEY}/api/members`)
-      .then((res)=>setUser(res.data[0]))
+      .then((res)=>{setUser(res.data[0]), console.log(res)})
       .catch((err)=>console.log(err))
     },[])
 
@@ -54,7 +54,7 @@ const Header = () => {
         <div className='sub-menu-wrap'>
           <div className='sub-menu'>
             <div className='user-info'>
-              <img src={user} alt="사진"/>
+              <img src={User?.profile} alt="사진"/>
               <h3>{User?.nickname}</h3>
             </div>
             <hr/>

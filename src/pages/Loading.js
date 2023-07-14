@@ -16,7 +16,7 @@ const Loading = () => {
     if(kakao === 'true'){
     axios.post(`${process.env.REACT_APP_API_KEY}/api/auth/kakao`,{authorizationCode:code})
     .then((res)=>{
-       console.log(res)
+      console.log('카카오 로그인')
        localStorage.setItem('accessToken',res.data.accessToken);
        navigate("/UserMain");
     })
@@ -27,7 +27,7 @@ const Loading = () => {
     const data = {state : '123', authorizationCode:code}
     axios.post(`${process.env.REACT_APP_API_KEY}/api/auth/naver`,data)
     .then((res)=>{
-        console.log('res')
+        console.log('네이버 로그인')
         localStorage.setItem('accessToken',res.data.accessToken);
         navigate("/UserMain");
     })

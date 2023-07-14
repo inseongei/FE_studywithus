@@ -20,7 +20,7 @@ const Login = () => {
    // 네이버 SNS Login 함수
    const SocialNaver = () =>{
       const client_id = 'JOiWuaZqH5Qj5O4A1m6e';
-      const Redirect_url = "http://localhost:3000/Loading"; // 수정
+      const Redirect_url = "http://localhost:3000/Loading"; 
       const state = 123;
       const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=${state}&redirect_uri=${Redirect_url}`;
       window.location.href = NAVER_AUTH_URL;
