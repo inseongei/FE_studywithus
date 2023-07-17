@@ -19,7 +19,7 @@ const Header = () => {
   // member 정보 호출(useEffect 훅 사용)
     useEffect(()=>{
       axios.get(`${process.env.REACT_APP_API_KEY}/api/members`)
-      .then((res)=>{setUser(res.data[0]), console.log(res)})
+      .then((res)=>{setUser(res.data[0])})
       .catch((err)=>console.log(err))
     },[])
 
