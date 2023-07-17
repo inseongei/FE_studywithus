@@ -1,33 +1,144 @@
-import React from 'react'
+import React,{useState} from 'react'
 import styled from "styled-components"
 import Header from '../compontents/Header'
+import axios from 'axios'
+import AWS from 'aws-sdk'
 
 
 const ProjectWrite = () => {
+    const [title,setTitle] = useState('')
+    const [content,setContent] = useState('')
+    const [date,setDate] = useState('')
+    const [img ,setImg] = useState('')
+    const [image,setImage] = useState('')
+    const [test,setTest] = useState('')
+    console.log(image)
+    
+    
+  console.log('안녕')
+    // const config = {
+    //     bucketName : process.env.REACT_APP_BUCKET_NAME,
+    //     region : process.env.REACT_APP_REGION,
+    //     accessKeyId : process.env.REACT_APP_ACCESS_KEY,
+    //     secretAccessKey : process.env.REACT_APP_SECRET_ACCESS_KEY
+    // }
+
+    AWS.config.update({
+      accessKeyId: process.env.REACT_APP_ACCESS_KEY,
+      secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
+  })
+
+  const myBucket = new AWS.S3({
+    params: { Bucket: process.env.REACT_APP_BUCKET_NAME},
+    region: process.env.REACT_APP_REGION,
+  })
+
+
+
+
+
+
+    // 프로젝트 모집글 작성 함수(handlePost)
+    const handlePost = () =>{
+        // e.preventDefault();
+        // const formData = new FormData();
+        // formData.append("title",title)
+        // formData.append("content",content)
+        // formData.append("date",date)
+        // formData.append("img",img)
+
+        // axios.post(`${process.env.REACT_APP_API_KEY}/projects`,formData)
+        // .then((res)=>console.log(res))
+        // .catch((err)=>console.log(err))
+
+        const params = {
+          ACL: 'public-read',
+          Body: image,
+          Bucket: process.env.REACT_APP_BUCKET_NAME,
+          Key: image.name
+      };
+
+
+      myBucket.putObject(params).promise()
+      .then(data=>{
+        const url =  myBucket.getSignedUrl('getObject',{Bucket : process.env.REACT_APP_BUCKET_NAME, Key:image.name})
+        console.log(url)
+        setTest(url)
+      })
+      .catch(err =>{
+        console.log(err)
+      })
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // 이미지 url 뽑아오는 함수(encodeFileToBase64)
+    const encodeFileToBase64 = (fileBlob) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(fileBlob);
+        return new Promise((resolve) => {
+          reader.onload = () => {
+            setImg(reader.result);
+            resolve();
+          };
+        });
+      };
+
+
+
+
+
+
+
   return (
     <>
     <Header/>
     <Container>
         <div className='main-box'> 
         <div className='image-box'>
-        <div className="filebox">
-              <label for="ex_file">대표사진 업로드</label> 
-              <input type="file" id="ex_file"/> 
-        </div>
+            {img === '' ? 
+            <div className="filebox">
+              <label htmlFor="ex_file">대표사진 업로드</label> 
+              <input type="file" id="ex_file" accept='image/*' onChange={(e)=>{
+                encodeFileToBase64(e.target.files[0])
+                setImage(e.target.files[0])
+              }}/> 
+            </div> 
+        : 
+            <img src={img} alt="사진"/>
+            }
         </div>
         <div className='content-box'>
-            <input type={'text'} className='title' placeholder='프로젝트명'/>
+            <input type={'text'} className='title' placeholder='프로젝트명' onChange={(e)=>setTitle(e.target.value)}/>
             <div className='date'>
-                    <div><input type={'date'} className='icon-box'/></div>
+                    <div><input type={'date'} className='icon-box' onChange={(e)=>setDate(e.target.value)}/></div>
                     <div className='info'> ( 모집 마감일 )</div>
             </div>
-            <textarea className='content' placeholder='내용을 적어주세요!'></textarea>
+            <textarea className='content' placeholder='내용을 적어주세요!' onChange={(e)=>setContent(e.target.value)}></textarea>
         </div>
         </div>
-
         <div className='Btn-box'>
             <button>돌아가기</button>
-            <button>작성하기</button>
+            <button onClick={handlePost}>작성하기</button>
         </div>
     </Container>
     </>
