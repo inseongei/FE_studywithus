@@ -33,7 +33,7 @@ const Loading = () => {
     })
     .catch((err)=>console.log(err))
     }
-  },[])
+  },[naver,kakao])
 
 
 
