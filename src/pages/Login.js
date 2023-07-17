@@ -4,7 +4,6 @@ import styled from "styled-components"
 import kakao from '../assets/kakao.png'
 import naver from '../assets/naver.jpg'
 import google from '../assets/google.png'
-import axios from 'axios';
 
 
 const Login = () => {
