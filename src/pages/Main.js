@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { FiSearch } from "react-icons/fi";
 import Logo from '../assets/Logo.mp4'
