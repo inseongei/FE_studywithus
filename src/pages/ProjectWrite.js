@@ -7,16 +7,13 @@ import AWS from 'aws-sdk'
 
 const ProjectWrite = () => {
     const [img ,setImg] = useState('')
-    const [url ,setUrl] = useState('')
     const [image,setImage] = useState('')
     const title = useRef()
     const content = useRef()
     const date = useRef()
 
-
     // AWS S3 정보 및 객체 이미지 저장 + 이미지 가져오기
-    const GET_PUT_S3_AWS = () =>{
-      console.log('aws 함수 렌더링')
+    const GET_PUT_S3_AWS = async() =>{
       AWS.config.update({
         accessKeyId: process.env.REACT_APP_ACCESS_KEY,
         secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
@@ -34,14 +31,43 @@ const ProjectWrite = () => {
         Key: image.name
       };
 
+
+
+
       myBucket.putObject(params).promise()
-      .then(data=>{
+      .then(info=>{
         let s3url =  myBucket.getSignedUrl('getObject',{Bucket : process.env.REACT_APP_BUCKET_NAME, Key:image.name})
-        setUrl(s3url)
-      })
+        const data = {
+          "member" : localStorage.getItem('accessToken'),
+          "title" : title.current.value,
+          "content" : content.current.value,
+          "end_date" : date.current.value,
+          "rep_image" : s3url
+        }
+        axios.post(`${process.env.REACT_APP_API_KEY}/api/projects`,data)
+        .then((res)=>console.log(res))
+        .catch((err)=>console.log(err))
+      }) 
       .catch(err =>{
         console.log(err)
       })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 
@@ -59,18 +85,7 @@ const ProjectWrite = () => {
     // 프로젝트 모집글 작성 함수(handlePost)
     const handlePost = () =>{
       GET_PUT_S3_AWS();
-      const data = {
-        "member" : localStorage.getItem('accessToken'),
-        "title" : title.current.value,
-        "content" : content.current.value,
-        "end_date" : date.current.value,
-        "rep_image" : url
-      }
 
-
-      axios.post(`${process.env.REACT_APP_API_KEY}/api/projects`,data)
-      .then((res)=>console.log(res))
-      .catch((err)=>console.log(err))
     }
 
     
