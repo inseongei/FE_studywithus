@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useRef,useState} from 'react'
 import styled from "styled-components"
 import Header from '../compontents/Header'
 import axios from 'axios'
@@ -6,32 +6,50 @@ import AWS from 'aws-sdk'
 
 
 const ProjectWrite = () => {
-    const [title,setTitle] = useState('')
-    const [content,setContent] = useState('')
-    const [date,setDate] = useState('')
     const [img ,setImg] = useState('')
+    const [url ,setUrl] = useState('')
     const [image,setImage] = useState('')
-    const [test,setTest] = useState('')
-    console.log(image)
-    
-    
-  console.log('안녕')
-    // const config = {
-    //     bucketName : process.env.REACT_APP_BUCKET_NAME,
-    //     region : process.env.REACT_APP_REGION,
-    //     accessKeyId : process.env.REACT_APP_ACCESS_KEY,
-    //     secretAccessKey : process.env.REACT_APP_SECRET_ACCESS_KEY
-    // }
+    const title = useRef()
+    const content = useRef()
+    const date = useRef()
 
-    AWS.config.update({
-      accessKeyId: process.env.REACT_APP_ACCESS_KEY,
-      secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
-  })
 
-  const myBucket = new AWS.S3({
-    params: { Bucket: process.env.REACT_APP_BUCKET_NAME},
-    region: process.env.REACT_APP_REGION,
-  })
+    // AWS S3 정보 및 객체 이미지 저장 + 이미지 가져오기
+    const GET_PUT_S3_AWS = () =>{
+      console.log('aws 함수 렌더링')
+      AWS.config.update({
+        accessKeyId: process.env.REACT_APP_ACCESS_KEY,
+        secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
+      })
+  
+      const myBucket = new AWS.S3({
+        Bucket: process.env.REACT_APP_BUCKET_NAME,
+        region: process.env.REACT_APP_REGION,
+      })
+
+      const params = {
+        ACL: 'public-read',
+        Body: image,
+        Bucket: process.env.REACT_APP_BUCKET_NAME,
+        Key: image.name
+      };
+
+      myBucket.putObject(params).promise()
+      .then(data=>{
+        let s3url =  myBucket.getSignedUrl('getObject',{Bucket : process.env.REACT_APP_BUCKET_NAME, Key:image.name})
+        setUrl(s3url)
+      })
+      .catch(err =>{
+        console.log(err)
+      })
+    }
+
+
+    
+    console.log('전체 화면 렌더링')
+
+
+
 
 
 
@@ -40,48 +58,22 @@ const ProjectWrite = () => {
 
     // 프로젝트 모집글 작성 함수(handlePost)
     const handlePost = () =>{
-        // e.preventDefault();
-        // const formData = new FormData();
-        // formData.append("title",title)
-        // formData.append("content",content)
-        // formData.append("date",date)
-        // formData.append("img",img)
-
-        // axios.post(`${process.env.REACT_APP_API_KEY}/projects`,formData)
-        // .then((res)=>console.log(res))
-        // .catch((err)=>console.log(err))
-
-        const params = {
-          ACL: 'public-read',
-          Body: image,
-          Bucket: process.env.REACT_APP_BUCKET_NAME,
-          Key: image.name
-      };
+      GET_PUT_S3_AWS();
+      const data = {
+        "member" : localStorage.getItem('accessToken'),
+        "title" : title.current.value,
+        "content" : content.current.value,
+        "end_date" : date.current.value,
+        "rep_image" : url
+      }
 
 
-      myBucket.putObject(params).promise()
-      .then(data=>{
-        const url =  myBucket.getSignedUrl('getObject',{Bucket : process.env.REACT_APP_BUCKET_NAME, Key:image.name})
-        console.log(url)
-        setTest(url)
-      })
-      .catch(err =>{
-        console.log(err)
-      })
-
-
-
-
-
-
-
-
-
-
-
+      axios.post(`${process.env.REACT_APP_API_KEY}/api/projects`,data)
+      .then((res)=>console.log(res))
+      .catch((err)=>console.log(err))
     }
 
-
+    
 
 
 
@@ -93,11 +85,12 @@ const ProjectWrite = () => {
 
     // 이미지 url 뽑아오는 함수(encodeFileToBase64)
     const encodeFileToBase64 = (fileBlob) => {
+      console.log(fileBlob)
         const reader = new FileReader();
         reader.readAsDataURL(fileBlob);
         return new Promise((resolve) => {
           reader.onload = () => {
-            setImg(reader.result);
+            setImg(reader.result); // base64의 url 주소가 뽑힘
             resolve();
           };
         });
@@ -128,12 +121,12 @@ const ProjectWrite = () => {
             }
         </div>
         <div className='content-box'>
-            <input type={'text'} className='title' placeholder='프로젝트명' onChange={(e)=>setTitle(e.target.value)}/>
+            <input type={'text'} className='title' placeholder='프로젝트명' ref={title}/>
             <div className='date'>
-                    <div><input type={'date'} className='icon-box' onChange={(e)=>setDate(e.target.value)}/></div>
+                    <div><input type={'date'} className='icon-box' ref={date}/></div>
                     <div className='info'> ( 모집 마감일 )</div>
             </div>
-            <textarea className='content' placeholder='내용을 적어주세요!' onChange={(e)=>setContent(e.target.value)}></textarea>
+            <textarea className='content' placeholder='내용을 적어주세요!' ref={content}></textarea>
         </div>
         </div>
         <div className='Btn-box'>
