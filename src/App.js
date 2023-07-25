@@ -12,6 +12,7 @@ import PortfolioDetail from './pages/PortfolioDetail';
 import PortfolioWrite from './pages/PortfolioWrite'
 import UserMain from './pages/UserMain'
 import Loading from './pages/Loading'
+import Signup from './pages/Signup'
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
       <Route path="/ProjectWrite" element={<ProjectWrite/>} />
       <Route path="/Portfolio" element={<Portfolio/>} />
       <Route path="/Schedule" element={<Schedule/>} />
+      <Route path="/Signup" element={<Signup/>} />
       </Routes>
     </div>
   );
