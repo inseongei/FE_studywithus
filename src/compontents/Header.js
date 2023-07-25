@@ -49,7 +49,7 @@ const Header = () => {
       <div className='LoginBtn'>
         {!token?
         <>
-        <Link to="/Login"><button>회원가입</button></Link>
+        <Link to="/Signup"><button>회원가입</button></Link>
         <Link to="/Login"><button>로그인</button></Link>
         </>
         :
@@ -231,7 +231,7 @@ background-color: #fff;
 }
 
 .searchBar:focus{ 
-  border: 1px solid #6750A4;
+  border: 1px solid #005B56;
 }
 
 .search-icon{
