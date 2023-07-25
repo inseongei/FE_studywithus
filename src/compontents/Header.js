@@ -25,9 +25,13 @@ const Header = () => {
 
   // 로그아웃함수 (로컬저장소 토큰값 변경)
     const LogOut = () =>{
-      localStorage.removeItem('accessToken'),localStorage.setItem('kakao',false),localStorage.setItem('naver',false)
-      setopenMenu(false)
-      navigate("/")
+      axios.post('https://kapi.kakao.com/v1/user/logout')
+      .then(()=>{
+        localStorage.removeItem('accessToken'),localStorage.setItem('kakao',false),localStorage.setItem('naver',false)
+        setopenMenu(false)
+        navigate("/")
+      })
+      .catch((err) => console.log(err))
     }
 
 
@@ -44,7 +48,10 @@ const Header = () => {
 
       <div className='LoginBtn'>
         {!token?
+        <>
+        <Link to="/Login"><button>회원가입</button></Link>
         <Link to="/Login"><button>로그인</button></Link>
+        </>
         :
         <button onClick={()=>setopenMenu(!openMenu)}>{User?.nickname}님 <GoChevronDown></GoChevronDown></button> 
         }
@@ -255,7 +262,7 @@ background-color: #fff;
   color: #fff;
   line-height: 0;
   font-weight: 700;
-  background-color: #458B70;
+  background-color: #005B56;
   font-family: Pretendard;
   cursor: pointer;
   margin-right: 10px;
@@ -264,7 +271,7 @@ background-color: #fff;
 }
 
 .LoginBtn button:hover{
-  background-color:#005B56;
+  background-color:#458B70;
 }
 
 .ToggleMenu{

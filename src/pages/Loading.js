@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Loading = () => {
   const code = new URL(window.location.href).searchParams.get("code");   // SNS 로그인 파라미터 Code 추출
+  console.log(code)
   const navigate = useNavigate(); // 라우터 이동Hook
   const kakao = localStorage.getItem('kakao')
   const naver = localStorage.getItem('naver')
@@ -20,7 +21,7 @@ const Loading = () => {
        localStorage.setItem('accessToken',res.data.accessToken);
        navigate("/UserMain");
     })
-    .catch((err)=>console.log('실패'))
+    .catch((err)=>console.log(err))
     }
 
     if(naver === 'true'){
@@ -34,11 +35,6 @@ const Loading = () => {
     .catch((err)=>console.log(err))
     }
   },[naver,kakao])
-
-
-
-
-
 
   return (
     <Load>

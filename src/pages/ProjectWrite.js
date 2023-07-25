@@ -38,13 +38,13 @@ const ProjectWrite = () => {
       .then(info=>{
         let s3url =  myBucket.getSignedUrl('getObject',{Bucket : process.env.REACT_APP_BUCKET_NAME, Key:image.name})
         const data = {
-          "member" : localStorage.getItem('accessToken'),
+          "member_id" : "123123",
           "title" : title.current.value,
           "content" : content.current.value,
           "end_date" : date.current.value,
           "rep_image" : s3url
         }
-        axios.post(`${process.env.REACT_APP_API_KEY}/api/projects`,data)
+        axios.post(`${process.env.REACT_APP_API_KEY}/projects`,data)
         .then((res)=>console.log(res))
         .catch((err)=>console.log(err))
       }) 

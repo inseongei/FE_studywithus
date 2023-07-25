@@ -9,6 +9,7 @@ import Team from '../compontents/Team'
 import { FaPlusCircle } from "react-icons/fa";
 import { Link} from 'react-router-dom'
 import UserMain from '../pages/UserMain';
+import Footer from '../compontents/Footer';
 
 
 const Main = () => {
@@ -67,6 +68,7 @@ const Main = () => {
     :
     <UserMain/>  
     }
+    <Footer/>
     </>
   )
 }

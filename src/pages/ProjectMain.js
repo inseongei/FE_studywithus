@@ -1,12 +1,21 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import styled from 'styled-components'
 import Header from '../compontents/Header'
 import Card from '../compontents/Card'
 import { BsSearch } from "react-icons/bs";
 import { Link } from 'react-router-dom'
-
+import axios from 'axios'
 
 const ProjectMain = () => {
+    const [card,setCard] = useState('')
+
+    useEffect(()=>{
+        axios.get(`${process.env.REACT_APP_API_KEY}/projects`)
+        .then((data)=>setCard(data.data))
+        .catch((err)=>console.log(err))
+    },[card])
+
+
   return (
     <>
     <Header/>
