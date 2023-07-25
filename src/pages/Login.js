@@ -1,51 +1,23 @@
 import React from 'react'
 import Header from '../compontents/Header'
 import styled from "styled-components"
-import kakao from '../assets/kakao.png'
-import naver from '../assets/naver.jpg'
-import google from '../assets/google.png'
 
 
 const Login = () => {
-  const code = new URL(window.location.href).searchParams.get("code");   // SNS 로그인 파라미터 Code 추출
-   console.log(code)
-   // 카카오 SNS Login 함수
-   const SocialKakao = ()=>{
-      const Rest_api_key='c1bdfceae4fa27db44e9e244a7f2e1fa'
-      const redirect_uri = 'http://localhost:3000/Loading'
-      const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
-      window.location.href = kakaoURL
-      localStorage.setItem('kakao', true);
-   }
-
-   // 네이버 SNS Login 함수
-   const SocialNaver = () =>{
-      const client_id = 'JOiWuaZqH5Qj5O4A1m6e';
-      const Redirect_url = "http://localhost:3000/Loading"; 
-      const state = 123;
-      const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=${state}&redirect_uri=${Redirect_url}`;
-      window.location.href = NAVER_AUTH_URL;
-      localStorage.setItem('naver', true);
-   }
-
 
   return (
     <>
     <Header/>
     <Container>
     <div className='LoginBox'>
-        <div className='Logintitle'>SNS 간편 로그인</div>
-        <ul>
-            <li><img src={kakao} alt="카카오로그인" onClick={SocialKakao}/></li>
-            <li><img src={naver} alt="네이버로그인" onClick={SocialNaver}/></li>
-            <li><img src={google} alt="구글로그인"/></li>
-        </ul>
-        <div className='LoginName'>
-            <span className='A'>카카오로그인</span>
-            <span>네이버로그인</span>
-            <span>구글로그인</span>
-        </div>
-
+      <div className='LoginContent'>
+         <div className='Logintitle'> StudyWithus Login</div>
+         <div className='Login-inputbox'>
+            <input type="text" placeholder='아이디를 입력해주세요'/>
+            <input type="password" placeholder='패스워드를 입력해주세요'/>
+            <button className='LoginBtn'>로그인</button>
+         </div>
+      </div>
     </div>
 
     </Container>
@@ -62,58 +34,65 @@ justify-content: center;
 align-items: center;
 
  .LoginBox{
-    width:45%;
-    height: 60vh;
+    width:35%;
+    height: 35vh;
     background: #fff;
     box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
     border: none;
     border-radius: 10px;
+    padding:25px;
  }
 
- .LoginBox ul {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
+ .Logintitle{
+   font-size: 28px;
+   font-weight: 500;
+   text-align: center;
+   padding :20px;
  }
 
- .LoginBox ul li {
-    margin: 20px;
-    cursor: pointer;
- }
 
- .LoginBox ul li:nth-child(3){
-    border : 2px solid #e5e8eb;
-    border-radius: 50%;
- }
-
- .LoginBox ul li img {
-    width:120px;
-    height: 120px;
-    border-radius: 50%;
- }
-
- .LoginBox ul li:hover{
-    transform: translateY(-10px);
- }
-.LoginName{
-    display: flex;
-    justify-content: center;
+.Login-inputbox{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   width:100%;
+}
+.Login-inputbox input {
+   border: 1px solid #E5E5E5;
+   outline: none;
+   min-height: 40px;
+   transition: all .2s;
+   width:50%;
+   padding:0px 15px;
+   border-radius: 5px;
+   margin-bottom: 3px;
 }
 
- .LoginName span{
-    margin: 10px 20px 20px 20px;
-    width:120px;
-    font-weight: 500;
-    text-align: center;
- }
- 
- .Logintitle{
-    font-size: 30px;
-    color: #8b95a1;
-    text-align: center;
-    padding:20px;
- }
+.LoginBtn{
+   border: none;
+   min-height: 44px;
+   transition: all .2s;
+   width:50%;
+   padding:0px 15px;
+   border-radius: 5px;
+   margin-top: 10px;
+   background-color: #D9F0E6;
+}
+
+.LoginBtn:hover{
+   background-color: #B1CDC8;
+}
+
+.Login-inputbox input:focus{
+   border: 1px solid #005B56;
+}
+
+.LoginContent{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
 `
 
 export default Login
