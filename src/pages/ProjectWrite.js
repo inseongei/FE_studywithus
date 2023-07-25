@@ -193,7 +193,7 @@ margin-top: 80px;
 
 .title:focus{
     outline: none;
-    border: 1px solid #6750A4;
+    border: 1px solid #005B56;
 }
 
 .date{
