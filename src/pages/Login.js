@@ -70,6 +70,7 @@ align-items: center;
 
 .LoginBtn{
    border: none;
+   font-weight: 700;
    min-height: 44px;
    transition: all .2s;
    width:50%;

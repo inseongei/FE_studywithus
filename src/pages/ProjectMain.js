@@ -66,7 +66,6 @@ margin-top: 80px;
     padding: 14px 20px;
     border-radius: 28px;
     outline: unset;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,.2);
     border: 1px solid #dedede;
     background-color: #fff;
     width:550px;
@@ -74,9 +73,7 @@ margin-top: 80px;
 }
 
 .Searchbar input:focus {
-    outline: unset;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,.2);
-    border-color: #4279FF;
+    border: 1px solid #005B56;
     transition: all .2s;
 }
 

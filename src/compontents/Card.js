@@ -35,11 +35,11 @@ const Case = styled.div`
     height:180px;
   }
   &:hover{
-    box-shadow: 0 16px 24px rgba(0,0,0,.06);
+    box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
   }
 
   .ContentBox{
-    background-color: #EFF3F5;
+    background-color: rgb(250,250,250);
     display: flex;
     justify-content: flex-start;
     align-items: center;

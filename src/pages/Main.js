@@ -106,7 +106,7 @@ background-color:#D9F0E6;
     border: 1px solid #E5E5E5;
     transition: all .2s;
     width: 450px;
-    padding: 0px 15px;
+    padding: 0px 25px;
     border-radius: 36px;
 }
 
@@ -119,6 +119,7 @@ background-color:#D9F0E6;
     font-size: 20px;
     position : relative;
     right:40px;
+    cursor: pointer;
 }
 
 .imageBox{

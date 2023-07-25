@@ -7,14 +7,13 @@ const Signup = () => {
     const [password,setPassword] = useState('')
     const [passwordcheck,setPasswordcheck] = useState('')
     const [nickname,setNickname] = useState('')
-    const [info , setInfo] =useState('failed-signupBtn')
     const [pwd , setPwd] =useState(false)
-    console.log(pwd)
 
     const idinput = useRef('')
     const passwordinput = useRef('')
     const passwordcheckinput = useRef('')
     const nicknameinput = useRef()
+    const checked = (Id === '좋은 아이디네요!' && password === '비밀번호에 적합해요' && passwordcheck === '일치하는 패스워드에요' && nickname === '좋은 닉네임이네요')
 /*==================================================================================================================================================================*/
     const usersignup = () =>{
         console.log('ㅎㅇ')
@@ -58,9 +57,9 @@ const Signup = () => {
             />
             <div className={nickname === '좋은 닉네임이네요' ? 'good-subinfo' : 'bad-subinfo'}>{nickname}</div>
             <button 
-            className={Id === '좋은 아이디네요!' && password === '비밀번호에 적합해요' && passwordcheck === '일치하는 패스워드에요' && nickname === '좋은 닉네임이네요' ? 'success-signupBtn' : 'failed-signupBtn'}
+            className={ checked ? 'success-signupBtn' : 'failed-signupBtn'}
             onClick={usersignup}
-            disabled={Id === '좋은 아이디네요!' && password === '비밀번호에 적합해요' && passwordcheck === '일치하는 패스워드에요' && nickname === '좋은 닉네임이네요' ? false : true}
+            disabled={checked ? false : true}
             >완료</button>   
         </div>
     </SignUpBox>
@@ -124,6 +123,7 @@ padding:25px;
    border-radius: 5px;
    margin-top: 20px;
    background-color: #88AEE1;
+   font-weight: 700;
 }
 
 .failed-signupBtn{
@@ -136,6 +136,7 @@ padding:25px;
    margin-top: 20px;
    font-weight:500;
    cursor: auto;
+   font-weight: 700;
 }
 
 .good-subinfo{

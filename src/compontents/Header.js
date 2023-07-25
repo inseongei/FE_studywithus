@@ -228,6 +228,7 @@ background-color: #fff;
   width: 400px;
   padding: 0px 15px;
   border-radius: 36px;
+  transition: all .2s;
 }
 
 .searchBar:focus{ 
