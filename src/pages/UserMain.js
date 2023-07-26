@@ -6,8 +6,8 @@ import { AiOutlineDoubleRight } from "react-icons/ai";
 import PortfolioCard from '../compontents/PortfolioCard'
 import Modal from '../compontents/Modal'
 import Card from '../compontents/Card'
-import TeamCard from '../compontents/TeamCard';
 import { FaPlusCircle } from "react-icons/fa";
+import Team from '../compontents/Team'
 
 
 const UserMain = () => {
@@ -17,7 +17,7 @@ const UserMain = () => {
         const selectMenuHandler = (index) => {clickTab(index)}
         const menuArr = [
             { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/></> },
-            { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><TeamCard/><TeamCard/><TeamCard/><TeamCard/></> },
+            { name: <><div>팀원 찾기</div> <Link to ="/TeamMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>, contentTwo: <><Team/><Team/><Team/><Team/></> },
         ]
 
 
@@ -97,7 +97,6 @@ const Container = styled.div`
 margin-top: 80px;
 display: flex;
 height: calc(100vh - 80px);
-background-color: #F2F6F8;
 
 .sub-title{
     width: 90%;
@@ -122,12 +121,11 @@ background-color: #F2F6F8;
     width: 90%;
     padding:10px;
     border-radius: 10px;
-    background-color: #CFD6DE;
+    background-color: #D9F0E6;
 }
 
 .ChatServer{
     width: 15vw;
-    background-color: #F2F6F8;
 }
 
 .chat-title{
@@ -144,8 +142,7 @@ background-color: #F2F6F8;
 
 
 .chat-list-title:hover{
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    background-color: #9C95A7;
+    box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
 }
 
 .chat-list-title{
@@ -157,7 +154,7 @@ background-color: #F2F6F8;
     margin-bottom: 10px;
     border-radius: 8px;
     cursor: pointer;
-    background-color: #CFD6DE;
+    background-color:#D9F0E6;
 }
 
 .icon{
@@ -179,7 +176,6 @@ background-color: #F2F6F8;
 `
 const TabMenu = styled.div`
   width: 70%;
-  background-color: #F2F6F8;
   font-weight: bold;
   display: flex;
   flex-direction: row;
@@ -207,7 +203,7 @@ const TabMenu = styled.div`
     font-size: 15px;
     transition: 0.5s;
     font-size: 16px;
-    background-color: #CFD6DE;
+    background-color: #D9F0E6;
     color: #fff;
     cursor : pointer;
     display: flex;
@@ -216,7 +212,7 @@ const TabMenu = styled.div`
 
   .focused {
    //선택된 Tabmenu 에만 적용되는 CSS를 구현
-    background-color: #897487;
+    background-color: #005B56;
     color: #fff;
   }
 
@@ -231,7 +227,6 @@ const Desc = styled.div`
     grid-template-columns: repeat(4,1fr);
     width:100%;
     padding: 20px;
-    background-color: #F2F6F8;
 }
 
 .more{
@@ -256,6 +251,6 @@ const ListCard = styled.div`
     padding: 20px;
     position: relative;
     bottom: 40px;
-    background-color: #F2F6F8;
+    
 `
 export default UserMain

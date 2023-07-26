@@ -39,7 +39,7 @@ const Case = styled.div`
   }
 
   .ContentBox{
-    background-color: #EFF3F5;
+    background-color:  rgb(250,250,250);
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -65,7 +65,6 @@ const Case = styled.div`
     width:100%;
     height: 60%;
     font-size: 12px;
-    background-color: #E9EDEF;
     color: #5F666B;
     font-weight: 500;
     white-space: normal;

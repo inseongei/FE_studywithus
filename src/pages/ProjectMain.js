@@ -15,7 +15,7 @@ const ProjectMain = () => {
         axios.get(`${process.env.REACT_APP_API_KEY}/projects`)
         .then((data)=>setCard(data.data))
         .catch((err)=>console.log(err))
-    },[card])
+    },[])
 
 
   return (

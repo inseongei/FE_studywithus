@@ -36,7 +36,7 @@ const Signup = () => {
     <SignUpBox>
         <div className='signuptitle'>회원가입</div>
         <div className='inputbox'>
-            <div>아이디</div>
+            <div>아이디</div> 
             <input type="text" placeholder='이메일을 적어주세요' ref={idinput} 
             onChange={(e)=>e.target.value.includes('@') ? setId('좋은 아이디입니다!') : setId('올바른 이메일 형식이 아닙니다')}/>
             <div className={Id === '좋은 아이디입니다!' ? 'good-subinfo' : 'bad-subinfo'}>{Id}</div>
@@ -46,7 +46,6 @@ const Signup = () => {
             <input type="password" placeholder='6자 이상 만들어주세요' autoComplete="off"  ref={passwordinput}
             onChange={(e)=>{
                 setPwd(e.target.value)
-                console.log(e.target.value)
                     e.target.value.length > 5 ? (
                     setPassword('안전한 패스워드입니다')
                 )

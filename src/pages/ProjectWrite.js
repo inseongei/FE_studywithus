@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Header from '../compontents/Header'
 import axios from 'axios'
 import AWS from 'aws-sdk'
+import { Link } from 'react-router-dom'
 
 
 const ProjectWrite = () => {
@@ -31,9 +32,6 @@ const ProjectWrite = () => {
         Key: image.name
       };
 
-
-
-
       myBucket.putObject(params).promise()
       .then(info=>{
         let s3url =  myBucket.getSignedUrl('getObject',{Bucket : process.env.REACT_APP_BUCKET_NAME, Key:image.name})
@@ -48,53 +46,10 @@ const ProjectWrite = () => {
         .then((res)=>console.log(res))
         .catch((err)=>console.log(err))
       }) 
-      .catch(err =>{
+      .catch((err) =>{
         console.log(err)
       })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
-
-    
-    console.log('전체 화면 렌더링')
-
-
-
-
-
-
-
-
-
-    // 프로젝트 모집글 작성 함수(handlePost)
-    const handlePost = () =>{
-      GET_PUT_S3_AWS();
-    }
-
-    
-
-
-
-
-
-
-
 
 
     // 이미지 url 뽑아오는 함수(encodeFileToBase64)
@@ -111,7 +66,10 @@ const ProjectWrite = () => {
       };
 
 
-
+    // 프로젝트 모집글 작성 함수(handlePost)
+    const handlePost = () =>{
+      GET_PUT_S3_AWS();
+    }
 
 
 
@@ -120,7 +78,7 @@ const ProjectWrite = () => {
     <>
     <Header/>
     <Container>
-      <div>만들고 싶은 프로젝트와 팀원을 모집해보세요 !</div>
+      <div className='Project-title'>만들고 싶은 프로젝트를 모집해 보세요 !</div>
         <div className='main-box'> 
         <div className='image-box'>
             {img === '' ? 
@@ -145,8 +103,8 @@ const ProjectWrite = () => {
         </div>
         </div>
         <div className='Btn-box'>
-            <button>돌아가기</button>
-            <button onClick={handlePost}>작성하기</button>
+          <Link to="/ProjectMain"><button>돌아가기</button></Link>
+          <button onClick={handlePost}>작성하기</button>
         </div>
     </Container>
     </>
@@ -187,14 +145,19 @@ margin-top: 80px;
     font-weight: 500;
     padding:15px 15px 15px 20px;
     margin:15px 15px 15px 20px;
-    border: 1px solid #CDCFEA;
     width:100%;
 }
 
-.title:focus{
-    outline: none;
-    border: 1px solid #005B56;
+.Project-title{
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  padding: 20px;
 }
+
+
 
 .date{
     margin: 6px 0 8px 20px;
@@ -230,11 +193,22 @@ margin-top: 80px;
     width:140px;
     height: 40px;
     border: none;
+    font-weight: 500;
+}
+
+.Btn-box button:hover{
+  font-weight: 700;
 }
 
 .Btn-box button:nth-child(1){
     margin-right: 20px;
 }
+
+.Btn-box button:nth-child(2){
+    background-color: #88AEE1;
+}
+
+
 
 .icon{
  font-size: 18px;

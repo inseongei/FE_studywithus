@@ -16,21 +16,15 @@ const Header = () => {
     const navigate = useNavigate();
 
   // member 정보 호출(useEffect 훅 사용)
-    useEffect(()=>{
-      axios.get(`${process.env.REACT_APP_API_KEY}/api/members`)
-      .then((res)=>{setUser(res.data[0])})
-      .catch((err)=>console.log(err))
-    },[])
+    // useEffect(()=>{
+    //   axios.get(`${process.env.REACT_APP_API_KEY}/api/members`)
+    //   .then((res)=>{setUser(res.data[0])})
+    //   .catch((err)=>console.log(err))
+    // },[])
 
   // 로그아웃함수 (로컬저장소 토큰값 변경)
     const LogOut = () =>{
-      axios.post('https://kapi.kakao.com/v1/user/logout')
-      .then(()=>{
-        localStorage.removeItem('accessToken'),localStorage.setItem('kakao',false),localStorage.setItem('naver',false)
-        setopenMenu(false)
-        navigate("/")
-      })
-      .catch((err) => console.log(err))
+      
     }
 
 
