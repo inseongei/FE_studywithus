@@ -85,7 +85,6 @@ const ProjectWrite = () => {
     // 프로젝트 모집글 작성 함수(handlePost)
     const handlePost = () =>{
       GET_PUT_S3_AWS();
-
     }
 
     
@@ -121,6 +120,7 @@ const ProjectWrite = () => {
     <>
     <Header/>
     <Container>
+      <div>만들고 싶은 프로젝트와 팀원을 모집해보세요 !</div>
         <div className='main-box'> 
         <div className='image-box'>
             {img === '' ? 

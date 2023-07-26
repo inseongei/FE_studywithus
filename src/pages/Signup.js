@@ -1,22 +1,31 @@
 import React,{useState,useRef} from 'react'
 import Header from './../compontents/Header';
 import styled from 'styled-components'
+import axios from 'axios'
 
 const Signup = () => {
     const [Id,setId] = useState('')
     const [password,setPassword] = useState('')
     const [passwordcheck,setPasswordcheck] = useState('')
     const [nickname,setNickname] = useState('')
-    const [pwd , setPwd] =useState(false)
+    const [pwd , setPwd] =useState('')
+
 
     const idinput = useRef('')
     const passwordinput = useRef('')
     const passwordcheckinput = useRef('')
-    const nicknameinput = useRef()
-    const checked = (Id === '좋은 아이디네요!' && password === '비밀번호에 적합해요' && passwordcheck === '일치하는 패스워드에요' && nickname === '좋은 닉네임이네요')
+    const nicknameinput = useRef('')
+    const checked = (Id === '좋은 아이디입니다!' && password === '안전한 패스워드입니다' && passwordcheck === '패스워드가 일치합니다' && nickname === '사용 가능한 닉네임입니다')
 /*==================================================================================================================================================================*/
     const usersignup = () =>{
-        console.log('ㅎㅇ')
+        const data = {
+           "email" :  idinput.current.value,
+           "password" : passwordinput.current.value,
+           "nickname" : nicknameinput.current.value
+        }
+       axios.post(`${process.env.REACT_APP_API_KEY}/signup`,data)
+       .then((res) => console.log(res))
+       .catch((err) => console.log(err))
     }
 
 
@@ -29,33 +38,38 @@ const Signup = () => {
         <div className='inputbox'>
             <div>아이디</div>
             <input type="text" placeholder='이메일을 적어주세요' ref={idinput} 
-            onChange={(e)=>e.target.value.includes('@') ? setId('좋은 아이디네요!') : setId('이메일형식이 아니에요')}/>
-            <div className={Id === '좋은 아이디네요!' ? 'good-subinfo' : 'bad-subinfo'}>{Id}</div>
+            onChange={(e)=>e.target.value.includes('@') ? setId('좋은 아이디입니다!') : setId('올바른 이메일 형식이 아닙니다')}/>
+            <div className={Id === '좋은 아이디입니다!' ? 'good-subinfo' : 'bad-subinfo'}>{Id}</div>
         </div>
         <div className='inputbox'>
             <div>비밀번호</div>
             <input type="password" placeholder='6자 이상 만들어주세요' autoComplete="off"  ref={passwordinput}
-            onChange={(e)=>e.target.value.length > 5 ? (
-                setPassword('비밀번호에 적합해요') ,
+            onChange={(e)=>{
                 setPwd(e.target.value)
-            )
-                : setPassword('안전하게 만들어주세요')}
+                console.log(e.target.value)
+                    e.target.value.length > 5 ? (
+                    setPassword('안전한 패스워드입니다')
+                )
+                    : setPassword('안전하지 않은 패스워드입니다')
+            }}
             />
-            <div className={password === '비밀번호에 적합해요' ? 'good-subinfo' : 'bad-subinfo'}>{password}</div>
+            <div className={password === '안전한 패스워드입니다' ? 'good-subinfo' : 'bad-subinfo'}>{password}</div>
         </div>
         <div className='inputbox'>
             <div>비밀번호 확인</div>
             <input type="password"placeholder='패스워드를 다시 적어주세요' autoComplete="off" ref={passwordcheckinput}
-            onChange={(e)=>pwd === e.target.value ? setPasswordcheck('일치하는 패스워드에요') :setPasswordcheck('패스워드가 틀려요') }
+            onChange={(e)=>{
+                pwd === e.target.value ? setPasswordcheck('패스워드가 일치합니다') :setPasswordcheck('패스워드가 일치하지 않습니다')
+            }}
             />
-             <div className={passwordcheck === '일치하는 패스워드에요' ? 'good-subinfo' : 'bad-subinfo'}>{passwordcheck}</div>
+             <div className={passwordcheck === '패스워드가 일치합니다' ? 'good-subinfo' : 'bad-subinfo'}>{passwordcheck}</div>
         </div>
         <div className='inputbox'>
             <div>닉네임</div>
             <input type="text"placeholder='사용하실 닉네임을 적어주세요' ref={nicknameinput}
-            onChange={(e)=>e.target.value.length <= 1 ? setNickname('닉네임을 적어주세요') :setNickname('좋은 닉네임이네요')}
+            onChange={(e)=>e.target.value.length <= 1 ? setNickname('닉네임을 적어주세요') :setNickname('사용 가능한 닉네임입니다')}
             />
-            <div className={nickname === '좋은 닉네임이네요' ? 'good-subinfo' : 'bad-subinfo'}>{nickname}</div>
+            <div className={nickname === '사용 가능한 닉네임입니다' ? 'good-subinfo' : 'bad-subinfo'}>{nickname}</div>
             <button 
             className={ checked ? 'success-signupBtn' : 'failed-signupBtn'}
             onClick={usersignup}

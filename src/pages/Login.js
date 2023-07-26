@@ -1,10 +1,21 @@
-import React from 'react'
+import React,{useRef} from 'react'
 import Header from '../compontents/Header'
 import styled from "styled-components"
-
+import axios from 'axios'
 
 const Login = () => {
+   const idinput = useRef('')
+   const passwordinput = useRef('')
 
+   const loginhandle = () =>{
+      const data = {
+         "email" : idinput.current.value,
+         "nickname" : passwordinput.current.value
+      }
+      axios.post(`${process.env.REACT_APP_API_KEY}/login`,data)
+      .then((data)=>console.log(data))
+      .catch((err)=>console.log(err))
+   }
   return (
     <>
     <Header/>
@@ -13,9 +24,9 @@ const Login = () => {
       <div className='LoginContent'>
          <div className='Logintitle'> StudyWithus Login</div>
          <div className='Login-inputbox'>
-            <input type="text" placeholder='아이디를 입력해주세요'/>
-            <input type="password" placeholder='패스워드를 입력해주세요'/>
-            <button className='LoginBtn'>로그인</button>
+            <input type="text" placeholder='아이디를 입력해주세요' ref={idinput}/>
+            <input type="password" placeholder='패스워드를 입력해주세요' ref={passwordinput}/>
+            <button className='LoginBtn' onClick={loginhandle}>로그인</button>
          </div>
       </div>
     </div>
