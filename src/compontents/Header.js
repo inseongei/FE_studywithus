@@ -5,7 +5,6 @@ import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
 import { Link,useNavigate } from 'react-router-dom'
 import { FiChevronRight,FiClipboard,FiBookOpen,FiPower } from "react-icons/fi";
-import user from '../images/user.png'
 import axios from 'axios';
 
 

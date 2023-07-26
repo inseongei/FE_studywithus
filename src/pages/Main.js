@@ -19,7 +19,7 @@ const Main = () => {
         const token = localStorage.getItem('accessToken')
         const menuArr = [
             { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/><Card/><Card/><Card/><Card/><Card/><Card/><Card/></> },
-            { name: <><div>팀원 찾기</div> <FaPlusCircle className='plus'></FaPlusCircle></>, contentTwo: <><Team/><Team/><Team/><Team/></> },
+            { name: <><div>팀원 찾기</div> <Link to ="/TeamMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>, contentTwo: <><Team/><Team/><Team/><Team/><Team/><Team/></> },
         ]
 
 
@@ -192,7 +192,6 @@ margin: auto;
 .grid-box{
     display: grid;
     grid-template-columns: repeat(4,1fr);
-
     width:100%;
 }
 
@@ -212,6 +211,10 @@ margin: auto;
 }
 `
 const ListCard = styled.div`
+width:70%;
+margin: auto;
 padding: 20px;
+display: grid;
+grid-template-columns: repeat(3,1fr);
 `
 export default Main

@@ -13,7 +13,7 @@ import PortfolioWrite from './pages/PortfolioWrite'
 import UserMain from './pages/UserMain'
 import Loading from './pages/Loading'
 import Signup from './pages/Signup'
-
+import TeamMain from './pages/TeamMain';
 
 function App() {
   return (
@@ -28,6 +28,7 @@ function App() {
       <Route path="/Portfolio" element={<Portfolio/>} />
       <Route path="/Schedule" element={<Schedule/>} />
       <Route path="/Signup" element={<Signup/>} />
+      <Route path="/TeamMain" element={<TeamMain/>} />
       </Routes>
     </div>
   );

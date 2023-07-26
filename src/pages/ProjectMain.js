@@ -5,6 +5,8 @@ import Card from '../compontents/Card'
 import { BsSearch } from "react-icons/bs";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { TfiWrite } from "react-icons/tfi";
+import Pcard from './../compontents/Pcard';
 
 const ProjectMain = () => {
     const [card,setCard] = useState('')
@@ -22,12 +24,16 @@ const ProjectMain = () => {
     <Container>
         <div className='Box'>
             <div className='SearchBox'>
-                <div className='SearchTitle'>내가 원하는 프로젝트를 찾아보세요!</div>
+                <div className='SearchTitle'>
+                    <div>내가 원하는 프로젝트를 찾아보세요!</div>
+                    <Link to ="/ProjectWrite"><TfiWrite className='writeicon'></TfiWrite></Link>
+                </div>
                 <div className='Searchbar'>
                     <input type={'text'} placeholder="찾고 싶은 프로젝트를 검색해보세요."/>
                     <div className='iconbox'><BsSearch className='icon'></BsSearch></div>
                 </div>
-                <Link to ="/ProjectWrite"><button className='writeBtn'> 모집하기</button></Link>
+            </div>
+            <div>
             </div>
         </div>
 
@@ -63,13 +69,12 @@ margin-top: 80px;
 }
 
 .Searchbar input {
-    padding: 14px 20px;
+    padding: 10px 20px;
     border-radius: 28px;
     outline: unset;
     border: 1px solid #dedede;
     background-color: #fff;
     width:550px;
-    position: relative;
 }
 
 .Searchbar input:focus {
@@ -80,6 +85,21 @@ margin-top: 80px;
 .SearchTitle{
     padding: 40px 0px 20px 0px;
     font-size: 24px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.writeicon{
+    margin-left: 15px;
+    position: relative;
+    top:3px;
+    font-size: 30px;
+}
+
+.writeicon:hover{
+    transform: scale(1.1);
 }
 
 .icon{
@@ -124,18 +144,18 @@ input::placeholder{
     color: #fff;
     font-weight: 700;
     background-color: #505050;
-    font-family: Pretendard;
     cursor: pointer;
-    position: relative;
-    bottom: 42px;
-    left:400px;
 }
 
 .writeBtn:hover{
     background-color: #282828;
 }
 
-
+.writeBtnbox{
+    border: 1px solid black;
+    width: 80vw;
+    margin: auto ;
+}
 
 
 
