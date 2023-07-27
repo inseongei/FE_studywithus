@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import  Timebook  from '../compontents/Timebook'
+import Todo from './Todo';
 
 const Schedule = () => {
     const date = new Date();
@@ -17,60 +18,33 @@ const Schedule = () => {
     <Header/>
     <Container>
     <div className='TodoBox'>
-    <div className='Today'>
-        <span>Today is {formattedDate}</span>
-        <div>
-        <div className='Today-Date'></div>
-        </div>
-    </div>
-
-    <div className='Today'>
-        <span>COMMENT</span>
-        <div>
-        <input type='text' placeholder='오늘의 다짐를 적어보세요'/>
-        <button>확인</button>
-        </div>
-    </div>
-
-
-    <div className='Today'>
-        <span>TODO LIST</span>
-        <div>
-        <div className='TodoListBox'>
-            <div className='Subbox'>
-                <div className='Title'>
-                    <span>Total : 7개</span>
-                    <span>ToDo : 4개</span>
-                    <span>Finish : 3개 </span>
-                </div>
-                <div className='List'>
-                <div>React 공부하기</div> 
-                <div><BsCheckLg className='icon'></BsCheckLg><AiOutlineDelete className='icon'></AiOutlineDelete></div> 
-                </div>
-                <div className='List'>
-                <div>일정리스트</div> 
-                <div><BsCheckLg  className='icon'></BsCheckLg><AiOutlineDelete  className='icon'></AiOutlineDelete></div> 
-                </div>
+        <div className='TodoBoxContainer'>
+            <div className='borderbox'>
+                <div className='oneborder'></div>
+                <div className='twoborder'>Date</div>
+                <div className='threeborder'></div>
             </div>
 
+            <div className='bordercontent'>{formattedDate}</div>
 
-            <div>
-            <div className='ChatBar'>
-                <input type="text" placeholder='할일을 적어주세요'/>
-                <div>버튼</div>
+            <div className='borderbox'>
+                <div className='oneborder'></div>
+                <div className='twoborder'>COMMENT</div>
+                <div className='threeborder'></div>
             </div>
 
+            <div className='bordercontent'>
+                <input type={'text'} placeholder="오늘 하루를 알차게 보낼 수 있는 한마디를 적어보세요 !" className='content-input'/>
             </div>
+            
+            <div className='borderbox'>
+                <div className='oneborder'></div>
+                <div className='twoborder'>TASKS</div>
+                <div className='threeborder'></div>
+            </div>
+        
+            <Todo/> 
         </div>
-        <div></div>
-        </div>
-
-    </div>
-
-
-
-
-
     </div>
 
 
@@ -88,12 +62,60 @@ const Container = styled.div`
 margin:80px auto 0px auto;
 width:100%;
 height: 90vh;
-background-color: #fff;
-background-image:
-linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
-linear-gradient(#eee .1em, transparent .1em);
-background-size: 600% 1.2em;
 display: flex;
+
+.TodoBoxContainer{
+    width:80%;
+    height: 90%;
+    margin: 40px auto;
+    box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
+    padding: 20px;
+}
+
+.content-input{
+    width: 100%;
+    height: 30px;
+    padding: 15px;
+    outline: none;
+    border: none;
+}
+
+.content-input::placeholder{
+    color:#88AEE1;
+    
+}
+
+.borderbox{
+    display: flex;
+    align-items: center;
+}
+
+.oneborder{
+    width: 10%;
+    height: 0px;
+    border: 1px solid black;
+}
+
+.twoborder{
+    margin: 0px 10px;
+    font-weight: 700;
+}
+
+.threeborder{
+    width:90%;
+    height: 0px;
+    border: 1px solid black;
+}
+
+.fourborder{
+    width:100%;
+    height: 0px;
+    border: 1px solid black;
+}
+
+.bordercontent{
+    padding: 5px 10px 10px 10px;
+}
 
 .TodoBox{
     width:50%;
@@ -110,13 +132,12 @@ display: flex;
 .Today{
     display: flex;
     flex-direction: column;
-    padding: 40px;
+    padding:40px;
 }
 
 .Today span {
     padding:5px;
-    font-size: 22px;
-    font-weight: 500;
+    font-size: 24px;
 }
 
 .Today input {
