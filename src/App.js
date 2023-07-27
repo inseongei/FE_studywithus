@@ -14,12 +14,13 @@ import UserMain from './pages/UserMain'
 import Loading from './pages/Loading'
 import Signup from './pages/Signup'
 import TeamMain from './pages/TeamMain';
+import Meeting from './pages/Meeting';
 
 function App() {
   return (
     <div className="App">
       <Routes>
-      <Route path="/" element={<Schedule/>} />
+      <Route path="/" element={<Meeting/>} />
       <Route path="/Loading" element={<Loading/>} />
       <Route path="/UserMain" element={<UserMain/>} />
       <Route path="/Login" element={<Login/>} />
