@@ -7,51 +7,50 @@ import moment from 'moment';
 
 const Timebook = () => {
     const [value, setvalue] = useState(new Date());
-    // value로 받은 날짜값 원하는 형식으로 만들기
     const date = new Date(value);
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const formattedDate = `${year}년 ${month}월 ${day}일`;
 
-    console.log(formattedDate)
-
+    
   return (
     <Container>
     <Calendar 
     onChange={setvalue}
     value={value}
     showNeighboringMonth={false}  
-    className="abs"
     formatDay={(locale, date) => moment(date).format("DD")}
     />
 
     <div className='Memo-Book'>
         <div className='Memo-title'>
            <span> {formattedDate} 메모 </span>
-           <span className='saveBtn'> 저장하기</span>
         </div>
         <textarea className='Memo-text'/>
     </div>
+    <button className='save-btn'>작성을 완료 했다면 저장을 위해 이 버튼을 눌러주세요 !</button>
     </Container>
   )
 }
 
 
 const Container = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+
+
 .react-calendar { 
  width: 600px;
- max-width: 100%;
- background-color: #fff;
- color: #222;
  border-radius: 8px;
- box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+ box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
  font-family: Pretendard;
- line-height: 1.125em;
  padding:20px;
  border: none;
  margin:40px;
 }
+
 
 .react-calendar button {
     font-family: Pretendard;
@@ -66,11 +65,11 @@ const Container = styled.div`
 }
 
 .Memo-Book{
-    width:100%;
+    width: 600px;
     height: 300px;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
     display: flex;
     flex-direction: column;
 }
@@ -81,17 +80,6 @@ const Container = styled.div`
     font-weight: 500;
     display: flex;
     justify-content: space-between;
-}
-
-.saveBtn{
-    padding-right: 20px;
-    color:#009874;
-    cursor: pointer;
-    font-weight: 700;
-}
-
-.saveBtn:hover{
-transform: scale(1.05);
 }
 
 .Memo-subtitle{
@@ -108,6 +96,21 @@ transform: scale(1.05);
     font-size: 22px;
     font-family: Pretendard;
 }
+
+.save-btn{
+    margin-top: 20px;
+    width:600px;
+    height: 50px;
+    border: none;
+    background-color: #D9F0E6;
+    border-radius: 5px;
+    font-weight: 700;
+}
+
+.save-btn:hover{
+    background-color: #458B70;
+}
+
 `
 
 export default Timebook
