@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-      <Route path="/" element={<Meeting/>} />
+      <Route path="/" element={<UserMain/>} />
       <Route path="/Loading" element={<Loading/>} />
       <Route path="/UserMain" element={<UserMain/>} />
       <Route path="/Login" element={<Login/>} />
@@ -29,7 +29,7 @@ function App() {
       <Route path="/Portfolio" element={<Portfolio/>} />
       <Route path="/Schedule" element={<Schedule/>} />
       <Route path="/Signup" element={<Signup/>} />
-      <Route path="/TeamMain" element={<TeamMain/>} />
+      <Route path="/Meeting/:id" element={<Meeting/>} />
       </Routes>
     </div>
   );
