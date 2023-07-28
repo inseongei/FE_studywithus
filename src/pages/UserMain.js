@@ -29,25 +29,29 @@ const UserMain = () => {
         <div className='ChatServer'>
             <div className='chat-title'>진행중인 프로젝트 서버 리스트</div>
             <div className='chat-list-box'>
-                    <div className='chat-list-title'>
+            <Link to="/Meeting/1"><div className='chat-list-title'>
                        <div> React Project</div>
                        <div className='icon'><AiOutlineDoubleRight></AiOutlineDoubleRight></div>
                     </div>
+                    </Link>
     
-                    <div className='chat-list-title'>
+                    <Link to="/Meeting/2"><div className='chat-list-title'>
                        <div> React Project</div>
                        <div className='icon'><AiOutlineDoubleRight></AiOutlineDoubleRight></div>
                     </div>
+                    </Link>
     
-                    <div className='chat-list-title'>
+                    <Link to="/Meeting/3"><div className='chat-list-title'>
                        <div> React Project</div>
                        <div className='icon'><AiOutlineDoubleRight></AiOutlineDoubleRight></div>
                     </div>
+                    </Link>
     
-                    <div className='chat-list-title'>
+                    <Link to="/Meeting/4"><div className='chat-list-title'>
                        <div> React Project</div>
                        <div className='icon'><AiOutlineDoubleRight></AiOutlineDoubleRight></div>
                     </div>
+                    </Link>
             </div>
         </div>
     

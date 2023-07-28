@@ -1,17 +1,65 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVideoSlash,faMicrophoneSlash,faDesktop } from '@fortawesome/free-solid-svg-icons'
-import React from 'react'
+import React,{useEffect} from 'react'
 import styled from 'styled-components'
 import { IoMdSend } from "react-icons/io";
+import {dbRef, userName,connectRef} from '../server/firebase'
+import { useParams } from "react-router-dom";
+import {connect, useSelector} from 'react-redux'
+import { setUser,addUser,removeUser } from "../store/actioncreator";
 
-const Meeting = () => {
+const Meeting = (props) => {
+    const users = useSelector((state)=> state.users)
+    console.log(users)
+    const {id} = useParams();
+    const userRef = dbRef.child(`${id}번방`) // dbRef (데이터베이스를 참조하는 변수)
+
+    useEffect(()=>{
+        connectRef.on('value',snapshot =>{
+            if(snapshot.val()){
+                const userinfo = userRef.push({
+                    "userName" : userName,
+                    "audio" : true,
+                    "video" : false,
+                    "screen" : false
+                })
+                props.setUser({
+                    [userinfo.key] : {
+                        ...userinfo
+                    }
+                })
+                userinfo.onDisconnect().remove();
+            }
+        })  
+    },[])
+
+    useEffect(()=>{
+        if(props.user){
+            userRef.on("child_added",(snap) =>{
+                const {userinfo} = snap.val();
+                props.addUser({
+                    [snap.key] : {
+                        ...userinfo
+                    }
+                })
+            })
+    
+            userRef.on("child_removed",(snap) =>{
+                props.removeUser(snap.key)
+            })
+        }
+
+    },[props.user])
+
+
+
   return (
     <Container>
         <div className='videoBox'>
             <div className='titlebox'></div>
             <div className='mevideobox'>
                 <div className='meinfo'>
-                    <div className="mename">이름</div>
+                    <div className="mename">{userName}</div>
                     <div className='iconbox'>
                         <div className="meeting-icons"><FontAwesomeIcon icon={faVideoSlash}/></div>
                         <div className="meeting-icons"><FontAwesomeIcon icon={faMicrophoneSlash}/></div>
@@ -22,7 +70,7 @@ const Meeting = () => {
             <div className='youvideobox'>
                 <div className='usersvideo'>
                     <div className="one">
-                        <div className="mename">이름</div>
+                        <div className="mename">{userName}</div>
                         <div className="meeting-icons"><FontAwesomeIcon icon={faMicrophoneSlash}/></div>
                     </div>
                 </div>
@@ -199,16 +247,22 @@ display: flex;
     margin: 20px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 `
-export default Meeting
+
+const mapStateToProps = (state) =>{
+    return{
+        user : state.nowUser,
+        users : state.users
+    }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        setUser : (user) => dispatch(setUser(user)),
+        addUser : (users) => dispatch(addUser(users)),
+        removeUser : (userKey) => dispatch(removeUser(userKey))
+    }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Meeting)
