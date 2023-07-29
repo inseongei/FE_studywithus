@@ -21,6 +21,13 @@ const Meeting = () => {
     const minutes = date.getMinutes();
     const formattedDate = `${hours}시 ${minutes}분 `;
 
+    const activeButton = (e) =>{
+        if(e.key === "Enter") {
+            handleSend();
+          }
+     }
+
+
     useEffect(() => {
         messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
       }, [messages]);
@@ -132,8 +139,8 @@ const Meeting = () => {
                     </div>
                 </div>
                 <div className="chatinput">
-                    <input type="text" placeholder="메시지를 입력하세요" onChange={(e)=> setNewMessage(e.target.value)} value={newMessage}/>
-                    <IoMdSend className="icon" onClick={handleSend}></IoMdSend>
+                    <input type="text" placeholder="메시지를 입력하세요" onChange={(e)=> setNewMessage(e.target.value)} value={newMessage} onKeyDown={activeButton}/>
+                    <IoMdSend className="icon" onClick={handleSend} ></IoMdSend>
                 </div>
             </div>
         </div>
