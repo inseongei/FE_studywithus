@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVideoSlash,faMicrophoneSlash,faDesktop } from '@fortawesome/free-solid-svg-icons'
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useRef} from 'react'
 import styled from 'styled-components'
 import { IoMdSend } from "react-icons/io";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,19 @@ const Meeting = () => {
     const [messages, setMessages] = useState([])
     const messageRef = collection(db,"chats")
     const {roomId} =useParams()
-    console.log(messages)
+    const nickname = localStorage.getItem('nickname');
+    const messageEndRef = useRef(null);
+    const date = new Date();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const formattedDate = `${hours}시 ${minutes}분 `;
+
+    useEffect(() => {
+        messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      }, [messages]);
+
+
+
     useEffect(()=>{
         const queryMessages = query(messageRef,where("roomId", "==", roomId),
         orderBy("createdAt")
@@ -35,20 +47,13 @@ const Meeting = () => {
         if (newMessage ==="") return;
         await addDoc(messageRef,{
          text : newMessage,
+         date : formattedDate,
          createdAt : serverTimestamp(),
          user: localStorage.getItem('nickname'),
          roomId,
         })
- 
         setNewMessage('')
     }
-
-
-
-
-
-
-
   return (
     <Container>
         <div className='videoBox'>
@@ -87,13 +92,43 @@ const Meeting = () => {
                             <div>user4</div>
                         </div>
                     </div>
-                    <div>
-                    {messages.map((message)=>
-                    <div className='message' key={message.id}>
-                    <span className='user'>{message.user}</span>
+                    <div className="messageBox">
+                        {messages.map((message)=>
+                        <div key={message.id}>
+                            
+                        {message.user === nickname ? 
+                        
+                            <div className="My-message">
+                                <div className="message-content">
+                                {message.text}
+                                </div>
+                                <div className="message-time">{message.date}</div>
+                            </div>
+                    :  
+
+                    <div className="you-message">
+                        <div className="user-info-box">
+                            <div>
+                                <img src="https://mblogthumb-phinf.pstatic.net/MjAxODAxMjJfNDkg/MDAxNTE2NTUyMjA5NzQ0.OZSXOIazSZGiJN8HfDnmMviQMyOm3eLSrVc969WRdcog.RQwWjj_sppraKAdn3Hkl9ncivKB4-pCWvZOD5uiO1DIg.PNG.d_hye97/31.png?type=w800" alt="사진"className="user-profile-image"/>
+                            </div>
+                            <div className="username">{message.user}</div>
+                        </div>
+                        <div className="my-message-content">
                         {message.text}
+                        </div>
+                        <div className="message-time">{message.date}</div>
                     </div>
-)}
+
+
+
+
+
+
+                        }
+
+                        </div>
+                        )}    
+                        <div ref={messageEndRef}></div>   
                     </div>
                 </div>
                 <div className="chatinput">
@@ -251,6 +286,109 @@ display: flex;
 .userbox div{
     margin: 20px;
 }
+
+.messageBox{
+    height: 85%;
+    padding:30px;
+    width:100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-profile-image{
+    width: 50px;
+    height: 50px;
+    border-radius : 50%;
+}
+
+.My-message{
+    width:100%;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+
+.you-message{
+    width:100%;
+    margin-bottom: 30px;
+    float: right;
+    display: flex;
+}
+
+.user-info-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3px;
+}
+
+.you-info-box{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-bottom: 3px;
+}
+
+.message-time{
+    padding: 5px;
+    font-weight: 600;
+    color: #005B56;
+    font-size: 12px;
+    height: fit-content;
+    width: fit-content;
+    position: relative;
+    top:15px;
+}
+
+.you-message-time{
+    padding-top: 5px;
+    font-weight: 600;
+    color: #005B56;
+    float: right;
+    border: 1px solid black;
+}
+
+.username{
+    font-weight: 600;
+}
+
+
+
+.message-content{
+    background-color:#D9F0E6;
+    padding: 10px;
+    border-radius: 10px 0px 10px 10px;
+    font-weight: 600;
+    display: inline-block;
+    width:fit-content;
+    height: 100%;
+    margin-right: 10px;
+}
+
+.my-message-content{
+    background-color:#FFF;
+    padding: 10px;
+    border-radius: 0px 10px 10px 10px;
+    font-weight: 600;
+    display: inline-block;
+    width:fit-content;
+    height: 100%;
+    margin-left: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 `
 
