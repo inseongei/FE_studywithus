@@ -1,55 +1,51 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVideoSlash,faMicrophoneSlash,faDesktop } from '@fortawesome/free-solid-svg-icons'
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 import styled from 'styled-components'
 import { IoMdSend } from "react-icons/io";
-import {dbRef, userName,connectRef} from '../server/firebase'
 import { useParams } from "react-router-dom";
-import {connect, useSelector} from 'react-redux'
-import { setUser,addUser,removeUser } from "../store/actioncreator";
+import {db} from '../server/firebase'
+import {addDoc, collection , serverTimestamp,onSnapshot,query,where,orderBy} from 'firebase/firestore'
 
-const Meeting = (props) => {
-    const users = useSelector((state)=> state.users)
-    console.log(users)
-    const {id} = useParams();
-    const userRef = dbRef.child(`${id}번방`) // dbRef (데이터베이스를 참조하는 변수)
 
+
+const Meeting = () => {
+    const [newMessage ,setNewMessage] = useState("")
+    const [messages, setMessages] = useState([])
+    const messageRef = collection(db,"chats")
+    const {roomId} =useParams()
+    console.log(messages)
     useEffect(()=>{
-        connectRef.on('value',snapshot =>{
-            if(snapshot.val()){
-                const userinfo = userRef.push({
-                    "userName" : userName,
-                    "audio" : true,
-                    "video" : false,
-                    "screen" : false
-                })
-                props.setUser({
-                    [userinfo.key] : {
-                        ...userinfo
-                    }
-                })
-                userinfo.onDisconnect().remove();
-            }
-        })  
+        const queryMessages = query(messageRef,where("roomId", "==", roomId),
+        orderBy("createdAt")
+        )
+        const unsuscribe = onSnapshot(queryMessages,(snapshot)=>{
+            let messages = [];
+            snapshot.forEach((doc) =>{
+                messages.push({...doc.data(),id: doc.id})
+            })
+            setMessages(messages)
+        })
+
+        return () => unsuscribe();
     },[])
 
-    useEffect(()=>{
-        if(props.user){
-            userRef.on("child_added",(snap) =>{
-                const {userinfo} = snap.val();
-                props.addUser({
-                    [snap.key] : {
-                        ...userinfo
-                    }
-                })
-            })
-    
-            userRef.on("child_removed",(snap) =>{
-                props.removeUser(snap.key)
-            })
-        }
 
-    },[props.user])
+    const handleSend = async() =>{
+        if (newMessage ==="") return;
+        await addDoc(messageRef,{
+         text : newMessage,
+         createdAt : serverTimestamp(),
+         user: localStorage.getItem('nickname'),
+         roomId,
+        })
+ 
+        setNewMessage('')
+    }
+
+
+
+
 
 
 
@@ -59,7 +55,7 @@ const Meeting = (props) => {
             <div className='titlebox'></div>
             <div className='mevideobox'>
                 <div className='meinfo'>
-                    <div className="mename">{userName}</div>
+                    <div className="mename"></div>
                     <div className='iconbox'>
                         <div className="meeting-icons"><FontAwesomeIcon icon={faVideoSlash}/></div>
                         <div className="meeting-icons"><FontAwesomeIcon icon={faMicrophoneSlash}/></div>
@@ -70,7 +66,7 @@ const Meeting = (props) => {
             <div className='youvideobox'>
                 <div className='usersvideo'>
                     <div className="one">
-                        <div className="mename">{userName}</div>
+                        <div className="mename"></div>
                         <div className="meeting-icons"><FontAwesomeIcon icon={faMicrophoneSlash}/></div>
                     </div>
                 </div>
@@ -91,10 +87,18 @@ const Meeting = (props) => {
                             <div>user4</div>
                         </div>
                     </div>
+                    <div>
+                    {messages.map((message)=>
+                    <div className='message' key={message.id}>
+                    <span className='user'>{message.user}</span>
+                        {message.text}
+                    </div>
+)}
+                    </div>
                 </div>
                 <div className="chatinput">
-                    <input type="text" placeholder="메시지를 입력하세요"/>
-                    <IoMdSend className="icon"></IoMdSend>
+                    <input type="text" placeholder="메시지를 입력하세요" onChange={(e)=> setNewMessage(e.target.value)} value={newMessage}/>
+                    <IoMdSend className="icon" onClick={handleSend}></IoMdSend>
                 </div>
             </div>
         </div>
@@ -230,6 +234,7 @@ display: flex;
    font-size :30px;
    position: relative;
    right: 40px;
+   cursor: pointer;
 }
 
 .userlist{
@@ -249,20 +254,4 @@ display: flex;
 
 `
 
-const mapStateToProps = (state) =>{
-    return{
-        user : state.nowUser,
-        users : state.users
-    }
-}
-
-const mapDispatchToProps = (dispatch) =>{
-    return{
-        setUser : (user) => dispatch(setUser(user)),
-        addUser : (users) => dispatch(addUser(users)),
-        removeUser : (userKey) => dispatch(removeUser(userKey))
-    }
-}
-
-
-export default connect(mapStateToProps,mapDispatchToProps)(Meeting)
+export default Meeting
