@@ -11,20 +11,22 @@ import axios from 'axios';
 const Header = () => {
   // 메뉴 , 유저정보 , 로컬저장소token , 페이지이동훅
     const [openMenu , setopenMenu] = useState(false)  
-    const [User , setUser] = useState() 
     const token = localStorage.getItem('accessToken') 
+    const nickname = localStorage.getItem('nickname') 
+    const email = localStorage.getItem('email') 
+    const photoUrl = localStorage.getItem('photoUrl') 
     const navigate = useNavigate();
 
-  // member 정보 호출(useEffect 훅 사용)
-    // useEffect(()=>{
-    //   axios.get(`${process.env.REACT_APP_API_KEY}/api/members`)
-    //   .then((res)=>{setUser(res.data[0])})
-    //   .catch((err)=>console.log(err))
-    // },[])
 
   // 로그아웃함수 (로컬저장소 토큰값 변경)
     const LogOut = () =>{
-      
+      localStorage.removeItem('nickname')
+      localStorage.removeItem('email')
+      localStorage.removeItem('photoUrl')
+      localStorage.removeItem('accessToken')
+      alert('로그아웃 되셨습니다')
+      navigate('/Login')
+      setopenMenu(false)
     }
 
 
@@ -46,7 +48,7 @@ const Header = () => {
         <Link to="/Login"><button>로그인</button></Link>
         </>
         :
-        <button onClick={()=>setopenMenu(!openMenu)}>{User?.nickname}님 <GoChevronDown></GoChevronDown></button> 
+        <button onClick={()=>setopenMenu(!openMenu)}>{nickname}님 <GoChevronDown></GoChevronDown></button> 
         }
       </div>
 
@@ -54,8 +56,7 @@ const Header = () => {
         <div className='sub-menu-wrap'>
           <div className='sub-menu'>
             <div className='user-info'>
-              <img src={User?.profile} alt="사진"/>
-              <h3>{User?.nickname}</h3>
+              <h3>{nickname}님 환영합니다😊</h3>
             </div>
             <hr/>
 
@@ -110,7 +111,7 @@ background-color: #fff;
   align-items: center;
 }
 .sub-menu{
-  background-color: #fff;
+  background-color: rgb(250,250,250);
   padding:20px;
   margin:10px;
   border-radius: 8px;
@@ -119,6 +120,7 @@ background-color: #fff;
 .user-info{
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .user-info h3{
   font-weight: 500;
@@ -130,14 +132,6 @@ background-color: #fff;
   height: 55px;
   border-radius: 50%;
   margin-right: 15px;
-}
-
-.sub-menu hr{
-  border: 0;
-  height: 1px;
-  width: 100%;
-  background: #ccc;
-  margin:10px 0 10px;
 }
 
 .sub-menu-link{
