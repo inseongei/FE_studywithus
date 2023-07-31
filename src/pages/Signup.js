@@ -1,9 +1,13 @@
 import React,{useState,useRef} from 'react'
 import Header from './../compontents/Header';
 import styled from 'styled-components'
-import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { getAuth, createUserWithEmailAndPassword,updateProfile  } from "firebase/auth";
+
 
 const Signup = () => {
+    const navigate = useNavigate();
+    const auth = getAuth();
     const [Id,setId] = useState('')
     const [password,setPassword] = useState('')
     const [passwordcheck,setPasswordcheck] = useState('')
@@ -11,22 +15,81 @@ const Signup = () => {
     const [pwd , setPwd] =useState('')
 
 
+
     const idinput = useRef('')
     const passwordinput = useRef('')
     const passwordcheckinput = useRef('')
     const nicknameinput = useRef('')
     const checked = (Id === '좋은 아이디입니다!' && password === '안전한 패스워드입니다' && passwordcheck === '패스워드가 일치합니다' && nickname === '사용 가능한 닉네임입니다')
+
 /*==================================================================================================================================================================*/
+    // 회원가입     
     const usersignup = () =>{
-        const data = {
-           "email" :  idinput.current.value,
-           "password" : passwordinput.current.value,
-           "nickname" : nicknameinput.current.value
-        }
-       axios.post(`${process.env.REACT_APP_API_KEY}/signup`,data)
-       .then((res) => console.log(res))
-       .catch((err) => console.log(err))
+      let email = idinput.current.value
+      let password = passwordinput.current.value
+
+       createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+          console.log(userCredential)
+          updateProfile(auth.currentUser, {
+              displayName: nicknameinput.current.value, photoURL: 's3url'
+            }).then(() => {
+              alert('회원가입에 성공하셨습니다')
+              navigate('/Login')
+            }).catch((error) => {
+              console.log(error)
+            });
+        })
+        .catch((error) => {
+                console.log(error)
+        });
+
+
+
+
     }
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -109,6 +172,11 @@ padding:25px;
     align-items: center;
     margin-bottom: 15px;
 }
+.text-info{
+    text-align: center;
+    color: #005B56;
+    padding-top: 10px;
+}
 
 
 .inputbox input {
@@ -139,6 +207,21 @@ padding:25px;
    font-weight: 700;
 }
 
+
+.Profile-image{
+    margin-top: 20px;
+    border: 1px solid #E5E5E5;
+    width:150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.image-size{
+    width:150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
 .failed-signupBtn{
    border: none;
    min-height: 44px;
@@ -161,6 +244,42 @@ padding:25px;
     font-size: 14px;
     color:#EA6D6D;
 }
+
+.filebox {
+    text-align: center;
+}
+
+
+.filebox label {
+  display: inline-block;
+  padding: .5em .75em;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #fdfdfd;
+  cursor: pointer;
+  border: 1px solid #ebebeb;
+  border-bottom-color: #e2e2e2;
+  border-radius: .25em;
+  margin-top: 15px;
+}
+
+.filebox input[type="file"] {  /* 파일 필드 숨기기 */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip:rect(0,0,0,0);
+  border: 0;
+}
+
+.imagebox{
+    display: flex;
+    justify-content: center;
+}
+
 `
 
 export default Signup
