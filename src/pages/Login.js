@@ -2,19 +2,34 @@ import React,{useRef} from 'react'
 import Header from '../compontents/Header'
 import styled from "styled-components"
 import axios from 'axios'
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from 'react-router-dom'
+
 
 const Login = () => {
    const idinput = useRef('')
    const passwordinput = useRef('')
+   const navigate = useNavigate();
+
 
    const loginhandle = () =>{
-      const data = {
-         "email" : idinput.current.value,
-         "nickname" : passwordinput.current.value
-      }
-      axios.post(`${process.env.REACT_APP_API_KEY}/login`,data)
-      .then((data)=>console.log(data))
-      .catch((err)=>console.log(err))
+         let email = idinput.current.value
+         let password = passwordinput.current.value
+
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          localStorage.setItem('nickname',userCredential.user.displayName)
+          localStorage.setItem('email',userCredential.user.email)
+          localStorage.setItem('photoUrl',userCredential.user.photoURL)
+          localStorage.setItem('accessToken',userCredential.user.accessToken)
+          alert('로그인 되셨습니다')
+          navigate('/')
+        })
+        .catch((error) => {
+          alert(error.message)
+        });
+
    }
   return (
     <>
