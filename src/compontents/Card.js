@@ -1,42 +1,114 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import styled from "styled-components"
 import { AiFillCalendar } from "react-icons/ai";
+import {getDocs,collection  } from 'firebase/firestore';
+import {db} from '../server/firebase'
 
 
 const Card = () => {
+    const [card,setCard] = useState('')
+    const projectsCollectionRef = collection(db, 'projects');
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const formattedDate = `${year}-${month}-${day}`;
+
+  const abcdate = (idx) =>{
+    const date1 = new Date(card[idx].end_date)
+    const date2 = new Date(formattedDate)
+
+    
+    const timeDiff = date2.getTime() - date1.getTime();
+    const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+
+    const result = `D${daysDiff}`;
+
+    return result
+
+}
+
+useEffect(() => {
+  const axiosProjects = async () => {
+    try {
+      const querySnapshot = await getDocs(projectsCollectionRef);
+      const cardData = querySnapshot.docs.map((doc) => doc.data());
+      setCard(cardData);
+    } catch (error) {
+      console.error("Error getting projects:", error);
+    }
+  };
+
+  axiosProjects();
+}, []);
+
+console.log(card)
+
+
+
+
+
+
+
   return (
     <Case>
-      <div className='imgBox'></div>
-      <div className='ContentBox'>
-        <span>프로젝트 하실분 모집 !!</span>
-        <span>React Native 프로젝트 할사람 구해요 편하게 연락주세요</span>
-        <span><AiFillCalendar></AiFillCalendar>D-5</span>
-      </div>
+      {card&&card.map((data,idx)=>(
+        <div className='one-card'>
+        {console.log(data.rep_image)}
+        <div className='imgBox'>
+          <img src ={data.rep_image} alt="사진"/>
+        </div>
+          <div className='ContentBox' key={idx}>
+            <span>{data.title}</span>
+            <span>{data.content}</span>
+            <span><AiFillCalendar></AiFillCalendar>{abcdate(idx)}</span>
+        </div>
+        </div>
+      ))}
     </Case>
 
   )
 }
 
+
 const Case = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 282px;
+  width:80vw;
+  height: auto;
   border-radius: 12px;
   cursor: pointer;
   margin:20px;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap:15px;
 
   .imgBox{
     width:100%;
-    background-image: url('https://i.pinimg.com/736x/60/82/1a/60821a03c1c237507a22dae15890c715.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     border-radius: 12px 12px 0px 0px;
-    height:180px;
+    height:200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  &:hover{
+
+  .one-card {
+    width: 17vw;
+    border-radius: 12px;
+    margin: 20px;
+    cursor: pointer;
+  }
+
+  .one-card:hover{
     box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
   }
+  
+
+  .imgBox > img{
+    width: 200px;
+  }
+
 
   .ContentBox{
     background-color: rgb(250,250,250);

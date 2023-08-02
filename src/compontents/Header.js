@@ -12,9 +12,7 @@ const Header = () => {
   // 메뉴 , 유저정보 , 로컬저장소token , 페이지이동훅
     const [openMenu , setopenMenu] = useState(false)  
     const token = localStorage.getItem('accessToken') 
-    const nickname = localStorage.getItem('nickname') 
-    const email = localStorage.getItem('email') 
-    const photoUrl = localStorage.getItem('photoUrl') 
+    const nickname = localStorage.getItem('nickname')
     const navigate = useNavigate();
 
 

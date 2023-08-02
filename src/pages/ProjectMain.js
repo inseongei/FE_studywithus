@@ -7,15 +7,13 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { TfiWrite } from "react-icons/tfi";
 import Pcard from './../compontents/Pcard';
+import {getDocs,collection  } from 'firebase/firestore';
+import {db} from '../server/firebase'
+
 
 const ProjectMain = () => {
-    const [card,setCard] = useState('')
 
-    useEffect(()=>{
-        axios.get(`${process.env.REACT_APP_API_KEY}/projects`)
-        .then((data)=>setCard(data.data))
-        .catch((err)=>console.log(err))
-    },[])
+
 
 
   return (
@@ -39,7 +37,7 @@ const ProjectMain = () => {
 
         <div className='CardContainer'>
         <div className='CardBox'>
-            <Card/><Card/><Card/><Card/><Card/><Card/><Card/><Card/>
+            <Card/>
         </div>
         </div>
 
@@ -120,13 +118,7 @@ input::placeholder{
     font-weight: 500;
 }
 
-.CardBox{
-    width:80vw;
-    height: auto;
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap:15px;
-}
+
 
 .CardContainer{
     display: flex;

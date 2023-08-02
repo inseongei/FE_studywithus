@@ -16,8 +16,8 @@ const Login = () => {
          let email = idinput.current.value
          let password = passwordinput.current.value
 
-      const auth = getAuth();
-      signInWithEmailAndPassword(auth, email, password)
+         const auth = getAuth();
+         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           localStorage.setItem('nickname',userCredential.user.displayName)
           localStorage.setItem('email',userCredential.user.email)
@@ -29,6 +29,13 @@ const Login = () => {
         .catch((error) => {
           alert(error.message)
         });
+
+      // axios.post(`${process.env.REACT_APP_API_KEY}/auth/login`,{
+      //    email : email,
+      //    password : password
+      // })
+      // .then((res)=>console.log(res))
+      // .catch((err) => console.log(err))
 
    }
   return (
