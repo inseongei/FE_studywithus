@@ -42,9 +42,9 @@ const Chat = () => {
     }
 
 
-    //  useEffect(() => {
-    //     messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    //   }, [messages]);
+      useEffect(() => {
+         messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      }, [messages]);
 
       useEffect(()=>{
         const queryMessages = query(messageRef,where("roomId", "==", roomId),
@@ -89,8 +89,9 @@ const Chat = () => {
 
         </div>
         <div className='inputBox'>
-        <input type={'text'} placeholder="메시지를 입력해주세요"onKeyDown={activeButton} value={newMessage} onChange={(e)=> setNewMessage(e.target.value)}/>
-        <IoMdSend className='send-icon' onClick={handleSend}></IoMdSend>
+        <div  ref={messageEndRef}></div>
+            <input type={'text'} placeholder="메시지를 입력해주세요"onKeyDown={activeButton} value={newMessage} onChange={(e)=> setNewMessage(e.target.value)}/>
+            <IoMdSend className='send-icon' onClick={handleSend}></IoMdSend>
         </div>
         </div>
     </Container>
@@ -100,7 +101,6 @@ const Chat = () => {
 const Container = styled.div`
 display: flex;
 padding: 20px;
-
 .chatBox{
     width:100%;
     height: 90vh;
@@ -109,6 +109,7 @@ padding: 20px;
     display: flex;
     flex-direction: column;
     box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
+    overflow: auto;
 }
 
 .inputBox{
@@ -116,7 +117,7 @@ padding: 20px;
     height: 50px;
     border-radius: 10px;
     background-color: rgb(250,250,250);   
-    display :flex ;
+    display :flex;
 }
 
 .inputBox input{
@@ -143,7 +144,6 @@ padding: 20px;
 .chat-content-box{
     display: flex;
     flex-direction: column;
-    height: 100%;
     justify-content: flex-end;
 }
 
@@ -193,7 +193,20 @@ padding: 20px;
     font-weight: 700;
 }
 
+/* 아래의 모든 코드는 영역::코드로 사용 */
+.chatBox::-webkit-scrollbar {
+    width: 10px;  
+}
 
+.chatBox::-webkit-scrollbar-thumb {
+    height: 30%; 
+    background:  #005B56;
+    border-radius: 10px;
+}
+
+.chatBox::-webkit-scrollbar-track {
+    background: #D9F0E6;
+}
 
 
 `
