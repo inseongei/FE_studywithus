@@ -1,7 +1,6 @@
 import React,{useRef} from 'react'
 import Header from '../compontents/Header'
 import styled from "styled-components"
-import axios from 'axios'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom'
 
