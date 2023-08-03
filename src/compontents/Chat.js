@@ -20,9 +20,6 @@ const Chat = () => {
     const formattedDate = `${hours}시 ${minutes}분 `;
 
 
-    console.log(messages)
-
-
     const activeButton = (e) =>{
         if(e.key === "Enter") {
             handleSend();
@@ -100,12 +97,10 @@ const Chat = () => {
 
 const Container = styled.div`
 display: flex;
-padding: 20px;
 .chatBox{
     width:100%;
-    height: 90vh;
-    background-color: #D9F0E6;
-    border-radius: 10px;
+    height: 100vh;
+    background-color: #E5E5E5;
     display: flex;
     flex-direction: column;
     box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
@@ -123,7 +118,6 @@ padding: 20px;
 .inputBox input{
     width: 100%;
     height: 50px;
-    border-radius: 10px;
     background-color: rgb(250,250,250); 
     border :none;
     padding-left: 20px;
@@ -161,13 +155,12 @@ padding: 20px;
 }
 
 .my-chatting {
-    background-color: #005B56;
+    background-color: #D9F0E6;
     width:300px;
     height:fit-content;
     box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
     padding: 10px 10px 10px 20px;
     border-radius: 20px 20px 0px 20px;
-    color: #fff;
     margin: 0px 10px 20px 0px;
     font-weight: 500;
 }
@@ -179,7 +172,7 @@ padding: 20px;
 }
 
 .your-chatting {
-    background-color:#E5E5E5;
+    background-color:rgb(250,250,250);
     width:300px;
     height:fit-content;
     padding: 10px 10px 10px 20px;
