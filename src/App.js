@@ -15,7 +15,6 @@ import Loading from './pages/Loading'
 import Signup from './pages/Signup'
 import TeamMain from './pages/TeamMain';
 import Meeting from './pages/Meeting';
-
 function App() {
   return (
     <div className="App">
@@ -25,6 +24,7 @@ function App() {
       <Route path="/UserMain" element={<UserMain/>} />
       <Route path="/Login" element={<Login/>} />
       <Route path="/ProjectMain" element={<ProjectMain/>} />
+      <Route path="/ProjectDetail/:projectId" element={<ProjectDetail/>} />
       <Route path="/ProjectWrite" element={<ProjectWrite/>} />
       <Route path="/Portfolio" element={<Portfolio/>} />
       <Route path="/Schedule" element={<Schedule/>} />

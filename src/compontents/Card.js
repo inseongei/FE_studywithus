@@ -1,12 +1,14 @@
 import React,{useState,useEffect} from 'react'
 import styled from "styled-components"
 import { AiFillCalendar } from "react-icons/ai";
-import {getDocs,collection  } from 'firebase/firestore';
+import {getDocs,collection, orderBy, query } from 'firebase/firestore';
 import {db} from '../server/firebase'
+import { Link } from 'react-router-dom';
+import Loading from '../pages/Loading';
 
 
 const Card = () => {
-    const [card,setCard] = useState('')
+    const [card,setCard] = useState([])
     const projectsCollectionRef = collection(db, 'projects');
     const date = new Date();
     const year = date.getFullYear();
@@ -14,56 +16,53 @@ const Card = () => {
     const day = date.getDate();
     const formattedDate = `${year}-${month}-${day}`;
 
-  const abcdate = (idx) =>{
-    const date1 = new Date(card[idx].end_date)
-    const date2 = new Date(formattedDate)
+    // 날짜 계산 함수
+    const abcdate = (idx) =>{
+      const date1 = new Date(card[idx].end_date)
+      const date2 = new Date(formattedDate)
+      const timeDiff = date2.getTime() - date1.getTime();
+      const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+      const result = `D${daysDiff}`;
+      return result
+}
 
-    
-    const timeDiff = date2.getTime() - date1.getTime();
-    const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
-
-    const result = `D${daysDiff}`;
-
-    return result
-
+const axiosProjects = async () => {
+  try {
+    const timequery = query(projectsCollectionRef, orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(timequery);
+    const postList = [];
+    querySnapshot.docs.map((doc) =>{
+      const cardData = doc.data();
+      postList.push({
+        id : doc.id,
+        ...cardData
+      })
+    });
+    setCard(postList)
+  } catch (error) {
+    console.error("Error getting projects:", error);
+  }
 }
 
 useEffect(() => {
-  const axiosProjects = async () => {
-    try {
-      const querySnapshot = await getDocs(projectsCollectionRef);
-      const cardData = querySnapshot.docs.map((doc) => doc.data());
-      setCard(cardData);
-    } catch (error) {
-      console.error("Error getting projects:", error);
-    }
-  };
-
   axiosProjects();
 }, []);
-
-console.log(card)
-
-
-
-
-
-
 
   return (
     <Case>
       {card&&card.map((data,idx)=>(
+        <Link to={`/ProjectDetail/${data.id}`} key={data.id}>
         <div className='one-card'>
-        {console.log(data.rep_image)}
         <div className='imgBox'>
           <img src ={data.rep_image} alt="사진"/>
         </div>
-          <div className='ContentBox' key={idx}>
+          <div className='ContentBox'>
             <span>{data.title}</span>
             <span>{data.content}</span>
             <span><AiFillCalendar></AiFillCalendar>{abcdate(idx)}</span>
         </div>
         </div>
+        </Link>
       ))}
     </Case>
 
@@ -98,6 +97,7 @@ const Case = styled.div`
     border-radius: 12px;
     margin: 20px;
     cursor: pointer;
+    border: 1px solid #e5e5e5;
   }
 
   .one-card:hover{
@@ -106,7 +106,12 @@ const Case = styled.div`
   
 
   .imgBox > img{
-    width: 200px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 12px 12px 0px 0px;
+    height: 200px;
   }
 
 

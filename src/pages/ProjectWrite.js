@@ -1,12 +1,11 @@
 import React,{useRef,useState} from 'react'
 import styled from "styled-components"
 import Header from '../compontents/Header'
-import axios from 'axios'
-import AWS from 'aws-sdk'
 import { Link,useNavigate } from 'react-router-dom'
-import { collection, addDoc } from "firebase/firestore";
-import {db} from '../server/firebase'
-
+import { collection, addDoc,serverTimestamp } from "firebase/firestore";
+import {db,storage} from '../server/firebase'
+import { ref, uploadBytes,getDownloadURL  } from 'firebase/storage';
+import project from '../assets/project.jpg'
 
 const ProjectWrite = () => {
     const [img ,setImg] = useState('')
@@ -17,46 +16,48 @@ const ProjectWrite = () => {
     const navigate = useNavigate();
     const projects = collection(db,'projects')
 
-    // AWS S3 정보 및 객체 이미지 저장 + 이미지 가져오기
-    const GET_PUT_S3_AWS = async() =>{
-      AWS.config.update({
-        accessKeyId: process.env.REACT_APP_ACCESS_KEY,
-        secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
-      })
-  
-      const myBucket = new AWS.S3({
-        Bucket: process.env.REACT_APP_BUCKET_NAME,
-        region: process.env.REACT_APP_REGION,
-      })
 
-      const params = {
-        ACL: 'public-read',
-        Body: image,
-        Bucket: process.env.REACT_APP_BUCKET_NAME,
-        Key: image.name
-      };
-
-      myBucket.putObject(params).promise()
-      .then(info=>{
-        let s3url =  myBucket.getSignedUrl('getObject',{Bucket : process.env.REACT_APP_BUCKET_NAME, Key:image.name})
-        const data = {
-          "title" : title.current.value,
-          "content" : content.current.value,
-          "end_date" : date.current.value,
-          "rep_image" : s3url
-        }
-        addDoc(projects,data)
-        .then((res)=>{
-          alert('게시글을 등록했습니다')
-          navigate('/ProjectMain')
-        })
-        .catch((err)=>console.log(err))
-      }) 
-      .catch((err) =>{
-        console.log(err)
-      })
+    const checkInput = () =>{
+      if(!title.current.value){
+        alert('제목을 입력해주세요')
+      } else if(!content.current.value){
+        alert('내용을 입력해주세요')
+      } else if(!date.current.value){
+        alert('날짜를 지정하지 않았습니다.')
+      } else {
+        handlePost()
+      }
     }
+    
 
+
+    const handlePost = () =>{
+      // 파이어베이스 스토리지 경로설정 → images/이미지이름
+      const storageRef = ref(storage, 'images/' + image.name)
+      // 업로드 → url가져오기 → addDoc
+      uploadBytes(storageRef, image).then((snapshot) => {
+        getDownloadURL(storageRef).then((url) => {
+          const data = {
+            title : title.current.value,
+            content : content.current.value,
+            end_date : date.current.value,
+            rep_image : url.includes('undefined') ? project : url ,
+            writer : localStorage.getItem('nickname'),
+            createdAt : serverTimestamp(),
+          }
+          addDoc(projects,data)
+          .then((res)=>{
+            alert('게시글을 등록했습니다')
+            navigate('/ProjectMain')
+          })
+          .catch((err)=>alert(err))
+        }).catch((error) => {
+          alert(error)
+        })
+      }).catch((error) => {
+        alert(error)
+      });
+    }
 
     // 이미지 url 뽑아오는 함수(encodeFileToBase64)
     const encodeFileToBase64 = (fileBlob) => {
@@ -70,14 +71,6 @@ const ProjectWrite = () => {
           };
         });
       };
-
-
-    // 프로젝트 모집글 작성 함수(handlePost)
-    const handlePost = () =>{
-      GET_PUT_S3_AWS();
-    }
-
-
 
 
   return (
@@ -110,7 +103,7 @@ const ProjectWrite = () => {
         </div>
         <div className='Btn-box'>
           <Link to="/ProjectMain"><button>돌아가기</button></Link>
-          <button onClick={handlePost}>작성하기</button>
+          <button onClick={checkInput}>작성하기</button>
         </div>
     </Container>
     </>
@@ -136,6 +129,11 @@ margin-top: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.image-box img {
+  width:100%;
+  height: 100%;
 }
 
 .info{
