@@ -230,7 +230,7 @@ const Desc = styled.div`
     display: grid;
     grid-template-columns: repeat(4,1fr);
     width:100%;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 .more{

@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
 import styled from 'styled-components'
 import { BsPlusSquareDotted,BsFillHandIndexThumbFill } from "react-icons/bs";
+import {TodoData,TodoList} from '../../server/atoms'
+import {useRecoilState} from 'recoil'
 
 function Todo() {
-  const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [todo,setTodo] = useRecoilState(TodoData); 
+  const [todoitem,setTodoitem]  = useRecoilState(TodoList) 
 
+  console.log(todoitem)
+  console.log(todo)
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   }
 
   const handleAddTodo = () => {
     if (inputValue !== '') {
-      setTodos([...todos, inputValue]);
+      if (todoitem) {
+        const newTodoitem = [...todoitem.todo, inputValue];
+        setTodoitem({ ...todoitem, todo: newTodoitem });
+      } else {
+        const newTodo = [...todo, inputValue];
+        setTodo(newTodo);
+      }
       setInputValue('');
     }
   }
@@ -23,12 +34,16 @@ function Todo() {
       }
  }
 
-
-  const handleDeleteTodo = (index) => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
+console.log(todo)
+ const handleDeleteTodoItem = (index) => {
+  if (todoitem) {
+    const newTodoitem = todoitem.todo.filter((_, i) => i !== index);
+    setTodoitem({ ...todoitem, todo: newTodoitem });
+  } else {
+    const newTodo = todo.filter((_, i) => i !== index);
+    setTodo(newTodo);
   }
+}
 
   return (
     <Container>
@@ -38,9 +53,16 @@ function Todo() {
         </div>
 
       <div>
-        {todos.map((todo, index) => (
-          <div key={index} className="todolist">{todo} <BsFillHandIndexThumbFill className='checkbtn' onClick={() => handleDeleteTodo(index)}>Delete</BsFillHandIndexThumbFill></div>
-        ))}
+      {  todoitem ? 
+      todoitem.todo&&todoitem.todo.map((todo, index) => (
+        <div key={index} className="todolist">{todo} <BsFillHandIndexThumbFill className='checkbtn' onClick={() => handleDeleteTodoItem(index)}>Delete</BsFillHandIndexThumbFill></div>
+      ))
+      
+      : 
+      todo&&todo.map((todo, index) => (
+        <div key={index} className="todolist">{todo} <BsFillHandIndexThumbFill className='checkbtn' onClick={() => handleDeleteTodoItem(index)}>Delete</BsFillHandIndexThumbFill></div>
+      ))
+      }
       </div>
     </Container>
   );

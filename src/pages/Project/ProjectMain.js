@@ -9,10 +9,6 @@ import { TfiWrite } from "react-icons/tfi";
 
 
 const ProjectMain = () => {
-
-
-
-
   return (
     <>
     <Header/>

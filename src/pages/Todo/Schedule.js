@@ -1,10 +1,11 @@
 import React from 'react'
-import Header from '../compontents/Header';
+import Header from '../../compontents/Header';
 import styled from "styled-components"
-import { AiOutlineDelete } from "react-icons/ai";
-import { BsCheckLg } from "react-icons/bs";
-import  Timebook  from '../compontents/Timebook'
-import Todo from './Todo';
+import  Timebook  from './Timebook'
+import Todo from './Todo'
+import {useRecoilState} from 'recoil'
+import {CommentData,TodoList} from '../../server/atoms'
+
 
 const Schedule = () => {
     const date = new Date();
@@ -12,6 +13,11 @@ const Schedule = () => {
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const formattedDate = `${year}년 ${month}월 ${day}일`;
+    const [comment,setComment] = useRecoilState(CommentData); 
+    const [todoitem,setTodoitem]  = useRecoilState(TodoList) 
+
+
+
 
   return (
     <>
@@ -34,7 +40,12 @@ const Schedule = () => {
             </div>
 
             <div className='bordercontent'>
-                <input type={'text'} placeholder="오늘 하루를 알차게 보낼 수 있는 한마디를 적어보세요 !" className='content-input'/>
+                <input type={'text'} 
+                placeholder="오늘 하루를 알차게 보낼 수 있는 한마디를 적어보세요 !"
+                className='content-input'
+                defaultValue={todoitem.comment}
+                onChange={(e)=>setComment(e.target.value)}
+                />
             </div>
             
             <div className='borderbox'>

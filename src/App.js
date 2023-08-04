@@ -7,7 +7,7 @@ import ProjectWrite from './pages/Project/ProjectWrite';
 import ProjectInsert from './pages/Project/ProjectInsert'
 import { Routes, Route } from 'react-router-dom'
 import ProjectMain from './pages//Project/ProjectMain';
-import Schedule from './pages/Schedule';
+import Schedule from './pages/Todo/Schedule'
 import Portfolio from './pages/Portfolio'
 import PortfolioDetail from './pages/PortfolioDetail';
 import PortfolioWrite from './pages/PortfolioWrite'
