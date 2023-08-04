@@ -1,11 +1,11 @@
 import React,{useRef,useState} from 'react'
 import styled from "styled-components"
-import Header from '../compontents/Header'
+import Header from '../../compontents/Header'
 import { Link,useNavigate } from 'react-router-dom'
 import { collection, addDoc,serverTimestamp } from "firebase/firestore";
-import {db,storage} from '../server/firebase'
+import {db,storage} from '../../server/firebase'
 import { ref, uploadBytes,getDownloadURL  } from 'firebase/storage';
-import project from '../assets/project.jpg'
+import project from '../../assets/project.png'
 
 const ProjectWrite = () => {
     const [img ,setImg] = useState('')

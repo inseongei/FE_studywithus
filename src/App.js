@@ -2,10 +2,11 @@
 import './App.css';
 import Main from './pages/Main'
 import Login from './pages/Login'
-import ProjectDetail from './pages/ProjectDetail';
-import ProjectWrite from './pages/ProjectWrite';
+import ProjectDetail from './pages/Project/ProjectDetail';
+import ProjectWrite from './pages/Project/ProjectWrite';
+import ProjectInsert from './pages/Project/ProjectInsert'
 import { Routes, Route } from 'react-router-dom'
-import ProjectMain from './pages/ProjectMain';
+import ProjectMain from './pages//Project/ProjectMain';
 import Schedule from './pages/Schedule';
 import Portfolio from './pages/Portfolio'
 import PortfolioDetail from './pages/PortfolioDetail';
@@ -25,6 +26,7 @@ function App() {
       <Route path="/Login" element={<Login/>} />
       <Route path="/ProjectMain" element={<ProjectMain/>} />
       <Route path="/ProjectDetail/:projectId" element={<ProjectDetail/>} />
+      <Route path="/ProjectInsert/:projectId" element={<ProjectInsert/>} />
       <Route path="/ProjectWrite" element={<ProjectWrite/>} />
       <Route path="/Portfolio" element={<Portfolio/>} />
       <Route path="/Schedule" element={<Schedule/>} />

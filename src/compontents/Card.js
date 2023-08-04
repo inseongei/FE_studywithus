@@ -1,10 +1,10 @@
+/* eslint-disable */
 import React,{useState,useEffect} from 'react'
 import styled from "styled-components"
 import { AiFillCalendar } from "react-icons/ai";
 import {getDocs,collection, orderBy, query } from 'firebase/firestore';
 import {db} from '../server/firebase'
 import { Link } from 'react-router-dom';
-import Loading from '../pages/Loading';
 
 
 const Card = () => {

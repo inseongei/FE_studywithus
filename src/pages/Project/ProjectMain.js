@@ -1,14 +1,11 @@
-import React,{useState,useEffect} from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import Header from '../compontents/Header'
-import Card from '../compontents/Card'
+import Header from '../../compontents/Header'
+import Card from '../../compontents/Card'
 import { BsSearch } from "react-icons/bs";
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 import { TfiWrite } from "react-icons/tfi";
-import Pcard from './../compontents/Pcard';
-import {getDocs,collection  } from 'firebase/firestore';
-import {db} from '../server/firebase'
+
 
 
 const ProjectMain = () => {

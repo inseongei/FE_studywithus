@@ -1,15 +1,17 @@
 import React,{useEffect,useState} from 'react'
 import styled from "styled-components"
-import Header from '../compontents/Header'
+import Header from '../../compontents/Header'
 import { MdDateRange } from "react-icons/md";
-import { useParams,Link } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
-import {db} from '../server/firebase'
-import Loading from './Loading'
+import { useParams,Link,useNavigate } from 'react-router-dom';
+import { doc, getDoc,deleteDoc  } from 'firebase/firestore';
+import { ref,deleteObject } from 'firebase/storage';
+import {db,storage} from '../../server/firebase'
+import Loading from '../Loading'
 
 const ProjectDetail = () => {
     const {projectId} = useParams();
     const [project, setProject] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -31,14 +33,27 @@ const ProjectDetail = () => {
         fetchProject();
       }, [projectId]);
 
-console.log(project)
-
       if (!project) {
         return <Loading/>;
       }
 
 
 
+const handleDelete = () => {
+  // 문서 삭제
+  const previousImageUrl = project.rep_image;
+  const previousImageRef = ref(storage, previousImageUrl);
+  deleteObject(previousImageRef)
+  deleteDoc(doc(db, 'projects', projectId))
+    .then(() => {
+      // 이미지 삭제 등 추가 작업을 수행할 수 있습니다.
+      alert('게시글을 삭제했습니다');
+      navigate('/ProjectMain'); // 삭제 후 이동할 경로 설정
+    })
+    .catch((error) => {
+      alert('게시글 삭제 실패:', error);
+    });
+};
 
   return (
     <>
@@ -61,10 +76,10 @@ console.log(project)
         </div>
 
         <div className='Btn-box'>
-            {project.writer !== localStorage.getItem('nickname') ? 
+            {project.writer === localStorage.getItem('nickname') ? 
             <>
-            <button className='deleteBtn'>삭제하기</button>
-            <button className='insertBtn'>수정하기</button>
+            <button className='deleteBtn' onClick={handleDelete}>삭제하기</button>
+            <Link to={`/ProjectInsert/${projectId}`}><button className='insertBtn'>수정하기</button></Link>
             </>
             : 
             <>
