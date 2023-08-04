@@ -29,8 +29,6 @@ const Timebook = () => {
 
 
 
-  console.log(todoitem)
-
 
   // 투두 리스트 가져오기
   const getTodo = async () => {

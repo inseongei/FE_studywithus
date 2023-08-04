@@ -9,8 +9,6 @@ function Todo() {
   const [todo,setTodo] = useRecoilState(TodoData); 
   const [todoitem,setTodoitem]  = useRecoilState(TodoList) 
 
-  console.log(todoitem)
-  console.log(todo)
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   }
@@ -34,7 +32,6 @@ function Todo() {
       }
  }
 
-console.log(todo)
  const handleDeleteTodoItem = (index) => {
   if (todoitem) {
     const newTodoitem = todoitem.todo.filter((_, i) => i !== index);
