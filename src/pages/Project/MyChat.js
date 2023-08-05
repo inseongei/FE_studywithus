@@ -10,20 +10,20 @@ import { useParams } from "react-router-dom";
 
 
 
-const ChatModal = (project) => {
+const MyChat = (id) => {
+
   const [chatOn,setChatOn]  = useRecoilState(ProjectChat) 
   const [message,setMessage] = useState('')
   const [data,setData] = useState([])
   const messageRef = collection(db,"projectchats")
-  const {projectId} =useParams()
   const nickname = localStorage.getItem('nickname')
-  const chatboxRef = useRef(null); // 채팅 박스 요소의 참조
+  const chatboxRef = useRef(null); 
 
-
-
+  console.log(id.id.id)
+  console.log(id)
 
  useEffect(()=>{
-   const queryMessages = query(messageRef,where("projectId", "==", projectId),
+   const queryMessages = query(messageRef,where("projectId", "==", id.id.id),
    orderBy("createdAt",'asc')
    )
    const unsuscribe = onSnapshot(queryMessages,(snapshot)=>{
@@ -35,7 +35,7 @@ const ChatModal = (project) => {
    })
 
    return () => unsuscribe();
-},[])
+},[id.id.id])
 
   const activeButton = (e) =>{
     if(e.key === "Enter") {
@@ -49,7 +49,7 @@ const ChatModal = (project) => {
       createdAt : serverTimestamp(),
       user : nickname,
       message,
-      projectId,
+      projectId : id.id.id,
     }
 
     if (message ==="") return
@@ -71,7 +71,7 @@ const ChatModal = (project) => {
     <Container>
         <div className='oneBox'>
           <div></div>
-          <div className='title'>{project.project.title}</div>
+          <div className='title'>{id.id.title}</div>
           <div><FaRegTimesCircle className='close-icon' onClick={()=>setChatOn(false)}></FaRegTimesCircle></div>
         </div>
 
@@ -143,7 +143,11 @@ const Container = styled.div`
   border-radius: 10px;
 
 
-
+  .title{
+    font-size: 24px;
+    font-weight: 500;
+    padding:15px 15px 15px 20px;
+}
   .oneBox{
     border-radius: 10px;
     height: 10%;
@@ -272,4 +276,4 @@ const Container = styled.div`
 
 
 `
-export default ChatModal
+export default MyChat

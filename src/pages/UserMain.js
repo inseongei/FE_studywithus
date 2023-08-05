@@ -1,23 +1,44 @@
-import React,{useState} from 'react'
+import React,{useEffect,useState} from 'react'
 import styled from 'styled-components'
 import Header from '../compontents/Header'
-import { Link } from 'react-router-dom'
 import { AiOutlineDoubleRight } from "react-icons/ai";
-import PortfolioCard from '../compontents/PortfolioCard'
-import Modal from '../compontents/Modal'
-import Card from '../compontents/Card'
-import { FaPlusCircle } from "react-icons/fa";
-import Team from '../compontents/Team'
-
+import {getDocs, collection , serverTimestamp,onSnapshot,query,where,orderBy} from 'firebase/firestore'
+import {db} from '../server/firebase'
+import {useRecoilState} from 'recoil'
+import { ProjectChat } from '../server/atoms';
+import MyChat from '../pages/Project/MyChat'
 
 const UserMain = () => {
-        const [currentTab, clickTab] = useState(0);
-        const [isModalOpen, setIsModalOpen] = React.useState(false);
-        const selectMenuHandler = (index) => {clickTab(index)}
-        const menuArr = [
-            { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/></> },
-            { name: <><div>팀원 찾기</div> <Link to ="/TeamMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>, contentTwo: <></> },
-        ]
+    const [data,setData] = useState([])
+    const projectRef = collection(db, 'projects');
+    const [chatOn,setChatOn]  = useRecoilState(ProjectChat) 
+    const [id,setId] = useState('')
+    const nickname = localStorage.getItem('nickname')
+    console.log(data)
+
+
+    useEffect(()=>{
+        const getProject = async() =>{
+            const querySnapshot = await getDocs(query(projectRef, where("writer", "==", nickname)))
+            const postList = [];
+            querySnapshot.docs.map((doc) =>{
+                const cardData = doc.data();
+                postList.push({
+                  id : doc.id,
+                  ...cardData
+                })
+                setData(postList)
+          });
+        }
+
+        getProject()
+    },[])
+
+
+
+
+
+
 
 
 /*==========================================================================================================================================*/
@@ -28,69 +49,32 @@ const UserMain = () => {
         <div className='ChatServer'>
             <div className='chat-title'>진행중인 프로젝트 서버 리스트</div>
             <div className='chat-list-box'>
-            <Link to="/Meeting/1"><div className='chat-list-title'>
-                       <div> React Project</div>
-                       <div className='icon'><AiOutlineDoubleRight></AiOutlineDoubleRight></div>
-                    </div>
-                    </Link>
-    
-                    <Link to="/Meeting/2"><div className='chat-list-title'>
-                       <div> React Project</div>
-                       <div className='icon'><AiOutlineDoubleRight></AiOutlineDoubleRight></div>
-                    </div>
-                    </Link>
-    
-                    <Link to="/Meeting/3"><div className='chat-list-title'>
-                       <div> React Project</div>
-                       <div className='icon'><AiOutlineDoubleRight></AiOutlineDoubleRight></div>
-                    </div>
-                    </Link>
-    
-                    <Link to="/Meeting/4"><div className='chat-list-title'>
-                       <div> React Project</div>
-                       <div className='icon'><AiOutlineDoubleRight></AiOutlineDoubleRight></div>
-                    </div>
-                    </Link>
-            </div>
+      {data&&data.map((item, index) => (
+          <div className='chat-list-title' key ={index} onClick={()=>{
+            setChatOn(true)
+            setId(item)
+          }}>
+            <div>{item.title}</div>
+            <div className='icon'><AiOutlineDoubleRight /></div>
+          </div>
+      ))}
+    </div>
         </div>
     
     
         <div className='main-box'>
             <div className='main-one'>
-            <TabMenu>
-            {menuArr.map((el,index) => (
-                <li key={index} className={index === currentTab ? "submenu focused" : "submenu" }
-                onClick={() => selectMenuHandler(index)}><div className='MenuBar'>{el.name}</div></li>
-            ))}
-            </TabMenu>
+
         
-            <Desc>
-                <div className='grid-box'>
-                {menuArr[currentTab].content}
-                </div>
-            </Desc>
-        
-            <ListCard>
-                {menuArr[currentTab].contentTwo}
-            </ListCard>
+
              </div>
             <div className='main-two'>
-                <div className='sub-main'>
-                    <div className='sub-main-container'>
-                    <div className='sub-title'>😵 신청한 프로젝트</div>
-                    <div><PortfolioCard/><PortfolioCard/><PortfolioCard/></div>
-                    </div>
-                </div>
-                <div className='sub-main'>
-                    <div className='sub-main-container'>
-                    <div className='sub-title'>🙋 모집중인 프로젝트</div>
-                    <div><PortfolioCard/><PortfolioCard/><PortfolioCard/></div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </Container>
-    {isModalOpen ? <Modal close={()=>setIsModalOpen(false)}/> : null}
+    {chatOn ? <MyChat id={id}/> : ''}
+
     </>
   )
 }

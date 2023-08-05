@@ -68,10 +68,10 @@ const Chat = () => {
     <Container>
         <div className='chatBox'>
         <div className='chat-content-box'>
-            {messages &&messages.map((data)=>(
+            {messages &&messages.map((data,idx)=>(
         <>
             {data.user === nickname ? 
-            <div className='my-chat'>
+            <div className='my-chat' key={idx}>
                 <div className='my-nickname'>{nickname}</div>
                 <div className='my-chatting'>{data.text}</div>
             </div>  
