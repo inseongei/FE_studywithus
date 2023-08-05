@@ -2,27 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import { FiSearch } from "react-icons/fi";
 import Logo from '../assets/Logo.mp4'
-import { useState } from 'react';
-import Card from '../compontents/Card'
+import MainCard from '../compontents/MainCard'
 import Header from '../compontents/Header'
-import Team from '../compontents/Team'
-import { FaPlusCircle } from "react-icons/fa";
-import { Link} from 'react-router-dom'
 import UserMain from '../pages/UserMain';
 import Footer from '../compontents/Footer';
+import programmer from '../assets/programmer.png'
+import { Link } from 'react-router-dom';
 
 
 const Main = () => {
-    // 메인 탭(currentTab), 함수(selectMenuHandler),메뉴바 배열 관리(menuArr),로컬 저장소 토큰(token)
-        const [currentTab, clickTab] = useState(0);
-        const selectMenuHandler = (index) => {clickTab(index)} 
         const token = localStorage.getItem('accessToken')
-        const menuArr = [
-            { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/></> },
-            { name: <><div>팀원 찾기</div> <Link to ="/TeamMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>, contentTwo: <><Team/><Team/><Team/><Team/><Team/><Team/></> },
-        ]
-
-
 /*==========================================================================================================================================*/
   return (
     <>
@@ -44,31 +33,46 @@ const Main = () => {
             </video>
             </div>
         </div>
-        </Container>
-    
-        <TabMenu>
-        {menuArr.map((el,index) => (
-            <li key={index} className={index === currentTab ? "submenu focused" : "submenu" }
-            onClick={() => selectMenuHandler(index)}><div className='MenuBar'>{el.name}</div></li>
-        ))}
-        </TabMenu>
-    
-        <Desc>
-            <div className='grid-box'>
-            {menuArr[currentTab].content}
+
+        <div className='Main-cardbox'>
+            <div className='MenuBox'>
+                <Link to="/ProjectMain" className='moreBtn'><div>모집글 더보기</div></Link>
+                <div className='goChat'>채팅 서버 이동</div>
+                <img src={programmer} alt="사진"/>
             </div>
-        </Desc>
-    
-        <ListCard>
-            {menuArr[currentTab].contentTwo}
-        </ListCard>
+
+            <div className='showCard'>
+                <MainCard/>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </Container>
+    <Footer/>
     </>
-    
-    
+ 
     :
     <UserMain/>  
     }
-    <Footer/>
+    
     </>
   )
 }
@@ -85,6 +89,60 @@ background-color:#D9F0E6;
     margin:auto;
     display: flex;
 }
+
+.Main-cardbox{
+    height: 100%;
+    width:70%;
+    margin:auto;
+}
+
+.MenuBox{
+    width: 100%;
+    height: 10%;
+    margin: 20px auto;
+    display: flex;
+}
+
+.MenuBox img {
+    margin-left: 20px; 
+}
+
+
+
+.showCard{
+    height: 90%;
+}
+
+.moreBtn{
+    width: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: rgb(250,250,250);
+    margin-right: 10px;
+    font-weight: 500;
+    border-radius: 10px;
+}
+
+.moreBtn:hover{
+    background-color: #E5E5E5;
+}
+.goChat:hover{
+    background-color: #E5E5E5;
+}
+.goChat{
+    width: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: rgb(250,250,250);
+    font-weight: 500;
+    border-radius: 10px;
+}
+
+
 
 .SubBox{
  display: flex;
@@ -131,90 +189,10 @@ background-color:#D9F0E6;
     width: 100%;
     height: 480px;
 }
-`
 
-const TabMenu = styled.div`
-  width: 70%;
-  background-color: rgb(255,255,255);
-  color: gray;
-  font-weight: bold;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  list-style: none;
-  margin: auto;
 
-  .MenuBar{
-    width:100%;
-    display: flex;
-    justify-content : space-between; 
-    align-items: center;
-  }
 
-  .plus{
-    font-size: 20px;
-    color: #fff;
-    display: flex;
-    align-items: center;
-  }
 
-  .submenu {
-  // 기본 Tabmenu 에 대한 CSS를 구현
-    display: flex;
-    margin-top:30px;
-    width: calc(30% /2);
-    padding: 10px;
-    font-size: 15px;
-    transition: 0.5s;
-    border-radius: 10px 10px 0px 0px;
-    font-size: 16px;
-    background-color: #d9f0e6;
-    color: #fff;
-    cursor : pointer;
-    display: flex;
-    justify-content: space-between;
-  }
 
-  .focused {
-   //선택된 Tabmenu 에만 적용되는 CSS를 구현
-    background-color: #005b56;
-    color: #fff;
-  }
-
-  & div.desc {
-    text-align: center;
-  }
-` 
-
-const Desc = styled.div`
-width:70%;
-margin: auto;
-.grid-box{
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    width:100%;
-}
-
-.more{
-    display: flex;
-    align-items : center;
-    background: #fff;
-    color: gray;
-    font-size:20px;
-    cursor: pointer;
-    margin-left:80px;
-    font-weight:500;
-}
-
-.more:hover{
-    color: black;
-}
-`
-const ListCard = styled.div`
-width:70%;
-margin: auto;
-padding: 20px;
-display: grid;
-grid-template-columns: repeat(3,1fr);
 `
 export default Main

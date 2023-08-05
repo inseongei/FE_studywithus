@@ -7,11 +7,15 @@ import { doc, getDoc,deleteDoc  } from 'firebase/firestore';
 import { ref,deleteObject } from 'firebase/storage';
 import {db,storage} from '../../server/firebase'
 import Loading from '../Loading'
+import {ProjectChat} from '../../server/atoms'
+import {useRecoilState} from 'recoil'
+import ChatModal from './ChatModal';
 
 const ProjectDetail = () => {
     const {projectId} = useParams();
     const [project, setProject] = useState();
     const navigate = useNavigate();
+    const [chatOn,setChatOn]  = useRecoilState(ProjectChat) 
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -84,10 +88,11 @@ const handleDelete = () => {
             : 
             <>
             <Link to ="/ProjectMain"><button className='gobackBtn'>돌아가기</button></Link>
-            <button className='choiceBtn'>신청하기</button>
+            <button className='choiceBtn' onClick={()=>setChatOn(true)}>신청하기</button>
             </>
             }
         </div>
+        {chatOn ? <ChatModal project={project}/>: '' }
     </Container>
     </>
 
@@ -115,6 +120,11 @@ margin-top: 160px;
     width: 100%;
     height: 100%;
     border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+img:hover{
+  transform: scale(1.02);
 }
 
 .content-box{

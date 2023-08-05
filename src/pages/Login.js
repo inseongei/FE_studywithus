@@ -37,7 +37,7 @@ const Login = () => {
     <Container>
     <div className='LoginBox'>
       <div className='LoginContent'>
-         <div className='Logintitle'> StudyWithus Login</div>
+         <div className='Logintitle'> 스터디위더스 로그인</div>
          <div className='Login-inputbox'>
             <input type="text" placeholder='아이디를 입력해주세요' ref={idinput}/>
             <input type="password" placeholder='패스워드를 입력해주세요' ref={passwordinput}/>
@@ -63,7 +63,7 @@ align-items: center;
     width:35%;
     height: 35vh;
     background: #fff;
-    box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
+    box-shadow: 10px 10px 20px 10px rgba(0,0,0,.15);
     border: none;
     border-radius: 10px;
     padding:25px;

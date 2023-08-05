@@ -7,7 +7,7 @@ import {db} from '../server/firebase'
 import { Link } from 'react-router-dom';
 import { cardDataState } from '../server/atoms';
 import {useRecoilState} from 'recoil'
-const Card = () => {
+const MainCard = () => {
     const projectsCollectionRef = collection(db, 'projects');
     const date = new Date();
     const year = date.getFullYear();
@@ -51,7 +51,7 @@ useEffect(() => {
 
   return (
     <Case>
-      {cardData&&cardData.slice(0,4).map((data,idx)=>(
+      {cardData&&cardData.slice(0,8).map((data,idx)=>(
         <Link to={`/ProjectDetail/${data.id}`} key={data.id}>
         <div className='one-card'>
         <div className='imgBox'>
@@ -160,4 +160,4 @@ const Case = styled.div`
   }
 `
 
-export default Card
+export default MainCard

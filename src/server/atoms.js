@@ -15,12 +15,17 @@ export const MemoData = atom({
     default: ''
 })
 
-export const TodoId = atom({
-    key: 'TodoId',
-    default: ''
-})
-
 export const TodoList = atom({
     key: 'TodoList',
     default: []
 })
+
+export const cardDataState = atom({
+    key: 'cardDataState',
+    default: []
+});
+
+export const ProjectChat = atom({
+    key: 'ProjectChat',
+    default: false
+});

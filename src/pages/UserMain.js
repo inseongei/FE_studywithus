@@ -11,13 +11,12 @@ import Team from '../compontents/Team'
 
 
 const UserMain = () => {
-    // 메뉴(currentTab), 모달(isModalOpen) , 메뉴함수(selectMenuHandler) , 메뉴배열관리(menuArr)
         const [currentTab, clickTab] = useState(0);
         const [isModalOpen, setIsModalOpen] = React.useState(false);
         const selectMenuHandler = (index) => {clickTab(index)}
         const menuArr = [
             { name: <><div>프로젝트 모집</div> <Link to ="/ProjectMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>,content: <><Card/></> },
-            { name: <><div>팀원 찾기</div> <Link to ="/TeamMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>, contentTwo: <><Team/><Team/><Team/><Team/></> },
+            { name: <><div>팀원 찾기</div> <Link to ="/TeamMain"><FaPlusCircle className='plus'></FaPlusCircle></Link></>, contentTwo: <></> },
         ]
 
 

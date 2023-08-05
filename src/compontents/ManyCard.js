@@ -51,7 +51,7 @@ useEffect(() => {
 
   return (
     <Case>
-      {cardData&&cardData.slice(0,4).map((data,idx)=>(
+      {cardData&&cardData.map((data,idx)=>(
         <Link to={`/ProjectDetail/${data.id}`} key={data.id}>
         <div className='one-card'>
         <div className='imgBox'>

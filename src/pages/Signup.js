@@ -154,7 +154,7 @@ const SignUpBox = styled.div`
 width:40%;
 height: 60vh;
 background: #fff;
-box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
+box-shadow: 10px 10px 20px 10px rgba(0,0,0,.15);
 border: none;
 border-radius: 10px;
 padding:25px;

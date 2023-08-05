@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Header from '../../compontents/Header'
-import Card from '../../compontents/Card'
+import ManyCard from '../../compontents/ManyCard'
 import { BsSearch } from "react-icons/bs";
 import { Link } from 'react-router-dom'
 import { TfiWrite } from "react-icons/tfi";
@@ -30,7 +30,7 @@ const ProjectMain = () => {
 
         <div className='CardContainer'>
         <div className='CardBox'>
-            <Card/>
+            <ManyCard/>
         </div>
         </div>
 

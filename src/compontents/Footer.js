@@ -11,7 +11,7 @@ const Footer = () => {
             Thank you for using our service
             </div>
             <div className='footer-second'>
-            <div> made by. StudyWithus Team</div>
+            <div> made by StudyWithus Team.</div>
             </div>
 
         </div>
@@ -25,7 +25,7 @@ margin-top: 100px;
 
 .footer-main{
   position : relative;
-  transform : translateY(-0%);
+  transform : translateY(1800%);
   background-color: #E1F1EE;
   width:100%;
   display: flex;
