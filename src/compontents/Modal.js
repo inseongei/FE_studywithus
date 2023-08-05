@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { AiOutlineClose , AiOutlineCheck } from "react-icons/ai";
 const Modal = (close) => {
-    console.log(close)
 
   return (
     <>

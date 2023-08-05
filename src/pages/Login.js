@@ -28,16 +28,6 @@ const Login = () => {
         .catch((error) => {
           alert(error.message)
         });
-
-
-
-       
-      //  axios.post(`${process.env.REACT_APP_API_KEY}/auth/login`,{
-      //     email : email,
-      //     password : password
-      //  })
-      //  .then((res)=>console.log(res))
-      //  .catch((err) => console.log(err))
        
 
    }

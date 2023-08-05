@@ -40,7 +40,7 @@ const axiosProjects = async () => {
     });
     setCard(postList)
   } catch (error) {
-    console.error("Error getting projects:", error);
+    alert(error)
   }
 }
 

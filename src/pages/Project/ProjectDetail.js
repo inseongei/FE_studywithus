@@ -26,7 +26,7 @@ const ProjectDetail = () => {
               console.log('No such document!');
             }
           } catch (error) {
-            console.error('Error getting document:', error);
+            alert(error)
           }
         };
     

@@ -45,7 +45,7 @@ const Chat = () => {
 
       useEffect(()=>{
         const queryMessages = query(messageRef,where("roomId", "==", roomId),
-        orderBy("createdAt")
+        orderBy("createdAt",'desc')
         )
         const unsuscribe = onSnapshot(queryMessages,(snapshot)=>{
             let messages = [];

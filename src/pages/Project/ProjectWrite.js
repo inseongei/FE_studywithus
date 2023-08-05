@@ -61,7 +61,6 @@ const ProjectWrite = () => {
 
     // 이미지 url 뽑아오는 함수(encodeFileToBase64)
     const encodeFileToBase64 = (fileBlob) => {
-      console.log(fileBlob)
         const reader = new FileReader();
         reader.readAsDataURL(fileBlob);
         return new Promise((resolve) => {
