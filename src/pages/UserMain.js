@@ -2,43 +2,36 @@ import React,{useEffect,useState} from 'react'
 import styled from 'styled-components'
 import Header from '../compontents/Header'
 import { AiOutlineDoubleRight } from "react-icons/ai";
-import {getDocs, collection , serverTimestamp,onSnapshot,query,where,orderBy} from 'firebase/firestore'
+import {getDocs, collection,query,where} from 'firebase/firestore'
 import {db} from '../server/firebase'
 import {useRecoilState} from 'recoil'
 import { ProjectChat } from '../server/atoms';
 import MyChat from '../pages/Project/MyChat'
 
 const UserMain = () => {
-    const [data,setData] = useState([])
-    const projectRef = collection(db, 'projects');
-    const [chatOn,setChatOn]  = useRecoilState(ProjectChat) 
-    const [id,setId] = useState('')
-    const nickname = localStorage.getItem('nickname')
-    console.log(data)
+const [data,setData] = useState([])
+const projectRef = collection(db, 'projects');
+const [chatOn,setChatOn]  = useRecoilState(ProjectChat) 
+const [id,setId] = useState('')
+const nickname = localStorage.getItem('nickname')
 
 
-    useEffect(()=>{
-        const getProject = async() =>{
-            const querySnapshot = await getDocs(query(projectRef, where("writer", "==", nickname)))
-            const postList = [];
-            querySnapshot.docs.map((doc) =>{
-                const cardData = doc.data();
-                postList.push({
-                  id : doc.id,
-                  ...cardData
-                })
-                setData(postList)
-          });
-        }
-
-        getProject()
-    },[])
-
-
-
-
-
-
+// 첫 렌더링시 writer 와 내 닉네임이 같은 프로젝트 게시글 뽑아옴
+useEffect(()=>{
+const getProject = async() =>{
+    const querySnapshot = await getDocs(query(projectRef, where("writer", "==", nickname)))
+    const postList = [];
+    querySnapshot.docs.map((doc) =>{
+        const cardData = doc.data();
+        postList.push({
+            id : doc.id,
+            ...cardData
+        })
+        setData(postList)
+    });
+}
+getProject()
+},[])
 
 
 /*==========================================================================================================================================*/

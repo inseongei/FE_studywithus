@@ -6,12 +6,10 @@ import {useRecoilState} from 'recoil'
 import {ProjectChat} from '../../server/atoms'
 import {addDoc, collection , serverTimestamp,onSnapshot,query,where,orderBy} from 'firebase/firestore'
 import {db} from '../../server/firebase'
-import { useParams } from "react-router-dom";
 
 
 
 const MyChat = (id) => {
-
   const [chatOn,setChatOn]  = useRecoilState(ProjectChat) 
   const [message,setMessage] = useState('')
   const [data,setData] = useState([])
@@ -19,49 +17,50 @@ const MyChat = (id) => {
   const nickname = localStorage.getItem('nickname')
   const chatboxRef = useRef(null); 
 
-  console.log(id.id.id)
-  console.log(id)
-
- useEffect(()=>{
-   const queryMessages = query(messageRef,where("projectId", "==", id.id.id),
-   orderBy("createdAt",'asc')
-   )
-   const unsuscribe = onSnapshot(queryMessages,(snapshot)=>{
-       let messages = [];
-       snapshot.forEach((doc) =>{
-           messages.push({...doc.data(),id: doc.id})
-       })
-       setData(messages)
-   })
-
-   return () => unsuscribe();
+// props로 받아온 id값 과 projectId가 동일한 문서 출력해서 data state에 저장
+useEffect(()=>{
+    const queryMessages = query(messageRef,where("projectId", "==", id.id.id),
+    orderBy("createdAt",'asc')
+    )
+    const unsuscribe = onSnapshot(queryMessages,(snapshot)=>{
+        let messages = [];
+        snapshot.forEach((doc) =>{
+            messages.push({...doc.data(),id: doc.id})
+        })
+        setData(messages)
+})
+return () => unsuscribe();
 },[id.id.id])
 
-  const activeButton = (e) =>{
+
+// 엔터키 조작
+const activeButton = (e) =>{
     if(e.key === "Enter") {
         handleSend();
-      }
-  }
+        }
+}
 
-
-  const handleSend = async() =>{
+// 메시지 보내는 함수 - addDoc
+const handleSend = async() =>{
     const data = {
-      createdAt : serverTimestamp(),
-      user : nickname,
-      message,
-      projectId : id.id.id,
+        createdAt : serverTimestamp(),
+        user : nickname,
+        message,
+        projectId : id.id.id,
     }
 
-    if (message ==="") return
-    await addDoc(messageRef,data)
-    setMessage('')
-  }
-  useEffect(() => {
-    // data 배열이 업데이트될 때마다 스크롤을 아래로 내리는 코드
-    if (chatboxRef.current) {
-      chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
-    }
-  }, [data]);
+if (message ==="") return
+await addDoc(messageRef,data)
+setMessage('')
+}
+
+
+// data 배열이 업데이트될 때마다 스크롤을 아래로 내리는 코드
+useEffect(() => {
+if (chatboxRef.current) {
+    chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
+}
+}, [data]);
 
 
 

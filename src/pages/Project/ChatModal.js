@@ -21,47 +21,50 @@ const ChatModal = (project) => {
 
 
 
-
- useEffect(()=>{
-   const queryMessages = query(messageRef,where("projectId", "==", projectId),
-   orderBy("createdAt",'asc')
-   )
-   const unsuscribe = onSnapshot(queryMessages,(snapshot)=>{
-       let messages = [];
-       snapshot.forEach((doc) =>{
-           messages.push({...doc.data(),id: doc.id})
-       })
-       setData(messages)
-   })
-
-   return () => unsuscribe();
+// 첫 렌더링 될때 projectId에 해당하는 문서 data state에 넣기 
+useEffect(()=>{
+  const queryMessages = query(messageRef,where("projectId", "==", projectId),
+  orderBy("createdAt",'asc')
+  )
+  const unsuscribe = onSnapshot(queryMessages,(snapshot)=>{
+      let messages = [];
+      snapshot.forEach((doc) =>{
+          messages.push({...doc.data(),id: doc.id})
+      })
+      setData(messages)
+  })
+  return () => unsuscribe();
 },[])
 
-  const activeButton = (e) =>{
-    if(e.key === "Enter") {
-        handleSend();
-      }
+
+// 엔터키 조작 
+const activeButton = (e) =>{
+  if(e.key === "Enter") {
+      handleSend();
+    }
+}
+
+
+// 메시지 보내는 함수 - addDoc
+const handleSend = async() =>{
+  const data = {
+    createdAt : serverTimestamp(),
+    user : nickname,
+    message,
+    projectId,
   }
 
+  if (message ==="") return
+  await addDoc(messageRef,data)
+  setMessage('')
+}
 
-  const handleSend = async() =>{
-    const data = {
-      createdAt : serverTimestamp(),
-      user : nickname,
-      message,
-      projectId,
-    }
-
-    if (message ==="") return
-    await addDoc(messageRef,data)
-    setMessage('')
+// data 배열이 업데이트될 때마다 스크롤을 아래로 내리는 코드
+useEffect(() => {
+  if (chatboxRef.current) {
+    chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
   }
-  useEffect(() => {
-    // data 배열이 업데이트될 때마다 스크롤을 아래로 내리는 코드
-    if (chatboxRef.current) {
-      chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
-    }
-  }, [data]);
+}, [data]);
 
 
 
