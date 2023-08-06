@@ -29,3 +29,8 @@ export const ProjectChat = atom({
     key: 'ProjectChat',
     default: false
 });
+
+export const makeRoom = atom({
+    key: 'makeRoom',
+    default: false
+});

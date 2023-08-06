@@ -10,7 +10,6 @@ import "swiper/css/pagination";
 
 
 const SwiperCard = (data) => {
-    console.log(data)
     
   return (
     <Container>
@@ -21,7 +20,6 @@ const SwiperCard = (data) => {
         grabCursor={true}
         centeredSlides={true}
         slidesPerView={4}  
-        autoplayStart    
         coverflowEffect={{
           rotate: 20, // 회전각도
           stretch: 0, 
@@ -37,8 +35,8 @@ const SwiperCard = (data) => {
         
         {data.data.slice(0,5).map(data =>
 
-            <SwiperSlide>
-                <Link to={`/ProjectDetail/${data.id}`} key={data.id}>
+            <SwiperSlide key={data.id}>
+                <Link to={`/ProjectDetail/${data.id}`}>
                     <img src={data.rep_image}/>
                     <div className='card-title'>{data.title}</div>
                 </Link>

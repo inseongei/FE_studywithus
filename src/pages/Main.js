@@ -37,7 +37,7 @@ const Main = () => {
         <div className='Main-cardbox'>
             <div className='MenuBox'>
                 <Link to="/ProjectMain" className='moreBtn'><div>모집글 더보기</div></Link>
-                <div className='goChat'>채팅 서버 이동</div>
+                <Link to="/ChatServer"  className='goChat'><div>채팅 서버 이동</div></Link>
                 <img src={programmer} alt="사진"/>
             </div>
 
