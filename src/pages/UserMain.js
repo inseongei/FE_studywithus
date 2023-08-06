@@ -7,6 +7,9 @@ import {db} from '../server/firebase'
 import {useRecoilState} from 'recoil'
 import { ProjectChat } from '../server/atoms';
 import MyChat from '../pages/Project/MyChat'
+import { Link } from 'react-router-dom';
+import programmer from '../assets/programmer.png'
+import SwiperCard from '../compontents/SwiperCard';
 
 const UserMain = () => {
 const [data,setData] = useState([])
@@ -57,13 +60,15 @@ getProject()
     
         <div className='main-box'>
             <div className='main-one'>
-
-        
+            <div className='MenuBox'>
+                <Link to="/ProjectMain" className='moreBtn'><div>모집글 더보기</div></Link>
+                <div className='goChat'>채팅 서버 이동</div>
+                <img src={programmer} alt="사진"/>
+            </div>
+                <SwiperCard data={data}/>
 
              </div>
-            <div className='main-two'>
 
-            </div>
         </div>
     </Container>
     {chatOn ? <MyChat id={id}/> : ''}
@@ -146,91 +151,49 @@ height: calc(100vh - 80px);
     width:85vw;
 }
 
-.main-one{
-    height:60%;
+
+
+.MenuBox{
+    width: 100%;
+    height: 50px;
+    margin: 20px auto;
+    display: flex;
+    padding-left: 20px;
 }
 
-.main-two{
-    height: 40%;
+.MenuBox img {
+    margin-left: 20px; 
 }
-`
-const TabMenu = styled.div`
-  width: 70%;
-  font-weight: bold;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  list-style: none;
-  .MenuBar{
-    width:100%;
+
+.moreBtn{
+    width: 130px;
     display: flex;
-    justify-content : space-between; 
+    justify-content: center;
     align-items: center;
-  }
-
-  .plus{
-    font-size: 20px;
-    color: #fff;
-    display: flex;
-    align-items: center;
-  }
-
-  .submenu {
-  // 기본 Tabmenu 에 대한 CSS를 구현
-    display: flex;
-    width: calc(30% /2);
-    padding: 10px;
-    font-size: 15px;
-    transition: 0.5s;
-    font-size: 16px;
-    background-color: #D9F0E6;
-    color: #fff;
-    cursor : pointer;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .focused {
-   //선택된 Tabmenu 에만 적용되는 CSS를 구현
-    background-color: #005B56;
-    color: #fff;
-  }
-
-  & div.desc {
-    text-align: center;
-  }
-` 
-
-const Desc = styled.div`
-.grid-box{
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    width:100%;
-    padding: 0px 20px 20px 20px;
-}
-
-.more{
-    display: flex;
-    align-items : center;
-    background: #fff;
-    color: gray;
-    font-size:20px;
     cursor: pointer;
-    margin-left:80px;
-    font-weight:500;
+    background-color: rgb(250,250,250);
+    margin-right: 10px;
+    font-weight: 500;
+    border-radius: 10px;
 }
 
-.more:hover{
-    color: black;
+.moreBtn:hover{
+    background-color: #E5E5E5;
+}
+.goChat:hover{
+    background-color: #E5E5E5;
+}
+.goChat{
+    width: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: rgb(250,250,250);
+    font-weight: 500;
+    border-radius: 10px;
 }
 `
-const ListCard = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    width:100%;
-    padding: 20px;
-    position: relative;
-    bottom: 40px;
-    
-`
+
+
 export default UserMain

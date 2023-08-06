@@ -131,6 +131,7 @@ if (chatboxRef.current) {
 
 
 const Container = styled.div`
+  z-index: 1;
   width: 40%;
   height: 80%;
   margin: auto;
