@@ -1,15 +1,38 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Navigation,Mousewheel } from "swiper";
+import {getDocs, collection,query,where,orderBy} from 'firebase/firestore'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
+import {db} from '../server/firebase'
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 
 
-const SwiperCard = (data) => {
+
+
+const SwiperCard = () => {
+    const projectRef = collection(db, 'projects');
+    const [data,setData] = useState([])
+
+    useEffect(()=>{
+        const Allproject = async() =>{
+            const timequery = query(projectRef, orderBy('createdAt', 'desc'));
+            const querySnapshot = await getDocs(timequery)
+            const postList = [];
+            querySnapshot.docs.map((doc) =>{
+                const cardData = doc.data();
+                postList.push({
+                    id : doc.id,
+                    ...cardData
+                })
+                setData(postList)
+            });
+        } 
+        Allproject()
+    },[])
     
   return (
     <Container>
@@ -33,7 +56,7 @@ const SwiperCard = (data) => {
         className="mySwiper"
       >
         
-        {data.data.slice(0,5).map(data =>
+        {data.slice(0,5).map(data =>
 
             <SwiperSlide key={data.id}>
                 <Link to={`/ProjectDetail/${data.id}`}>
