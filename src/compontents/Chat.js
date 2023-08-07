@@ -45,7 +45,7 @@ const Chat = () => {
 
       useEffect(()=>{
         const queryMessages = query(messageRef,where("roomId", "==", roomId),
-        orderBy("createdAt",'desc')
+        orderBy("createdAt",'asc')
         )
         const unsuscribe = onSnapshot(queryMessages,(snapshot)=>{
             let messages = [];
@@ -68,10 +68,10 @@ const Chat = () => {
     <Container>
         <div className='chatBox'>
         <div className='chat-content-box'>
-            {messages &&messages.map((data,idx)=>(
-        <>
+            {messages && messages.map((data,idx)=>(
+        <div key={idx}>
             {data.user === nickname ? 
-            <div className='my-chat' key={idx}>
+            <div className='my-chat' >
                 <div className='my-nickname'>{nickname}</div>
                 <div className='my-chatting'>{data.text}</div>
             </div>  
@@ -81,7 +81,7 @@ const Chat = () => {
                 <div className='your-chatting'>{data.text}</div>
             </div>
             }
-        </>
+        </div>
             ))}
 
         </div>
@@ -99,7 +99,7 @@ const Container = styled.div`
 display: flex;
 .chatBox{
     width:100%;
-    height: 100vh;
+    height: calc(100vh - 80px);
     background-color: #E5E5E5;
     display: flex;
     flex-direction: column;
@@ -139,6 +139,7 @@ display: flex;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    height:90%;
 }
 
 .my-chat{

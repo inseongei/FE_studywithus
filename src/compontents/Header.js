@@ -56,12 +56,6 @@ const Header = () => {
               <h3>{nickname}님 환영합니다😊</h3>
             </div>
             <hr/>
-
-            <Link to="/Portfolio" className='sub-menu-link'>
-            <div className='icon'><FiBookOpen></FiBookOpen></div>
-              <p>포트 폴리오</p>
-              <div className='icon-box'><FiChevronRight></FiChevronRight></div>
-            </Link>
             <Link to="/Schedule" className='sub-menu-link'>
             <div className='icon'><FiClipboard></FiClipboard></div>
               <p>일정 관리</p>

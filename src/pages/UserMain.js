@@ -44,7 +44,7 @@ getProject()
         <Header/>
         <Container>
         <div className='ChatServer'>
-            <div className='chat-title'>진행중인 프로젝트 서버 리스트</div>
+            <div className='chat-title'>작성게시글 채팅방 리스트</div>
             <div className='chat-list-box'>
       {data&&data.map((item, index) => (
           <div className='chat-list-title' key ={index} onClick={()=>{

@@ -1,12 +1,41 @@
-import React from 'react'
+import React,{useRef} from 'react'
 import {makeRoom} from '../server/atoms'
 import {useRecoilState} from 'recoil'
 import styled from 'styled-components'
-import Modal from './Modal';
+import { addDoc,collection,doc,serverTimestamp, updateDoc } from 'firebase/firestore'
+import {db} from '../server/firebase'
+import { useNavigate } from 'react-router-dom';
 
 
 const RoomModal = () => {
     const [on ,setOn] = useRecoilState(makeRoom) 
+    const titleRef = useRef('')
+    const passwordRef = useRef('')
+    const projects = collection(db,'rooms')
+    const navigate = useNavigate();
+
+
+
+    const createRoom = async () => {
+        if (!titleRef.current.value) {
+            alert('방 제목을 입력해주세요');
+        } else {
+            const data = {
+                user: localStorage.getItem('nickname'),
+                createdAt: serverTimestamp(),
+                title: titleRef.current.value,
+                password: !passwordRef.current.value ? null : passwordRef.current.value,
+            };
+            const docRef = await addDoc(projects, data);
+            await updateDoc(doc(db,'rooms',docRef.id),{roomId : docRef.id})
+            .then((res)=>{
+                navigate(`/Meeting/${docRef.id}`)
+                setOn(false)
+        })
+            .catch((err)=>console.log(err))
+            
+        }
+    }
 
   return (
     <Container>
@@ -17,9 +46,9 @@ const RoomModal = () => {
         </div>
 
         <div className='two-box'>
-            <input type="text" placeholder='방 제목을 입력하세요'/>
-            <input type="password" placeholder='패스워드가 없을 경우 공개방으로 생성됩니다.'/>
-            <button>만들기</button>
+            <input type="text" placeholder='방 제목을 입력하세요' ref={titleRef}/>
+            <input type="password" placeholder='패스워드가 없을 경우 공개방으로 생성됩니다.' ref={passwordRef}/>
+            <button onClick={createRoom}>만들기</button>
         </div>
     </Container>
   )

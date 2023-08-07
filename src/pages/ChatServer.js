@@ -4,16 +4,29 @@ import styled from 'styled-components'
 import {useRecoilState} from 'recoil'
 import { makeRoom } from '../server/atoms'
 import RoomModal from '../compontents/RoomModal'
-import { dbRealtime } from '../server/firebase'
+import { db, dbRealtime } from '../server/firebase'
 import { onValue, ref, set,remove,onDisconnect } from 'firebase/database';
+import { collection,getDocs,orderBy,query } from 'firebase/firestore'
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const ChatServer = () => {
     const [on,setOn] = useRecoilState(makeRoom)
     const [user,setUser] = useState([])
+    const [list,setList] = useState([])
+    const [page,setPage] = useState(1)
+    const [first,setFirst] = useState(0)
+    const [last, setLast] = useState(6)
     const nickname = localStorage.getItem('nickname')
     const userdata = ref(dbRealtime,'users/' + nickname)
+    const roomlist = collection(db,'rooms')
     const usersRef = ref(dbRealtime, 'users');
+    const navigate = useNavigate();
+    let Lastpage = Math.ceil(list.length / 6)
+    console.log(list.slice(0,6))
+    console.log(list.slice(6,12))
+    console.log(list)
+
     useEffect(()=>{
         if(nickname){
             set(userdata, { nickname });
@@ -21,7 +34,6 @@ const ChatServer = () => {
                 const data = snapshot.val();
                 if (data) {
                   const userNicknames = Object.values(data).map(user => user.nickname);
-                  console.log(userNicknames)
                   setUser(userNicknames);
                 }
               });
@@ -34,12 +46,39 @@ const ChatServer = () => {
     },[])
 
 
+    useEffect(()=>{
+        const rooms = async() =>{
+            const timequery = query(roomlist, orderBy('createdAt', 'desc'));
+            const querySnapshot = await getDocs(timequery)
+            querySnapshot.docs.map((doc) =>{
+                const cardData = doc.data();
+                setList((pre)=>[...pre,cardData])
+            });
+        } 
+        rooms()
+    },[])
 
 
+    const passwordcheck = (password,id) =>{
+        if(password === null){
+            navigate(`/Meeting/${id}`)
+        }else{
+            const check = prompt('패스워드를 입력하세요')
+            password === check ?   navigate(`/Meeting/${id}`) : alert('패스워드가 맞지 않습니다.')
+        }
+        
+    }
 
 
+    const moreRoom = () =>{
+        setFirst(last)
+        setLast(last + 6)
+    }
 
-
+    const lessRoom = () =>{
+        setFirst(first-6)
+        setLast(last-6)
+    }
 
 
 
@@ -65,57 +104,28 @@ const ChatServer = () => {
                 </div>
 
                 <div className='rooms'>
-                    <div className='room'>
-                        <div className='room-title'>제목</div>
-                        <div className='sub-info'>
-                            <div>🔒 PASSWORD</div>
-                            <div>👨‍💼정인성</div>
-                        </div>
-                    </div>
-
-                    <div className='room'>
-                        <div className='room-title'>제목</div>
-                        <div className='sub-info'>
-                            <div>🔒 PASSWORD</div>
-                            <div>👨‍💼정인성</div>
-                        </div>
-                    </div>
-
-                    <div className='room'>
-                        <div className='room-title'>제목</div>
-                        <div className='sub-info'>
-                            <div>🔒 PASSWORD</div>
-                            <div>👨‍💼정인성</div>
-                        </div>
-                    </div>
-
-                    <div className='room'>
-                        <div className='room-title'>제목</div>
-                        <div className='sub-info'>
-                            <div>🔒 PASSWORD</div>
-                            <div>👨‍💼정인성</div>
-                        </div>
-                    </div>
-
-                    <div className='room'>
-                        <div className='room-title'>제목</div>
-                        <div className='sub-info'>
-                            <div>🔒 PASSWORD</div>
-                            <div>👨‍💼정인성</div>
-                        </div>
-                    </div>
-
-                    <div className='room'>
-                        <div className='room-title'>제목</div>
-                        <div className='sub-info'>
-                            <div>🔒 PASSWORD</div>
-                            <div>👨‍💼정인성</div>
-                        </div>
-                    </div>
+                {list && list.slice(first,last).map((data, idx) => (
+                <div className='room' key={idx} onClick={()=>{
+                    passwordcheck(data.password,data.roomId)
+                }}>
+                <div className='room-title'>{data.title}</div>
+                <div className='sub-info'>
+                    <div>{data.password === null ? '🔓OPEN' : '🔒PASSWORD' }</div>
+                    <div>👨‍💼{data.user}</div>
                 </div>
+                </div>
+
+))}
+</div>
+
+
             </div>
             <div className='pagenation'>
-                <div>1 | 2 </div>
+                <div className='pagenation-list'>
+                 <div onClick={lessRoom} className="pagebtn">◀</div>
+                 <div className='page'>{page} | {Lastpage}</div>    
+                 <div onClick={moreRoom} className="pagebtn">▶</div>   
+                </div>
             </div>
         </div>
     </Container>
@@ -146,6 +156,14 @@ display: flex;
     font-weight: 500;
 }
 
+.pagenation-list{
+    display: flex;
+}
+
+.page{
+    margin: 0px 20px;
+}
+
 .userList{
     width:90%;
     height: 90%;
@@ -153,6 +171,10 @@ display: flex;
     border-radius: 10px;
     overflow-y: auto;
     background-color: rgb(250,250,250);
+}
+
+.pagebtn{
+    cursor: pointer;
 }
 
 .userList::-webkit-scrollbar {
