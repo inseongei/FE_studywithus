@@ -58,7 +58,6 @@ const Meeting = () => {
     
           querySnapshot.forEach(async (doc) => {
             await deleteDoc(doc.ref);
-            console.log('사용자 삭제 완료');
             navigate('/ChatServer')
           });
         } catch (error) {

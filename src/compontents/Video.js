@@ -19,14 +19,8 @@ const Video = () => {
   const localRef = useRef();
   const remoteRef = useRef();
   const {roomId} = useParams();
-  const pc = new RTCPeerConnection(servers);
-  console.log(mode)
-
-
 
   useEffect(() => {
-    addUser()
-    // Firestore에서 사용자 정보 실시간 감시
     const unsubscribe = onSnapshot(collection(db, 'chatuser'), (snapshot) => {
       const userArray = [];
       snapshot.forEach((doc) => {
@@ -34,56 +28,174 @@ const Video = () => {
       });
       setUsers(userArray);
     });
+    const addUser = async () => {
+      try {
+        const userQuerySnapshot = await getDocs(
+          query(collection(db, 'chatuser'), where('roomId', '==', roomId))
+        );
+        const userExists = !userQuerySnapshot.empty;
+
+        !userExists ? setMode('create') : setMode('join')
+  
+        const docRef = await addDoc(collection(db, 'chatuser'), {
+          nickname,
+          roomId,
+        });
+  
+        await updateDoc(docRef, {
+          id: docRef.id,
+        });
+      } catch (error) {
+        console.error('사용자 추가 및 업데이트 에러:', error);
+      }
+    };
+  
+    addUser();
+
+    return () =>{
+      unsubscribe();
+    }
+  }, [nickname, roomId]);
+  
+
+  useEffect(() => {
+    const ice = collection(db, "ice");
+    const offer = collection(db, "offer");
+    const answer = collection(db, "answer");
+    const localpc = new RTCPeerConnection(servers);
+    const remoteStream = new MediaStream();
+    console.log(localpc)
     const setupSources = async () => {
       try {
         const localStream = await navigator.mediaDevices.getUserMedia({
           video: true,
           audio: true,
         });
-  
-        const remoteStream = new MediaStream();
+        console.log(localStream)
   
         localStream.getTracks().forEach((track) => {
-          pc.addTrack(track, localStream)
+          localpc.addTrack(track, localStream);
         });
   
-        pc.ontrack = (event) => {
+        localpc.ontrack = (event) => {
+          
           event.streams[0].getTracks().forEach((track) => {
             remoteStream.addTrack(track);
           });
         };
   
         localRef.current.srcObject = localStream;
-        // remoteRef.current.srcObject = remoteStream;
-        setVideo(true); // 카메라가 있으므로 videocheck 상태를 true로 설정    
+        remoteRef.current.srcObject = remoteStream;
+        setVideo(true);
       } catch (error) {
         console.error(error);
-        setVideo(false); // 카메라가 없으므로 videocheck 상태를 false로 설정
+        setVideo(false);
+      }
+
+      if (mode === 'create') {
+
+  
+        localpc.onicecandidate = (event) =>{
+          if (event.candidate){
+            addDoc(ice,{
+              candidate : event.candidate.toJSON(),
+              roomId
+            })
+          }
+        }
+
+        const offerDescription = await localpc.createOffer();
+        await localpc.setLocalDescription(offerDescription);
+
+        const Firebaseoffer = {
+          sdp: offerDescription.sdp,
+          type: offerDescription.type,
+          roomId
+};
+        await addDoc(offer,Firebaseoffer) 
+
+        const answercheck = onSnapshot(collection(db, 'answer'), (snapshot) => {
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === 'added') {
+              const data = change.doc.data();
+              if (!localpc.currentRemoteDescription && data) {
+                const answerDescription = new RTCSessionDescription(data);
+                localpc.localpc.currentRemoteDescription(answerDescription);
+              }
+            }
+          });
+        });
+
+
+        const icecheck = onSnapshot(collection(db, 'ice'), (snapshot) => {
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === 'added' && localpc.currentRemoteDescription) {
+              const iceCandidateData = change.doc.data().candidate;
+              const candidate = new RTCIceCandidate(iceCandidateData);
+        
+              localpc.addIceCandidate(candidate)
+                .then(() => {
+                })
+                .catch((error) => {
+                  console.error('Error adding ICE candidate:', error);
+                });
+            }
+          });
+        });
+
+  
+      
+      } else if (mode === 'join') {
+
+
+        localpc.onicecandidate = (event) =>{
+          if (event.candidate){
+            addDoc(ice,{
+              candidate : event.candidate.toJSON(),
+              roomId
+            })
+          }
+        }
+
+        const querySnapshot = await getDocs(query(collection(db, 'offer'), where('roomId', '==', roomId)));
+        querySnapshot.forEach((doc) => {
+          const offerData = doc.data();
+          const offerDescription = offerData
+
+          localpc.setRemoteDescription(
+          new RTCSessionDescription(offerDescription)
+  );
+        });
+
+
+
+        const answerDescription = await localpc.createAnswer();
+        await localpc.setLocalDescription(answerDescription);
+
+        const Firebaseanswer = {
+          type: answerDescription.type,
+          sdp: answerDescription.sdp,
+};
+
+        await addDoc(answer,Firebaseanswer) 
+
+
+
+
+
+
+
+
+
+
+
       }
     };
   
     setupSources();
-
-
-
-
-    // 컴포넌트가 언마운트될 때 구독 해제
-    return () => {
-      unsubscribe();
-      setupSources();
-    };
-  }, [nickname]); 
-
-
-
-
-
-
-
-
-
   
 
+  }, [mode]);
 
 
 
@@ -95,44 +207,6 @@ const Video = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  const addUser = async () => {
-    try {
-      const userQuerySnapshot = await getDocs(
-        query(collection(db, 'chatuser'), where('roomId', '==', roomId))
-      );
-      const userExists = !userQuerySnapshot.empty;
-  
-      if (!userExists) {
-        setMode('create');
-      } else {
-        setMode('join');
-      }
-  
-      const docRef = await addDoc(collection(db, 'chatuser'), {
-        nickname,
-        roomId,
-      });
-  
-      await updateDoc(docRef, {
-        id: docRef.id,
-      });
-    } catch (error) {
-      console.error('사용자 추가 및 업데이트 에러:', error);
-    }
-  };
 
 
     
@@ -151,7 +225,9 @@ const Video = () => {
           playsInline
           muted
           />
+          <video ref={remoteRef} autoPlay playsInline muted className='video'/>
           {video ? '' : <div className='avatar'>{nickname}</div>}
+          
           </div>
         </div>
 
