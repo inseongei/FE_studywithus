@@ -94,7 +94,7 @@ border-radius: 10px;
 .two-box button {
     width: 150px;
     height: 50px;
-    background-color: #fff000;
+    background-color: #D9F0E6;
     border: none;
     border-radius: 10px;
     font-size: 20px;

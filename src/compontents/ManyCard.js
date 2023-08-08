@@ -157,6 +157,7 @@ const Case = styled.div`
     line-height: 150%;
     color: #81898F;
     margin-top: 4px;
+    padding: 20px 0px;
   }
 `
 

@@ -103,6 +103,10 @@ height: calc(100vh - 80px);
     align-items: center;
 }
 
+.main-one{
+    height: calc(100% - 80px);
+}
+
 .sub-main-container{
     width: 90%;
     padding:10px;
@@ -112,6 +116,7 @@ height: calc(100vh - 80px);
 
 .ChatServer{
     width: 15vw;
+    border: 1px solid #e5e5e5;
 }
 
 .chat-title{
@@ -119,6 +124,8 @@ height: calc(100vh - 80px);
     font-weight: 600;
     text-align: center;
     padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 10px;
 }
 
 .chat-list-box{
@@ -128,7 +135,9 @@ height: calc(100vh - 80px);
 
 
 .chat-list-title:hover{
-    box-shadow: 10px 10px 20px 10px rgba(0,0,0,.05);
+    background-color: #005B56;
+    color: #fff;
+    font-weight: 500;
 }
 
 .chat-list-title{
@@ -138,7 +147,6 @@ height: calc(100vh - 80px);
     padding: 15px;
     font-weight: 500;
     margin-bottom: 10px;
-    border-radius: 8px;
     cursor: pointer;
     background-color:#D9F0E6;
 }

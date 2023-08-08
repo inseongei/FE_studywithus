@@ -23,13 +23,10 @@ const ChatServer = () => {
     const usersRef = ref(dbRealtime, 'users');
     const navigate = useNavigate();
     let Lastpage = Math.ceil(list.length / 6)
-    console.log(list.slice(0,6))
-    console.log(list.slice(6,12))
-    console.log(list)
 
     useEffect(()=>{
         if(nickname){
-            set(userdata, { nickname });
+            set(userdata, {nickname});
             onValue(usersRef, (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
@@ -230,7 +227,7 @@ display: flex;
 .roomBtn{
     width:200px;
     height: 50px;
-    background-color: #fff000;
+    background-color: #D9F0E6;
     border: none;
     border-radius: 10px;
     font-size: 24px;

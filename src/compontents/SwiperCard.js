@@ -36,7 +36,7 @@ const SwiperCard = () => {
     
   return (
     <Container>
-        <div className='info'>최근 게시글 5개 미리보기</div>
+        <div className='info'>최신 게시글 5개를 확인해보세요 !</div>
 
     <Swiper
         effect={"coverflow"}
@@ -80,7 +80,7 @@ const Container = styled.div`
     padding-top: 50px;
     padding-bottom: 50px;
     height: 500px;
-    background: #f5f5f5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .info{
@@ -88,6 +88,7 @@ const Container = styled.div`
     font-size: 24px;
     font-weight: 500;
     padding: 20px;
+    text-align: center;
 }
 
 .swiper-slide {
@@ -103,11 +104,11 @@ const Container = styled.div`
     height: 100%;
     border-radius: 10px;
     cursor: pointer;
+    border: 3px solid #e5e5e5;
 }
 
 .swiper-slide img:hover{
-    background-color: #000;
-    opacity: 80%;
+    opacity: 50%;
     transition: all 1s;
 }
 

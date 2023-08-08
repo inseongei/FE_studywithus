@@ -19,7 +19,6 @@ const Header = () => {
     const LogOut = () =>{
       localStorage.removeItem('nickname')
       localStorage.removeItem('email')
-      localStorage.removeItem('photoUrl')
       localStorage.removeItem('accessToken')
       alert('로그아웃 되셨습니다')
       navigate('/Login')

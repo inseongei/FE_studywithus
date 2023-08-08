@@ -31,7 +31,7 @@ const Signup = () => {
        createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
           updateProfile(auth.currentUser, {
-              displayName: nicknameinput.current.value, photoURL: 's3url'
+              displayName: nicknameinput.current.value,
             }).then(() => {
               alert('회원가입에 성공하셨습니다')
               navigate('/Login')

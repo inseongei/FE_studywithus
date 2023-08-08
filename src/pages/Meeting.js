@@ -16,20 +16,24 @@ import {
     faSignOutAlt 
   } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {useRecoilState} from 'recoil'
+import { videocheck } from '../server/atoms';
+
 
 const Meeting = () => {
     const nickname = localStorage.getItem('nickname')
     const navigate = useNavigate();
     const [documentData, setDocumentData] = useState('');
     const { roomId } = useParams(); // 파라미터에서 ID값 가져오기
-
-    console.log(documentData)
-    console.log(roomId)
+    const [video,setVideo] = useRecoilState(videocheck); 
+    const toggleCamera = () => {
+      setVideo(!video);
+    };
 
     useEffect(() => {
         const fetchDocument = async () => {
           try {
-            const docRef = doc(db, 'rooms', roomId); // 'yourCollectionName'에 해당하는 이름 사용
+            const docRef = doc(db, 'rooms', roomId); 
             const docSnapshot = await getDoc(docRef); // 문서 정보 가져오기
       
             if (docSnapshot.exists()) {
@@ -73,7 +77,7 @@ const Meeting = () => {
                 <Video/>
             </div>
             <div className='videoiconsbox'>
-                <FontAwesomeIcon icon={faVideo} className="icons"/>
+                <FontAwesomeIcon icon={video ? faVideo : faVideoSlash } className="icons" onClick={toggleCamera}/>
                 <FontAwesomeIcon icon={faDesktop} className="icons"/>
                 <FontAwesomeIcon icon={faMicrophone} className="icons"/>
                 <FontAwesomeIcon icon={faSignOutAlt} className="icons-out" onClick={deleteUser}/>
@@ -137,7 +141,7 @@ margin-top: 80px;
     margin: 10px;
     color: white;
     border-radius: 50%;
-    background:#3c4043;
+    background:#50555E;
     border-radius: 50%;
     width: 20px;
     height: 20px;
@@ -148,6 +152,10 @@ margin-top: 80px;
     padding: 20px;
 }
 
+
+.icons:hover{
+  background:black;
+}
 .icons-out{
     margin: 10px;
     color: white;

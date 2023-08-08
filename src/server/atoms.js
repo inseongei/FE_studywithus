@@ -34,3 +34,8 @@ export const makeRoom = atom({
     key: 'makeRoom',
     default: false
 });
+
+export const videocheck = atom({
+    key: 'videocheck',
+    default: false
+});

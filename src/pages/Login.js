@@ -20,7 +20,6 @@ const Login = () => {
         .then((userCredential) => {
           localStorage.setItem('nickname',userCredential.user.displayName)
           localStorage.setItem('email',userCredential.user.email)
-          localStorage.setItem('photoUrl',userCredential.user.photoURL)
           localStorage.setItem('accessToken',userCredential.user.accessToken)
           alert('로그인 되셨습니다')
           navigate('/')
