@@ -75,11 +75,17 @@ useEffect(()=>{
         event.streams[0].getTracks().forEach((track) => {
             remoteStream.addTrack(track);
         });
+        if (remoteRef.current) {
+          remoteRef.current.srcObject = remoteStream;
+          console.log("리모트 있어요");
+        }
     };
 
     // 미디어 스트림을 비디오 요소에 연결하여 비디오를 표시하고 재생하는 기능을 구현하는 사용
-    if(localRef.current) localRef.current.srcObject = localStream;
-    if(remoteRef.current) remoteRef.current.srcObject = remoteStream;
+    if (localRef.current) {
+      localRef.current.srcObject = localStream;
+      console.log("로컬있어요");
+    }
     
     // 웹캠 활성화가 false 로 바뀜 (제거)
     setVideo(false);
@@ -324,28 +330,29 @@ console.log(users)
 
   return (
       <Container style={{"--grid-size": gridCol,"--grid-col-size": gridColSize,"--grid-row-size": gridRowSize}}>
-        {users && users.map((data,idx)=>(
+            {users && users.map((data,idx)=>(
           <div className='participant' key={idx}>
-          <div className='card'>
-          <video 
-          className={video ? 'video':'offvideo'}
-          ref={localRef}
-          autoPlay
-          playsInline
-          muted
-          />
-          <video 
-          className={video ? 'video':'offvideo'}
-          ref={remoteRef}
-          autoPlay
-          playsInline
-          muted
-          />
-          {video ? <div className='video-avatar'>{data.nickname}</div> : <div className='avatar'>{data.nickname}</div>}
+            <div className='card'>
+            {data.nickname === nickname ? (
+              <video 
+                className={video ? 'video':'offvideo'}
+                ref={localRef}
+                autoPlay
+                playsInline
+                muted
+              />
+            ) : (
+              <video 
+                className='remote-video'
+                ref={remoteRef}
+                autoPlay
+                playsInline
+              />
+            )}
+             {video ? <div className='video-avatar'>{data.nickname}</div> : <div className='avatar'>{data.nickname}</div>}
+            </div>
           </div>
-      </div>
         ))}
-
 
 
      </Container>
